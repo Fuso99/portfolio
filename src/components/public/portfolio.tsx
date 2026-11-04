@@ -1,0 +1,42 @@
+"use client";
+
+import type { Cv } from "@/lib/schema";
+import { fullName } from "@/lib/utils";
+import { PortfolioProvider } from "./context";
+import { Contact } from "./contact";
+import { CvExplorer } from "./cv-explorer";
+import { Hero } from "./hero";
+import { Projects } from "./projects";
+import { SkillMatrix } from "./skill-matrix";
+import { Timeline } from "./timeline";
+
+/**
+ * Every public section, driven only by `cv`. The admin live preview renders
+ * this same tree with the unsaved draft. Layout uses container queries so it
+ * adapts to the preview pane as well as to the viewport.
+ */
+export function PortfolioSections({ cv, preview = false }: { cv: Cv; preview?: boolean }) {
+  const updated = new Date(cv.meta.updatedAt);
+  return (
+    <PortfolioProvider cv={cv} preview={preview}>
+      <div className="@container">
+        <main className="mx-auto max-w-6xl px-5 @3xl:px-8">
+          <Hero />
+          <Timeline />
+          <SkillMatrix />
+          <Projects />
+          <CvExplorer />
+          <Contact />
+        </main>
+        <footer className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-line px-5 py-10 text-sm text-faint @3xl:flex-row @3xl:justify-between @3xl:px-8">
+          <span>
+            © {updated.getUTCFullYear()} {fullName(cv)}
+          </span>
+          <span>
+            CV aggiornato il {updated.toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}
+          </span>
+        </footer>
+      </div>
+    </PortfolioProvider>
+  );
+}

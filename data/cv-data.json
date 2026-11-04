@@ -1,0 +1,748 @@
+{
+  "profile": {
+    "firstName": "Gabriele",
+    "lastName": "Fuso Nerini",
+    "title": "Web App Developer",
+    "roles": [
+      "Back-end developer Java",
+      "Progettista di agenti AI",
+      "Microservizi Spring"
+    ],
+    "tagline": "Sviluppo back-end Java dal 2019. Oggi progetto agenti AI autonomi che automatizzano polizze e sinistri.",
+    "summary": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi; dal 2025 progetto e osservo agenti LLM multi-livello con Spring AI, LangGraph4j e il Model Context Protocol.",
+    "location": "Cologno Monzese (MI)",
+    "email": "gabriele.fusonerini@gmail.com",
+    "phone": "",
+    "linkedin": "https://it.linkedin.com/in/gabriele-fuso-nerini",
+    "github": "",
+    "avatarUrl": "",
+    "status": {
+      "state": "employed",
+      "label": "Su progetti GenAI per Accenture"
+    }
+  },
+  "experiences": [
+    {
+      "id": "dst",
+      "company": "Dst - Design Strategy Technology",
+      "location": "Milano",
+      "role": "Programmatore Back-end",
+      "start": "2023-04",
+      "end": "",
+      "visible": true,
+      "engagements": [
+        {
+          "id": "dst-accenture",
+          "client": "Allianz",
+          "via": "Accenture",
+          "start": "2025-09",
+          "end": "",
+          "summary": "Sviluppo della piattaforma di Generative AI per Allianz dedicata all'automazione di polizze e sinistri.",
+          "highlights": [
+            {
+              "title": "AI orchestration",
+              "text": "Progettazione di agenti autonomi (L1/L2/L3) con Java 21, Spring AI e LangGraph4j."
+            },
+            {
+              "title": "Integrazione LLM",
+              "text": "Implementazione di modelli GPT-5.4 e GPT-4.1; Claude Code per accelerare lo sviluppo software."
+            },
+            {
+              "title": "Tooling e protocolli",
+              "text": "Sviluppo di server MCP (Model Context Protocol) e tool personalizzati per far interagire gli LLM con i sistemi aziendali."
+            },
+            {
+              "title": "Osservabilità",
+              "text": "Analisi dei flussi logici e debug del ragionamento dell'LLM tramite i trace di Langfuse."
+            },
+            {
+              "title": "Architettura",
+              "text": "Microservizi con architettura esagonale; dati su MongoDB."
+            },
+            {
+              "title": "DevOps",
+              "text": "CI/CD su GitHub, container Docker e deployment orchestrato con ArgoCD."
+            }
+          ],
+          "tech": [
+            "Java 21",
+            "Spring AI",
+            "LangGraph4j",
+            "MCP",
+            "OpenAI GPT",
+            "Claude Code",
+            "Langfuse",
+            "Architettura esagonale",
+            "Microservizi",
+            "MongoDB",
+            "GitHub CI/CD",
+            "Docker",
+            "ArgoCD"
+          ]
+        },
+        {
+          "id": "dst-reply",
+          "client": "Reply Retail",
+          "via": "",
+          "start": "2023-04",
+          "end": "2025-09",
+          "summary": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Evolutive e bug fixing.",
+          "highlights": [],
+          "tech": [
+            "Java 17",
+            "Java 11",
+            "Spring Framework",
+            "GitLab",
+            "Jenkins",
+            "xAdmin",
+            "PostgreSQL",
+            "Oracle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tactical-people",
+      "company": "Tactical People S.r.l.",
+      "location": "Milano",
+      "role": "Programmatore Back-end",
+      "start": "2022-04",
+      "end": "2023-04",
+      "visible": true,
+      "engagements": [
+        {
+          "id": "tp-sogei",
+          "client": "Sogei",
+          "via": "NTT Data",
+          "start": "2023-01",
+          "end": "2023-04",
+          "summary": "Sviluppo dell'iniziativa \"Crescere Insieme\" per Sogei S.p.A., basata su microservizi Spring Boot.",
+          "highlights": [],
+          "tech": [
+            "Java 8",
+            "Spring Boot",
+            "Microservizi",
+            "Kafka",
+            "PostgreSQL",
+            "Redis",
+            "Quartz",
+            "GitLab",
+            "Jenkins",
+            "OpenShift",
+            "JUnit",
+            "Mockito"
+          ]
+        },
+        {
+          "id": "tp-poste",
+          "client": "Poste Italiane",
+          "via": "NTT Data",
+          "start": "2022-04",
+          "end": "2022-12",
+          "summary": "Sviluppo e gestione di progetti a microservizi in Java 8 e Spring Boot per Poste Italiane S.p.A.",
+          "highlights": [],
+          "tech": [
+            "Java 8",
+            "Spring Boot",
+            "Microservizi",
+            "Kafka",
+            "PostgreSQL",
+            "Redis",
+            "GitLab",
+            "Jenkins",
+            "OpenShift",
+            "JUnit",
+            "Mockito"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nextre",
+      "company": "Nextre Engineering S.r.l.",
+      "location": "Milano",
+      "role": "Programmatore Full Stack",
+      "start": "2019-09",
+      "end": "2022-04",
+      "visible": true,
+      "engagements": [
+        {
+          "id": "nx-omicron",
+          "client": "AXA",
+          "via": "Omicron",
+          "start": "2021-04",
+          "end": "2022-04",
+          "summary": "Risoluzione di defect ed evolutive per AXA sulle applicazioni di apertura polizze salute e motor: front-end in Angular 8 e AngularJS, back-end in Java 8.",
+          "highlights": [],
+          "tech": [
+            "Java 8",
+            "Angular",
+            "AngularJS",
+            "GitLab",
+            "Jenkins",
+            "WildFly",
+            "Oracle"
+          ]
+        },
+        {
+          "id": "nx-fastweb",
+          "client": "Fastweb",
+          "via": "",
+          "start": "2020-02",
+          "end": "2021-04",
+          "summary": "Sviluppo, manutenzione e bug fixing di applicativi web: ticketing, gestione utenze e clientela, firma elettronica, upload e download di documenti su server proprietario, tracciamento pacchi tramite servizi REST.",
+          "highlights": [],
+          "tech": [
+            "Java 8",
+            "JSF",
+            "Spring MVC",
+            "Hibernate",
+            "JDBC",
+            "RabbitMQ",
+            "Tomcat",
+            "WildFly",
+            "MySQL",
+            "GitBucket",
+            "Jenkins"
+          ]
+        },
+        {
+          "id": "nx-capgemini",
+          "client": "Capgemini",
+          "via": "",
+          "start": "2019-11",
+          "end": "2020-02",
+          "summary": "UI di un app hub aziendale in Vue.js: dopo l'accesso (credenziali o lettore RFID) i dipendenti vedono le applicazioni disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia in italiano, inglese e polacco.",
+          "highlights": [],
+          "tech": [
+            "Vue.js",
+            "HTML",
+            "SCSS",
+            "i18n"
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "allianz-genai",
+      "title": "Piattaforma GenAI per polizze e sinistri",
+      "client": "Allianz",
+      "via": "Accenture",
+      "company": "Dst",
+      "category": "AI e agenti",
+      "start": "2025-09",
+      "end": "",
+      "summary": "Agenti LLM su tre livelli che automatizzano la gestione di polizze e sinistri.",
+      "description": "Piattaforma di Generative AI che automatizza i processi assicurativi di polizze e sinistri. Gli agenti sono organizzati su tre livelli (L1/L2/L3) e orchestrati con LangGraph4j; i tool MCP collegano i modelli ai sistemi aziendali e ogni passo di ragionamento è tracciato su Langfuse.",
+      "role": "Back-end e AI engineer",
+      "responsibilities": [
+        "Progettazione degli agenti autonomi L1/L2/L3 con Spring AI e LangGraph4j",
+        "Integrazione dei modelli GPT-5.4 e GPT-4.1",
+        "Sviluppo di server MCP e tool personalizzati verso i sistemi aziendali",
+        "Debug del ragionamento degli LLM tramite i trace di Langfuse",
+        "Microservizi in architettura esagonale su MongoDB",
+        "Pipeline CI/CD su GitHub, container Docker, deploy con ArgoCD"
+      ],
+      "stack": [
+        "Java 21",
+        "Spring AI",
+        "LangGraph4j",
+        "MCP",
+        "OpenAI GPT",
+        "Langfuse",
+        "MongoDB",
+        "Docker",
+        "ArgoCD"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": true
+    },
+    {
+      "id": "xstore",
+      "title": "xStore, gestionale per i negozi fisici",
+      "client": "Reply Retail",
+      "via": "",
+      "company": "Dst",
+      "category": "Back-end",
+      "start": "2023-04",
+      "end": "2025-09",
+      "summary": "Il software di cassa e negozio che velocizza il lavoro quotidiano dei cassieri.",
+      "description": "Applicativo dedicato agli store fisici che facilita le operazioni quotidiane e ottimizza la produttività dei cassieri. Le build vengono rilasciate sui singoli negozi tramite xAdmin.",
+      "role": "Programmatore back-end",
+      "responsibilities": [
+        "Sviluppo di nuove evolutive",
+        "Bug fixing e manutenzione",
+        "Compilazione con Jenkins e rilascio delle build sui negozi con xAdmin"
+      ],
+      "stack": [
+        "Java 17",
+        "Java 11",
+        "Spring Framework",
+        "PostgreSQL",
+        "Oracle",
+        "GitLab",
+        "Jenkins"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": true
+    },
+    {
+      "id": "sogei-crescere-insieme",
+      "title": "Crescere Insieme",
+      "client": "Sogei",
+      "via": "NTT Data",
+      "company": "Tactical People",
+      "category": "Back-end",
+      "start": "2023-01",
+      "end": "2023-04",
+      "summary": "Microservizi Spring Boot per un'iniziativa di Sogei.",
+      "description": "Applicativo a microservizi sviluppato per Sogei S.p.A. nell'ambito dell'iniziativa \"Crescere Insieme\", con code Kafka, cache Redis e job schedulati con Quartz su OpenShift.",
+      "role": "Programmatore back-end",
+      "responsibilities": [
+        "Sviluppo di microservizi Java 8 e Spring Boot",
+        "Gestione delle code con Kafka",
+        "Test con JUnit e Mockito",
+        "Pipeline GitLab e rilasci con Jenkins"
+      ],
+      "stack": [
+        "Java 8",
+        "Spring Boot",
+        "Kafka",
+        "PostgreSQL",
+        "Redis",
+        "Quartz",
+        "OpenShift"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": false
+    },
+    {
+      "id": "poste-microservizi",
+      "title": "Microservizi per Poste Italiane",
+      "client": "Poste Italiane",
+      "via": "NTT Data",
+      "company": "Tactical People",
+      "category": "Back-end",
+      "start": "2022-04",
+      "end": "2022-12",
+      "summary": "Sviluppo e gestione di iniziative a microservizi in Spring Boot.",
+      "description": "Diverse iniziative per Poste Italiane S.p.A. realizzate come microservizi Java 8 e Spring Boot, con persistenza PostgreSQL e messaggistica Kafka.",
+      "role": "Programmatore back-end",
+      "responsibilities": [
+        "Sviluppo e manutenzione dei microservizi",
+        "Integrazione con Kafka e PostgreSQL",
+        "Test unitari con JUnit e Mockito"
+      ],
+      "stack": [
+        "Java 8",
+        "Spring Boot",
+        "Kafka",
+        "PostgreSQL",
+        "OpenShift"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": false
+    },
+    {
+      "id": "axa-polizze",
+      "title": "Apertura polizze salute e motor",
+      "client": "AXA",
+      "via": "Omicron",
+      "company": "Nextre Engineering",
+      "category": "Full stack",
+      "start": "2021-04",
+      "end": "2022-04",
+      "summary": "Evolutive e defect sulle applicazioni di apertura polizze di AXA.",
+      "description": "Applicazioni per l'apertura di polizze salute e motor, con front-end in Angular 8 e in parte AngularJS e back-end in Java 8 su JBoss WildFly e Oracle.",
+      "role": "Programmatore full stack",
+      "responsibilities": [
+        "Risoluzione di defect",
+        "Implementazione di evolutive front-end e back-end"
+      ],
+      "stack": [
+        "Java 8",
+        "Angular",
+        "AngularJS",
+        "WildFly",
+        "Oracle"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": false
+    },
+    {
+      "id": "fastweb-webapp",
+      "title": "Applicativi web per Fastweb",
+      "client": "Fastweb",
+      "via": "",
+      "company": "Nextre Engineering",
+      "category": "Full stack",
+      "start": "2020-02",
+      "end": "2021-04",
+      "summary": "Ticketing, firma elettronica, documenti e tracciamento pacchi.",
+      "description": "Sviluppo, manutenzione e bug fixing di applicativi web: gestione ticket, utenze e clientela, firma elettronica dei documenti, upload e download su server proprietario e tracciamento dei pacchi tramite servizi REST.",
+      "role": "Programmatore full stack",
+      "responsibilities": [
+        "Sviluppo back-end e front-end con JSF e Spring MVC",
+        "Persistenza con Hibernate e JDBC su MySQL",
+        "Code di messaggi con RabbitMQ",
+        "Rilasci in test e produzione con Jenkins"
+      ],
+      "stack": [
+        "Java 8",
+        "JSF",
+        "Spring MVC",
+        "Hibernate",
+        "RabbitMQ",
+        "MySQL",
+        "Tomcat"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": false
+    },
+    {
+      "id": "capgemini-app-hub",
+      "title": "App hub per i dipendenti",
+      "client": "Capgemini",
+      "via": "",
+      "company": "Nextre Engineering",
+      "category": "Front-end",
+      "start": "2019-11",
+      "end": "2020-02",
+      "summary": "Dashboard delle applicazioni aziendali con accesso via RFID.",
+      "description": "Interfaccia di un app hub: dopo l'accesso con credenziali o lettore RFID i dipendenti vedono le applicazioni a loro disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Tradotta in italiano, inglese e polacco.",
+      "role": "Sviluppatore front-end",
+      "responsibilities": [
+        "Sviluppo della UI in Vue.js, HTML e SCSS",
+        "Filtri, rating e avvio delle applicazioni",
+        "Internazionalizzazione IT, EN, PL"
+      ],
+      "stack": [
+        "Vue.js",
+        "HTML",
+        "SCSS",
+        "i18n"
+      ],
+      "url": "",
+      "visible": true,
+      "featured": false
+    }
+  ],
+  "skills": [
+    {
+      "id": "java",
+      "name": "Java",
+      "category": "backend",
+      "level": 5,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "spring-boot",
+      "name": "Spring Boot",
+      "category": "backend",
+      "level": 5,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "spring-framework",
+      "name": "Spring Framework",
+      "category": "backend",
+      "level": 5,
+      "aliases": [
+        "Spring MVC"
+      ],
+      "visible": true
+    },
+    {
+      "id": "spring-data",
+      "name": "Spring Data",
+      "category": "backend",
+      "level": 4,
+      "aliases": [
+        "Hibernate",
+        "JDBC"
+      ],
+      "visible": true
+    },
+    {
+      "id": "microservizi",
+      "name": "Microservizi",
+      "category": "backend",
+      "level": 5,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "esagonale",
+      "name": "Architettura esagonale",
+      "category": "backend",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "kafka",
+      "name": "Kafka",
+      "category": "backend",
+      "level": 3,
+      "aliases": [
+        "RabbitMQ"
+      ],
+      "visible": true
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "category": "backend",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "junit",
+      "name": "JUnit",
+      "category": "backend",
+      "level": 4,
+      "aliases": [
+        "Mockito"
+      ],
+      "visible": true
+    },
+    {
+      "id": "genai",
+      "name": "Generative AI",
+      "category": "ai",
+      "level": 4,
+      "aliases": [
+        "OpenAI GPT"
+      ],
+      "visible": true
+    },
+    {
+      "id": "spring-ai",
+      "name": "Spring AI",
+      "category": "ai",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "langgraph4j",
+      "name": "LangGraph4j",
+      "category": "ai",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "mcp",
+      "name": "MCP",
+      "category": "ai",
+      "level": 4,
+      "aliases": [
+        "Model Context Protocol"
+      ],
+      "visible": true
+    },
+    {
+      "id": "langfuse",
+      "name": "Langfuse",
+      "category": "ai",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "category": "ai",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "category": "cloud",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "openshift",
+      "name": "OpenShift",
+      "category": "cloud",
+      "level": 3,
+      "aliases": [
+        "OCP"
+      ],
+      "visible": true
+    },
+    {
+      "id": "argocd",
+      "name": "ArgoCD",
+      "category": "cloud",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "app-server",
+      "name": "WildFly e Tomcat",
+      "category": "cloud",
+      "level": 3,
+      "aliases": [
+        "WildFly",
+        "Tomcat"
+      ],
+      "visible": true
+    },
+    {
+      "id": "gitlab",
+      "name": "GitLab",
+      "category": "devops",
+      "level": 4,
+      "aliases": [
+        "GitBucket"
+      ],
+      "visible": true
+    },
+    {
+      "id": "github-cicd",
+      "name": "GitHub CI/CD",
+      "category": "devops",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "jenkins",
+      "name": "Jenkins",
+      "category": "devops",
+      "level": 4,
+      "aliases": [
+        "xAdmin"
+      ],
+      "visible": true
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "category": "database",
+      "level": 4,
+      "aliases": [
+        "Postgres"
+      ],
+      "visible": true
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "category": "database",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "category": "database",
+      "level": 4,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "category": "database",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "angular",
+      "name": "Angular",
+      "category": "frontend",
+      "level": 3,
+      "aliases": [
+        "AngularJS"
+      ],
+      "visible": true
+    },
+    {
+      "id": "vue",
+      "name": "Vue.js",
+      "category": "frontend",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "jsf",
+      "name": "JSF",
+      "category": "frontend",
+      "level": 3,
+      "aliases": [],
+      "visible": true
+    },
+    {
+      "id": "html-scss",
+      "name": "HTML e SCSS",
+      "category": "frontend",
+      "level": 3,
+      "aliases": [
+        "HTML",
+        "SCSS"
+      ],
+      "visible": true
+    }
+  ],
+  "softSkills": [],
+  "education": [
+    {
+      "id": "academy-java",
+      "institution": "Nextre Engineering S.r.l.",
+      "title": "Academy Java",
+      "location": "Milano",
+      "start": "2019-04",
+      "end": "2019-09",
+      "description": "Corso su Java 8, SQL (MySQL) e Angular 7.",
+      "visible": true
+    },
+    {
+      "id": "itis-molinari",
+      "institution": "ITIS Ettore Molinari",
+      "title": "Diploma di perito informatico",
+      "location": "Milano",
+      "start": "2013-09",
+      "end": "2018-06",
+      "description": "",
+      "visible": true
+    }
+  ],
+  "certifications": [],
+  "languages": [
+    {
+      "id": "it",
+      "name": "Italiano",
+      "level": "Madrelingua"
+    },
+    {
+      "id": "en",
+      "name": "Inglese",
+      "level": "B2"
+    }
+  ],
+  "meta": {
+    "updatedAt": "2026-11-04T10:21:17.934Z"
+  }
+}
