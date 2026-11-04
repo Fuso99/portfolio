@@ -1,6 +1,7 @@
 import { Document, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { formatPeriod, fullName, techMatchesSkill } from "@/lib/utils";
-import { contactItems, docMeta, skillGroups, type TemplateProps } from "../shared";
+import type { Engagement } from "@/lib/schema";
+import { contactItems, docMeta, skillGroups, type Labels, type TemplateProps } from "../shared";
 
 /**
  * Trace: the website's identity on paper. Light header with the current role
@@ -44,14 +45,14 @@ const s = StyleSheet.create({
   footer: { position: "absolute", bottom: 22, left: PAD, right: PAD, flexDirection: "row", justifyContent: "space-between", fontFamily: "Geist Mono", fontSize: 6.8, color: MUTED },
 });
 
-function EngagementBlock({ e, isOn }: { e: TemplateProps["cv"]["experiences"][number]["engagements"][number]; isOn: (t: string) => boolean }) {
+function EngagementBlock({ e, isOn, lang, t }: { e: Engagement; isOn: (tech: string) => boolean } & Labels) {
   return (
     <View style={[s.row, s.eng]}>
-      <Text style={s.date}>{formatPeriod(e.start, e.end)}</Text>
+      <Text style={s.date}>{formatPeriod(e.start, e.end, lang)}</Text>
       <View style={s.body}>
         <Text>
           <Text style={s.client}>{e.client}</Text>
-          {e.via ? <Text style={{ color: MUTED }}> tramite {e.via}</Text> : null}
+          {e.via ? <Text style={{ color: MUTED }}> {t.via(e.via)}</Text> : null}
         </Text>
         {e.summary ? <Text>{e.summary}</Text> : null}
         {e.highlights.map((h, i) => (
@@ -65,9 +66,9 @@ function EngagementBlock({ e, isOn }: { e: TemplateProps["cv"]["experiences"][nu
         ))}
         {e.tech.length ? (
           <View style={s.chips}>
-            {e.tech.map((t) => (
-              <Text key={t} style={[s.chip, isOn(t) ? s.chipOn : {}]}>
-                {t}
+            {e.tech.map((tech) => (
+              <Text key={tech} style={[s.chip, isOn(tech) ? s.chipOn : {}]}>
+                {tech}
               </Text>
             ))}
           </View>
@@ -77,13 +78,13 @@ function EngagementBlock({ e, isOn }: { e: TemplateProps["cv"]["experiences"][nu
   );
 }
 
-export function TraceTemplate({ cv, selected, generatedAt }: TemplateProps) {
+export function TraceTemplate({ cv, selected, generatedAt, lang, t }: TemplateProps) {
   const p = cv.profile;
   const sel = new Set(selected.map((x) => x.id));
-  const isOn = (t: string) => selected.some((k) => techMatchesSkill(t, k));
+  const isOn = (tech: string) => selected.some((k) => techMatchesSkill(tech, k));
 
   return (
-    <Document {...docMeta(cv)}>
+    <Document {...docMeta(cv, lang)}>
       <Page size="A4" style={s.page}>
         <View style={s.header}>
           <View style={s.headLine}>
@@ -112,22 +113,22 @@ export function TraceTemplate({ cv, selected, generatedAt }: TemplateProps) {
           </View>
         </View>
 
-        {selected.length ? <Text style={s.note}>Versione mirata su: {selected.map((x) => x.name).join(", ")}</Text> : null}
+        {selected.length ? <Text style={s.note}>{t.pdf.targeted}: {selected.map((x) => x.name).join(", ")}</Text> : null}
 
         {p.summary ? (
           <>
-            <Text style={s.h2}>Profilo</Text>
+            <Text style={s.h2}>{t.pdf.profile}</Text>
             <Text style={{ maxWidth: 440 }}>{p.summary}</Text>
           </>
         ) : null}
 
-        <Text style={s.h2}>Esperienza</Text>
+        <Text style={s.h2}>{t.pdf.experience}</Text>
         {cv.experiences.map((x) => (
           <View key={x.id} style={{ marginBottom: 6 }}>
             {/* The header travels with the first engagement so it never sits alone at a page bottom. */}
             <View wrap={false}>
               <View style={s.row}>
-                <Text style={[s.date, !x.end ? { color: SIGNAL } : {}]}>{formatPeriod(x.start, x.end)}</Text>
+                <Text style={[s.date, !x.end ? { color: SIGNAL } : {}]}>{formatPeriod(x.start, x.end, lang)}</Text>
                 <View style={s.body}>
                   <Text style={s.company}>{x.company}</Text>
                   <Text style={s.role}>
@@ -136,22 +137,22 @@ export function TraceTemplate({ cv, selected, generatedAt }: TemplateProps) {
                   </Text>
                 </View>
               </View>
-              {x.engagements[0] ? <EngagementBlock e={x.engagements[0]} isOn={isOn} /> : null}
+              {x.engagements[0] ? <EngagementBlock e={x.engagements[0]} isOn={isOn} lang={lang} t={t} /> : null}
             </View>
             {x.engagements.slice(1).map((e) => (
               <View key={e.id} wrap={false}>
-                <EngagementBlock e={e} isOn={isOn} />
+                <EngagementBlock e={e} isOn={isOn} lang={lang} t={t} />
               </View>
             ))}
           </View>
         ))}
 
         <View wrap={false}>
-          <Text style={s.h2}>Competenze</Text>
+          <Text style={s.h2}>{t.pdf.skills}</Text>
           <View style={s.skills}>
             {skillGroups(cv).map((g) => (
               <View key={g.id} style={s.skillCol}>
-                <Text style={s.skillCat}>{g.label}</Text>
+                <Text style={s.skillCat}>{t.skillCategories[g.id]}</Text>
                 {g.skills.map((k) => (
                   <View key={k.id} style={s.skill}>
                     <Text style={sel.has(k.id) ? { color: SIGNAL, fontWeight: 600 } : undefined}>{k.name}</Text>
@@ -167,10 +168,10 @@ export function TraceTemplate({ cv, selected, generatedAt }: TemplateProps) {
 
         <View style={[s.row, { gap: 24 }]}>
           <View style={s.body}>
-            <Text style={s.h2}>Formazione</Text>
+            <Text style={s.h2}>{t.pdf.education}</Text>
             {cv.education.map((e) => (
               <View key={e.id} style={[s.row, { marginBottom: 5 }]}>
-                <Text style={[s.date, { width: 70 }]}>{e.end ? e.end.slice(0, 4) : "oggi"}</Text>
+                <Text style={[s.date, { width: 70 }]}>{e.end ? e.end.slice(0, 4) : t.date.present}</Text>
                 <Text style={s.body}>
                   <Text style={s.client}>{e.title}</Text>
                   {"\n"}
@@ -180,7 +181,7 @@ export function TraceTemplate({ cv, selected, generatedAt }: TemplateProps) {
             ))}
           </View>
           <View style={{ width: 150 }}>
-            <Text style={s.h2}>Lingue</Text>
+            <Text style={s.h2}>{t.pdf.languages}</Text>
             {cv.languages.map((l) => (
               <View key={l.id} style={s.skill}>
                 <Text>{l.name}</Text>

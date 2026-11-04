@@ -1,21 +1,23 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionaries } from "@/i18n/dictionaries";
 import type { Cv, Engagement, Project, Skill } from "./schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const MONTHS = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
-
-export function formatMonth(value: string) {
-  if (!value) return "oggi";
+export function formatMonth(value: string, lang: Locale = DEFAULT_LOCALE) {
+  const d = dictionaries[lang].date;
+  if (!value) return d.present;
   const [y, m] = value.split("-").map(Number);
-  return `${MONTHS[m - 1]} ${y}`;
+  return `${d.monthNames[m - 1]} ${y}`;
 }
 
-export function formatPeriod(start: string, end: string) {
-  return `${formatMonth(start)} – ${end ? formatMonth(end) : "oggi"}`;
+/** "gen 2024 – oggi" / "Jan 2024 – present". An empty end means ongoing. */
+export function formatPeriod(start: string, end: string, lang: Locale = DEFAULT_LOCALE) {
+  return `${formatMonth(start, lang)} – ${formatMonth(end, lang)}`;
 }
 
 /** Months since year 0, so periods can be compared and measured. */
@@ -24,14 +26,15 @@ export function monthIndex(value: string, now: string) {
   return y * 12 + (m - 1);
 }
 
-export function formatDuration(start: string, end: string, now: string) {
+export function formatDuration(start: string, end: string, now: string, lang: Locale = DEFAULT_LOCALE) {
+  const d = dictionaries[lang].date;
   const months = Math.max(1, monthIndex(end, now) - monthIndex(start, now) + 1);
   const years = Math.floor(months / 12);
   const rest = months % 12;
   const parts = [];
-  if (years) parts.push(years === 1 ? "1 anno" : `${years} anni`);
-  if (rest) parts.push(rest === 1 ? "1 mese" : `${rest} mesi`);
-  return parts.join(" e ");
+  if (years) parts.push(d.years(years));
+  if (rest) parts.push(d.months(rest));
+  return parts.join(d.and);
 }
 
 /** "YYYY-MM" from an ISO date string. */
@@ -72,7 +75,15 @@ export function projectMatches(p: Project, skills: Skill[]) {
  * Strips everything the owner has hidden, for public rendering. The phone
  * number is private: it never reaches the site, /api/cv or the public PDF.
  */
-export function toPublicCv(cv: Cv): Cv {
+type Publishable = {
+  profile: { phone: string };
+  experiences: { visible: boolean }[];
+  projects: { visible: boolean }[];
+  skills: { visible: boolean }[];
+  education: { visible: boolean }[];
+};
+
+export function toPublicCv<T extends Publishable>(cv: T): T {
   return {
     ...cv,
     profile: { ...cv.profile, phone: "" },
@@ -97,7 +108,7 @@ export function filterCvBySkills(cv: Cv, skillIds: string[]) {
   return { cv: { ...cv, experiences, projects }, selected };
 }
 
-export function fullName(cv: Pick<Cv, "profile">) {
+export function fullName(cv: { profile: { firstName: string; lastName: string } }) {
   return `${cv.profile.firstName} ${cv.profile.lastName}`;
 }
 

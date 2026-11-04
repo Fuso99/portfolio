@@ -4,8 +4,9 @@ import { ArrowDown, ArrowUp, Plus, Trash } from "lucide-react";
 import { useFieldArray, useFormContext, useWatch, type FieldArrayPath } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/primitives";
-import { SKILL_CATEGORIES, STATUS_STATES, type Cv } from "@/lib/schema";
+import { pickLocalized, SKILL_CATEGORIES, STATUS_STATES, type CvSource } from "@/lib/schema";
 import { cn, formatPeriod } from "@/lib/utils";
+import { useEditLang } from "./edit-lang";
 import { newCertification, newEducation, newEngagement, newExperience, newLanguage, newProject, newSkill } from "./factories";
 import {
   inputClass,
@@ -18,6 +19,7 @@ import {
   TagField,
   TextArea,
   TextField,
+  LangBadge,
   useFieldError,
 } from "./fields";
 
@@ -51,8 +53,8 @@ function IconAction({ label, onClick, children, danger }: { label: string; onCli
 }
 
 /** Removes an item and offers a one-click undo. */
-function useRemoveWithUndo<N extends FieldArrayPath<Cv>>(name: N, what: string) {
-  const { control, getValues } = useFormContext<Cv>();
+function useRemoveWithUndo<N extends FieldArrayPath<CvSource>>(name: N, what: string) {
+  const { control, getValues } = useFormContext<CvSource>();
   const arr = useFieldArray({ control, name, keyName: "_key" });
   function remove(i: number) {
     const item = (getValues(name) as unknown[])[i];
@@ -73,11 +75,11 @@ export function ProfileTab() {
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField name="profile.firstName" label="Nome" />
         <TextField name="profile.lastName" label="Cognome" />
-        <TextField name="profile.title" label="Titolo professionale" hint="Usato nel PDF e nei metadati" />
-        <TextField name="profile.location" label="Località" />
-        <TagField name="profile.roles" label="Ruoli animati nell'intestazione" className="sm:col-span-2" />
-        <TextArea name="profile.tagline" label="Frase di presentazione" rows={2} className="sm:col-span-2" />
-        <TextArea name="profile.summary" label="Profilo (PDF)" rows={4} className="sm:col-span-2" />
+        <TextField name="profile.title" label="Titolo professionale" hint="Usato nel PDF e nei metadati" localized />
+        <TextField name="profile.location" label="Località" localized />
+        <TagField name="profile.roles" label="Ruoli animati nell'intestazione" className="sm:col-span-2" localized />
+        <TextArea name="profile.tagline" label="Frase di presentazione" rows={2} className="sm:col-span-2" localized />
+        <TextArea name="profile.summary" label="Profilo (PDF)" rows={4} className="sm:col-span-2" localized />
         <TextField name="profile.email" label="Email" type="email" />
         <TextField name="profile.phone" label="Telefono" hint="Privato: solo nel PDF generato dal backoffice" />
         <TextField name="profile.linkedin" label="LinkedIn" placeholder="https://…" />
@@ -93,7 +95,7 @@ export function StatusFields() {
   return (
     <div className="grid gap-4 rounded-xl border border-line bg-white/[0.02] p-4 sm:grid-cols-[14rem_1fr]">
       <SelectField name="profile.status.state" label="Stato lavorativo" options={STATUS_STATES} />
-      <TextField name="profile.status.label" label="Testo del badge" placeholder="Es. Disponibile da gennaio" />
+      <TextField name="profile.status.label" label="Testo del badge" placeholder="Vuoto: testo standard dello stato" localized />
     </div>
   );
 }
@@ -101,10 +103,11 @@ export function StatusFields() {
 /* ───────────── Esperienze ───────────── */
 
 export function ExperiencesTab() {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const { fields, prepend, remove, swap } = useRemoveWithUndo("experiences", "Datore di lavoro");
   const values = useWatch({ control, name: "experiences" });
-  const errors = useFormContext<Cv>().formState.errors.experiences;
+  const errors = useFormContext<CvSource>().formState.errors.experiences;
 
   return (
     <Panel
@@ -123,7 +126,7 @@ export function ExperiencesTab() {
             <ItemCard
               key={f._key}
               title={v?.company ?? ""}
-              subtitle={v ? `${v.role}, ${formatPeriod(v.start, v.end)}${v.visible ? "" : ", nascosta"}` : ""}
+              subtitle={v ? `${pickLocalized(v.role, lang) ?? ""}, ${formatPeriod(v.start, v.end)}${v.visible ? "" : ", nascosta"}` : ""}
               hasError={!!errors?.[i]}
               actions={
                 <>
@@ -141,8 +144,8 @@ export function ExperiencesTab() {
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <TextField name={`experiences.${i}.company`} label="Azienda" />
-                <TextField name={`experiences.${i}.role`} label="Ruolo" />
-                <TextField name={`experiences.${i}.location`} label="Sede" />
+                <TextField name={`experiences.${i}.role`} label="Ruolo" localized />
+                <TextField name={`experiences.${i}.location`} label="Sede" localized />
                 <PeriodFields start={`experiences.${i}.start`} end={`experiences.${i}.end`} />
               </div>
               <SwitchField name={`experiences.${i}.visible`} label="Visibile sul sito" />
@@ -156,7 +159,7 @@ export function ExperiencesTab() {
 }
 
 function EngagementsFields({ index }: { index: number }) {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
   const name = `experiences.${index}.engagements` as const;
   const { fields, append, remove, swap } = useFieldArray({ control, name, keyName: "_key" });
   const values = useWatch({ control, name });
@@ -191,7 +194,7 @@ function EngagementsFields({ index }: { index: number }) {
               <TextField name={`${name}.${j}.client`} label="Cliente" />
               <TextField name={`${name}.${j}.via`} label="Tramite (società di consulenza)" />
               <PeriodFields start={`${name}.${j}.start`} end={`${name}.${j}.end`} className="sm:col-span-2" />
-              <TextArea name={`${name}.${j}.summary`} label="Descrizione" className="sm:col-span-2" />
+              <TextArea name={`${name}.${j}.summary`} label="Descrizione" className="sm:col-span-2" localized />
               <TagField name={`${name}.${j}.tech`} label="Tecnologie" className="sm:col-span-2" />
             </div>
             <HighlightsFields name={`${name}.${j}.highlights`} />
@@ -203,19 +206,28 @@ function EngagementsFields({ index }: { index: number }) {
 }
 
 function HighlightsFields({ name }: { name: `experiences.${number}.engagements.${number}.highlights` }) {
-  const { control, register } = useFormContext<Cv>();
+  const { control, register } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const { fields, append, remove } = useFieldArray({ control, name, keyName: "_key" });
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-[13px] text-muted">Punti chiave</p>
-        <Button size="sm" variant="quiet" onClick={() => append({ title: "", text: "" })}>
+        <p className="flex items-center gap-2 text-[13px] text-muted">
+          Punti chiave <LangBadge lang={lang} />
+        </p>
+        <Button size="sm" variant="quiet" onClick={() => append({ title: { it: "", en: "" }, text: { it: "", en: "" } })}>
           <Plus className="size-3.5" /> Punto
         </Button>
       </div>
       {fields.map((f, k) => (
         <div key={f._key} className="flex items-start gap-2">
-          <input {...register(`${name}.${k}.title`)} placeholder="Titolo" aria-label="Titolo del punto" className={cn(inputClass, "w-40 shrink-0")} />
+          <input
+            key={lang}
+            {...register(`${name}.${k}.title.${lang}`)}
+            placeholder={lang === "it" ? "Titolo" : (fields[k]?.title.it ?? "Titolo")}
+            aria-label="Titolo del punto"
+            className={cn(inputClass, "w-40 shrink-0")}
+          />
           <HighlightText name={`${name}.${k}.text`} />
           <IconAction label="Elimina punto" danger onClick={() => remove(k)}>
             <Trash className="size-4" />
@@ -227,11 +239,15 @@ function HighlightsFields({ name }: { name: `experiences.${number}.engagements.$
 }
 
 function HighlightText({ name }: { name: `experiences.${number}.engagements.${number}.highlights.${number}.text` }) {
-  const { register } = useFormContext<Cv>();
-  const error = useFieldError(name);
+  const { register, getValues } = useFormContext<CvSource>();
+  const lang = useEditLang();
+  const path = `${name}.${lang}` as const;
+  const error = useFieldError(path);
+  // Translating: the Italian text is the placeholder.
+  const placeholder = lang === "it" ? "Descrizione" : getValues(`${name}.it`) || "Descrizione";
   return (
     <div className="flex-1">
-      <input {...register(name)} placeholder="Descrizione" aria-label="Testo del punto" aria-invalid={!!error} className={inputClass} />
+      <input key={path} {...register(path)} placeholder={placeholder} title={lang === "it" ? undefined : placeholder} aria-label="Testo del punto" aria-invalid={!!error} className={inputClass} />
       {error ? <p className="mt-1 text-xs text-danger">{error}</p> : null}
     </div>
   );
@@ -240,7 +256,8 @@ function HighlightText({ name }: { name: `experiences.${number}.engagements.${nu
 /* ───────────── Progetti ───────────── */
 
 export function ProjectsTab() {
-  const { control, formState } = useFormContext<Cv>();
+  const { control, formState } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const { fields, prepend, remove } = useRemoveWithUndo("projects", "Progetto");
   const values = useWatch({ control, name: "projects" });
   return (
@@ -259,10 +276,10 @@ export function ProjectsTab() {
           return (
             <ItemCard
               key={f._key}
-              title={v?.title ?? ""}
+              title={pickLocalized(v?.title, lang) ?? ""}
               subtitle={v ? [v.client, formatPeriod(v.start, v.end), v.visible ? "" : "nascosto"].filter(Boolean).join(", ") : ""}
               hasError={!!formState.errors.projects?.[i]}
-              defaultOpen={!v?.title}
+              defaultOpen={!v?.title?.it}
               actions={
                 <IconAction label="Elimina" danger onClick={() => remove(i)}>
                   <Trash className="size-4" />
@@ -270,16 +287,16 @@ export function ProjectsTab() {
               }
             >
               <div className="grid gap-4 sm:grid-cols-2">
-                <TextField name={`projects.${i}.title`} label="Titolo" className="sm:col-span-2" />
+                <TextField name={`projects.${i}.title`} label="Titolo" className="sm:col-span-2" localized />
                 <TextField name={`projects.${i}.client`} label="Cliente" />
                 <TextField name={`projects.${i}.via`} label="Tramite" />
                 <TextField name={`projects.${i}.company`} label="Azienda" />
-                <TextField name={`projects.${i}.category`} label="Categoria" placeholder="Back-end, AI e agenti…" />
+                <TextField name={`projects.${i}.category`} label="Categoria" placeholder="Back-end, AI e agenti…" localized />
                 <PeriodFields start={`projects.${i}.start`} end={`projects.${i}.end`} />
-                <TextField name={`projects.${i}.role`} label="Ruolo" />
-                <TextArea name={`projects.${i}.summary`} label="Sintesi (scheda)" rows={2} className="sm:col-span-2" />
-                <TextArea name={`projects.${i}.description`} label="Descrizione (dettaglio)" rows={4} className="sm:col-span-2" />
-                <LinesField name={`projects.${i}.responsibilities`} label="Cosa ho fatto" className="sm:col-span-2" />
+                <TextField name={`projects.${i}.role`} label="Ruolo" localized />
+                <TextArea name={`projects.${i}.summary`} label="Sintesi (scheda)" rows={2} className="sm:col-span-2" localized />
+                <TextArea name={`projects.${i}.description`} label="Descrizione (dettaglio)" rows={4} className="sm:col-span-2" localized />
+                <LinesField name={`projects.${i}.responsibilities`} label="Cosa ho fatto" className="sm:col-span-2" localized />
                 <TagField name={`projects.${i}.stack`} label="Stack" className="sm:col-span-2" />
                 <TextField name={`projects.${i}.url`} label="Link" placeholder="https://…" className="sm:col-span-2" />
               </div>
@@ -298,7 +315,7 @@ export function ProjectsTab() {
 /* ───────────── Competenze ───────────── */
 
 export function SkillsTab() {
-  const { control, register, formState } = useFormContext<Cv>();
+  const { control, register, formState } = useFormContext<CvSource>();
   const { fields, append, remove } = useFieldArray({ control, name: "skills", keyName: "_key" });
   const values = useWatch({ control, name: "skills" });
 
@@ -347,7 +364,7 @@ export function SkillsTab() {
           </div>
         );
       })}
-      <TagField name="softSkills" label="Soft skill" placeholder="Es. Problem solving" />
+      <TagField name="softSkills" label="Soft skill" placeholder="Es. Problem solving" localized />
     </Panel>
   );
 }
@@ -355,7 +372,8 @@ export function SkillsTab() {
 /* ───────────── Formazione, certificazioni, lingue ───────────── */
 
 export function EducationTab() {
-  const { control, register } = useFormContext<Cv>();
+  const { control, register } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const edu = useFieldArray({ control, name: "education", keyName: "_key" });
   const certs = useFieldArray({ control, name: "certifications", keyName: "_key" });
   const langs = useFieldArray({ control, name: "languages", keyName: "_key" });
@@ -376,7 +394,7 @@ export function EducationTab() {
           {edu.fields.map((f, i) => (
             <ItemCard
               key={f._key}
-              title={eduValues?.[i]?.title ?? ""}
+              title={pickLocalized(eduValues?.[i]?.title, lang) ?? ""}
               subtitle={eduValues?.[i]?.institution}
               actions={
                 <IconAction label="Elimina" danger onClick={() => edu.remove(i)}>
@@ -385,11 +403,11 @@ export function EducationTab() {
               }
             >
               <div className="grid gap-4 sm:grid-cols-2">
-                <TextField name={`education.${i}.title`} label="Titolo" />
+                <TextField name={`education.${i}.title`} label="Titolo" localized />
                 <TextField name={`education.${i}.institution`} label="Istituto" />
-                <TextField name={`education.${i}.location`} label="Sede" />
+                <TextField name={`education.${i}.location`} label="Sede" localized />
                 <PeriodFields start={`education.${i}.start`} end={`education.${i}.end`} />
-                <TextArea name={`education.${i}.description`} label="Descrizione" rows={2} className="sm:col-span-2" />
+                <TextArea name={`education.${i}.description`} label="Descrizione" rows={2} className="sm:col-span-2" localized />
               </div>
               <SwitchField name={`education.${i}.visible`} label="Visibile" />
             </ItemCard>
@@ -433,6 +451,7 @@ export function EducationTab() {
 
       <Panel
         title="Lingue"
+        lead={lang === "it" ? undefined : "Stai modificando i nomi in inglese (es. Italian, Native)."}
         action={
           <Button size="sm" variant="ghost" onClick={() => langs.append(newLanguage())}>
             <Plus className="size-3.5" /> Aggiungi
@@ -442,8 +461,8 @@ export function EducationTab() {
         <ul className="space-y-2">
           {langs.fields.map((f, i) => (
             <li key={f._key} className="flex items-center gap-2">
-              <input {...register(`languages.${i}.name`)} aria-label="Lingua" placeholder="Lingua" className={inputClass} />
-              <input {...register(`languages.${i}.level`)} aria-label="Livello" placeholder="Livello (es. B2)" className={inputClass} />
+              <input key={`name-${lang}`} {...register(`languages.${i}.name.${lang}`)} aria-label="Lingua" placeholder="Lingua" className={inputClass} />
+              <input key={`level-${lang}`} {...register(`languages.${i}.level.${lang}`)} aria-label="Livello" placeholder="Livello (es. B2)" className={inputClass} />
               <IconAction label="Elimina" danger onClick={() => langs.remove(i)}>
                 <Trash className="size-4" />
               </IconAction>

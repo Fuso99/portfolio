@@ -1,11 +1,15 @@
 "use client";
 
 import { createContext, use, useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import type { Locale } from "@/i18n/config";
+import { getDictionary, type Dictionary } from "@/i18n/dictionaries";
 import type { Cv } from "@/lib/schema";
 import { toMonth } from "@/lib/utils";
 
 type Selection = {
   cv: Cv;
+  lang: Locale;
+  t: Dictionary;
   preview: boolean;
   selected: string[];
   toggle: (skillId: string) => void;
@@ -14,7 +18,17 @@ type Selection = {
 
 const PortfolioContext = createContext<Selection | null>(null);
 
-export function PortfolioProvider({ cv, preview = false, children }: { cv: Cv; preview?: boolean; children: React.ReactNode }) {
+export function PortfolioProvider({
+  cv,
+  lang,
+  preview = false,
+  children,
+}: {
+  cv: Cv;
+  lang: Locale;
+  preview?: boolean;
+  children: React.ReactNode;
+}) {
   const [selectedRaw, setSelected] = useState<string[]>([]);
   // Drop ids of skills that no longer exist (relevant in the admin live preview).
   const selected = useMemo(() => selectedRaw.filter((id) => cv.skills.some((s) => s.id === id)), [selectedRaw, cv.skills]);
@@ -23,7 +37,10 @@ export function PortfolioProvider({ cv, preview = false, children }: { cv: Cv; p
     [],
   );
   const clear = useCallback(() => setSelected([]), []);
-  const value = useMemo(() => ({ cv, preview, selected, toggle, clear }), [cv, preview, selected, toggle, clear]);
+  const value = useMemo(
+    () => ({ cv, lang, t: getDictionary(lang), preview, selected, toggle, clear }),
+    [cv, lang, preview, selected, toggle, clear],
+  );
   return <PortfolioContext value={value}>{children}</PortfolioContext>;
 }
 

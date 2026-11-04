@@ -1,4 +1,4 @@
-import { STATUS_STATES, type Profile } from "@/lib/schema";
+import type { Profile } from "@/lib/schema";
 import { cn } from "@/lib/utils";
 
 const tone = {
@@ -7,9 +7,10 @@ const tone = {
   unavailable: { dot: "bg-faint", ring: "border-line-strong bg-white/5 text-muted" },
 } as const;
 
-export function StatusBadge({ status }: { status: Profile["status"] }) {
+/** `fallback` is shown when the owner left the badge text empty. */
+export function StatusBadge({ status, fallback }: { status: Profile["status"]; fallback: string }) {
   const t = tone[status.state];
-  const label = status.label || STATUS_STATES.find((s) => s.id === status.state)?.label;
+  const label = status.label || fallback;
   return (
     <span className={cn("inline-flex items-center gap-2.5 rounded-full border px-3.5 py-1.5 text-sm", t.ring)}>
       <span className="relative flex size-2">

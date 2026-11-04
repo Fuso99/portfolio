@@ -15,7 +15,7 @@ function techKey(t: string) {
 }
 
 export function Timeline() {
-  const { cv } = usePortfolio();
+  const { cv, lang, t } = usePortfolio();
   const now = useNowMonth();
   const [role, setRole] = useState<string | null>(null);
   const [techs, setTechs] = useState<string[]>([]);
@@ -52,15 +52,15 @@ export function Timeline() {
   return (
     <section id="esperienza" className="py-24">
       <SectionHeading
-        title="Esperienza"
-        lead={`Consulenza su progetti enterprise${firstYear ? ` dal ${firstYear}` : ""}: assicurazioni, telecomunicazioni, retail e pubblica amministrazione.`}
+        title={t.timeline.title}
+        lead={t.timeline.lead(firstYear ?? "")}
       />
 
-      <div className="mb-10 space-y-3" role="group" aria-label="Filtra le esperienze">
+      <div className="mb-10 space-y-3" role="group" aria-label={t.timeline.filters}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 w-24 text-sm text-faint">Ruolo</span>
+          <span className="mr-1 w-24 text-sm text-faint">{t.timeline.role}</span>
           <Chip active={role === null} onClick={() => setRole(null)}>
-            Tutti
+            {t.timeline.all}
           </Chip>
           {roles.map((r) => (
             <Chip key={r} active={role === r} onClick={() => setRole(role === r ? null : r)}>
@@ -69,7 +69,7 @@ export function Timeline() {
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 w-24 text-sm text-faint">Tecnologia</span>
+          <span className="mr-1 w-24 text-sm text-faint">{t.timeline.tech}</span>
           {visibleTech.map((t) => (
             <Chip key={t} active={techs.includes(t)} onClick={() => toggleTech(t)}>
               {t}
@@ -77,7 +77,7 @@ export function Timeline() {
           ))}
           {techOptions.length > TECH_PREVIEW ? (
             <button type="button" onClick={() => setShowAllTech((v) => !v)} className="px-2 text-[13px] text-ion hover:text-ink">
-              {showAllTech ? "Mostra meno" : `Altre ${techOptions.length - TECH_PREVIEW}`}
+              {showAllTech ? t.timeline.showLess : t.timeline.more(techOptions.length - TECH_PREVIEW)}
             </button>
           ) : null}
         </div>
@@ -94,7 +94,7 @@ export function Timeline() {
               }}
               className="ml-[6.25rem] inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-ink"
             >
-              <X className="size-3.5" /> Rimuovi i filtri
+              <X className="size-3.5" /> {t.timeline.clear}
             </motion.button>
           ) : null}
         </AnimatePresence>
@@ -130,8 +130,8 @@ export function Timeline() {
                     </p>
                   </div>
                   <p className="text-sm text-faint tabular-nums">
-                    {formatPeriod(x.start, x.end)}
-                    <span className="ml-2 text-muted">({formatDuration(x.start, x.end, now)})</span>
+                    {formatPeriod(x.start, x.end, lang)}
+                    <span className="ml-2 text-muted">({formatDuration(x.start, x.end, now, lang)})</span>
                   </p>
                 </header>
 
@@ -151,9 +151,9 @@ export function Timeline() {
                           <h4 className="flex items-center gap-2 font-display text-lg font-medium">
                             <Building2 className="size-4 text-ion" aria-hidden />
                             {e.client}
-                            {e.via ? <span className="text-sm font-normal text-faint">tramite {e.via}</span> : null}
+                            {e.via ? <span className="text-sm font-normal text-faint">{t.via(e.via)}</span> : null}
                           </h4>
-                          <span className="text-sm text-faint tabular-nums">{formatPeriod(e.start, e.end)}</span>
+                          <span className="text-sm text-faint tabular-nums">{formatPeriod(e.start, e.end, lang)}</span>
                         </div>
                         {e.summary ? <p className="mt-3 max-w-3xl leading-relaxed text-muted">{e.summary}</p> : null}
                         {e.highlights.length ? (
@@ -186,7 +186,7 @@ export function Timeline() {
 
         {filtered.length === 0 ? (
           <div className="glass ml-10 rounded-xl p-8 text-muted">
-            Nessuna esperienza corrisponde a questi filtri. Togli una tecnologia o scegli un altro ruolo.
+            {t.timeline.empty}
           </div>
         ) : null}
       </div>

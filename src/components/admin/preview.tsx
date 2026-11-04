@@ -3,8 +3,10 @@
 import { Monitor, Smartphone } from "lucide-react";
 import { Component, useDeferredValue, useEffect, useRef, useState } from "react";
 import { PortfolioSections } from "@/components/public/portfolio";
-import type { Cv } from "@/lib/schema";
+import { getDictionary } from "@/i18n/dictionaries";
+import { localizeCv, type CvSource } from "@/lib/schema";
 import { cn, toPublicCv } from "@/lib/utils";
+import { useEditLang } from "./edit-lang";
 
 const DESKTOP = 1280;
 const MOBILE = 390;
@@ -13,8 +15,9 @@ const MOBILE = 390;
  * Live preview of the public site, rendered from the unsaved draft. Desktop
  * mode lays the page out at 1280px and zooms it to fit the pane.
  */
-export function Preview({ draft, section }: { draft: Cv; section?: string }) {
+export function Preview({ draft, section }: { draft: CvSource; section?: string }) {
   const deferred = useDeferredValue(draft);
+  const lang = useEditLang();
   const paneRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [paneWidth, setPaneWidth] = useState(640);
@@ -42,7 +45,7 @@ export function Preview({ draft, section }: { draft: Cv; section?: string }) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
-        <p className="text-sm text-muted">Anteprima live</p>
+        <p className="text-sm text-muted">Anteprima live, {lang === "it" ? "italiano" : "inglese"}</p>
         <div className="flex rounded-full border border-line p-0.5" role="radiogroup" aria-label="Dispositivo">
           {(
             [
@@ -67,8 +70,8 @@ export function Preview({ draft, section }: { draft: Cv; section?: string }) {
       <div ref={paneRef} className="min-h-0 flex-1">
         <div ref={scrollRef} className="h-full overflow-y-auto overflow-x-hidden bg-[radial-gradient(ellipse_at_top_left,rgb(91_86_232/0.28),transparent_55%),radial-gradient(ellipse_at_80%_20%,rgb(67_227_194/0.1),transparent_50%)]">
           <div className={cn("mx-auto", device === "mobile" && "my-4 overflow-hidden rounded-[28px] border border-line-strong")} style={{ width, zoom }}>
-            <PreviewBoundary data={deferred}>
-              <PortfolioSections cv={toPublicCv(deferred)} preview />
+            <PreviewBoundary data={deferred} message={getDictionary(lang).preview.paused}>
+              <PortfolioSections cv={localizeCv(toPublicCv(deferred), lang)} lang={lang} preview />
             </PreviewBoundary>
           </div>
         </div>
@@ -78,7 +81,7 @@ export function Preview({ draft, section }: { draft: Cv; section?: string }) {
 }
 
 /** Half-typed drafts can be momentarily invalid; keep the editor alive and retry on the next change. */
-class PreviewBoundary extends Component<{ data: unknown; children: React.ReactNode }, { failed: boolean }> {
+class PreviewBoundary extends Component<{ data: unknown; message: string; children: React.ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
@@ -88,7 +91,7 @@ class PreviewBoundary extends Component<{ data: unknown; children: React.ReactNo
   }
   render() {
     if (this.state.failed)
-      return <p className="p-10 text-center text-sm text-muted">L&apos;anteprima riprende appena i campi in modifica sono completi.</p>;
+      return <p className="p-10 text-center text-sm text-muted">{this.props.message}</p>;
     return this.props.children;
   }
 }

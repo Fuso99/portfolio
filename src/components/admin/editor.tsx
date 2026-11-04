@@ -7,7 +7,6 @@ import {
   FileBraces,
   FolderKanban,
   GraduationCap,
-  Inbox,
   LayoutDashboard,
   LoaderCircle,
   LogOut,
@@ -22,12 +21,13 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch, type FieldErrors } from "react-hook-form";
 import { toast } from "sonner";
 import { Button, buttonClass } from "@/components/ui/primitives";
-import { cvSchema, type ContactMessage, type Cv } from "@/lib/schema";
+import { LOCALES, type Locale } from "@/i18n/config";
+import { cvSchema, missingTranslations, type CvSource } from "@/lib/schema";
 import { cn, fullName } from "@/lib/utils";
 import { EducationTab, ExperiencesTab, ProfileTab, ProjectsTab, SkillsTab } from "./content-tabs";
 import { DataTab } from "./data-tab";
+import { EditLangContext } from "./edit-lang";
 import { ManagerTab } from "./manager-tab";
-import { MessagesTab } from "./messages-tab";
 import { Preview } from "./preview";
 
 const TABS = [
@@ -37,24 +37,24 @@ const TABS = [
   { id: "skills", label: "Competenze", icon: Sparkles, section: "competenze", keys: ["skills", "softSkills"] },
   { id: "education", label: "Formazione e lingue", icon: GraduationCap, section: "cv", keys: ["education", "certifications", "languages"] },
   { id: "manager", label: "Gestione portfolio", icon: LayoutDashboard, section: "esperienza", keys: [] },
-  { id: "messages", label: "Messaggi", icon: Inbox, section: "contatti", keys: [] },
   { id: "data", label: "Import ed export", icon: FileBraces, section: "cv", keys: [] },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
 
-function tabsWithErrors(errors: FieldErrors<Cv>) {
+function tabsWithErrors(errors: FieldErrors<CvSource>) {
   return TABS.filter((t) => t.keys.some((k) => k in errors));
 }
 
-export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; initialMessages: ContactMessage[] }) {
+export function AdminEditor({ initialCv }: { initialCv: CvSource }) {
   const router = useRouter();
-  const form = useForm<Cv>({ resolver: zodResolver(cvSchema), defaultValues: initialCv, mode: "onBlur" });
+  const form = useForm<CvSource>({ resolver: zodResolver(cvSchema), defaultValues: initialCv, mode: "onBlur" });
+  const [lang, setLang] = useState<Locale>("it");
   const { control, handleSubmit, reset, formState } = form;
   const [tab, setTab] = useState<TabId>("profile");
   const [showPreview, setShowPreview] = useState(true);
-  const [messages, setMessages] = useState(initialMessages);
-  const draft = useWatch({ control }) as Cv;
+  const draft = useWatch({ control }) as CvSource;
+  const untranslated = missingTranslations(draft);
   const errorTabs = tabsWithErrors(formState.errors);
   const current = TABS.find((t) => t.id === tab)!;
 
@@ -74,7 +74,7 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
       if (!res.ok) {
         return void toast.error("Modifiche non salvate", { description: data?.error ?? `Errore ${res.status}` });
       }
-      reset(data as Cv);
+      reset(data as CvSource);
       toast.success("Modifiche pubblicate", { description: "Il sito mostra già la nuova versione." });
     },
     (errors) => {
@@ -111,6 +111,7 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
 
   return (
     <FormProvider {...form}>
+      <EditLangContext value={lang}>
       <div className="flex h-dvh flex-col bg-night text-ink">
         <header className="flex flex-wrap items-center gap-3 border-b border-line bg-night-2/70 px-4 py-3 backdrop-blur-xl">
           <div className="mr-auto min-w-0">
@@ -130,6 +131,7 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
             Salva e pubblica
           </Button>
           <span className="mx-1 hidden h-6 w-px bg-line sm:block" />
+          <LangSwitch lang={lang} onChange={setLang} untranslated={untranslated} />
           <Button
             variant="quiet"
             size="sm"
@@ -139,7 +141,7 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
           >
             <PanelRight className="size-3.5" /> Anteprima
           </Button>
-          <a href="/" target="_blank" className={buttonClass("quiet", "sm")}>
+          <a href={`/${lang}`} target="_blank" className={buttonClass("quiet", "sm")}>
             <ExternalLink className="size-3.5" /> Sito
           </a>
           <Button variant="quiet" size="sm" onClick={logout}>
@@ -166,7 +168,6 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
                   <Icon className={cn("size-4", tab === t.id ? "text-ion" : "text-faint")} />
                   <span className="flex-1">{t.label}</span>
                   {hasError ? <span className="size-2 rounded-full bg-danger" aria-label="Contiene errori" /> : null}
-                  {t.id === "messages" && messages.length ? <span className="text-xs text-faint tabular-nums">{messages.length}</span> : null}
                 </button>
               );
             })}
@@ -198,7 +199,6 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
                 {tab === "skills" && <SkillsTab />}
                 {tab === "education" && <EducationTab />}
                 {tab === "manager" && <ManagerTab />}
-                {tab === "messages" && <MessagesTab messages={messages} setMessages={setMessages} />}
                 {tab === "data" && <DataTab />}
               </form>
             </main>
@@ -210,6 +210,45 @@ export function AdminEditor({ initialCv, initialMessages }: { initialCv: Cv; ini
           </div>
         </div>
       </div>
+      </EditLangContext>
     </FormProvider>
+  );
+}
+
+/**
+ * Content language of the editor: translatable fields and the live preview
+ * switch together. English fields left empty fall back to Italian on the site.
+ */
+function LangSwitch({ lang, onChange, untranslated }: { lang: Locale; onChange: (l: Locale) => void; untranslated: number }) {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex rounded-full border border-line p-0.5" role="radiogroup" aria-label="Lingua dei contenuti">
+        {LOCALES.map((l) => (
+          <button
+            key={l}
+            type="button"
+            role="radio"
+            aria-checked={lang === l}
+            onClick={() => onChange(l)}
+            className={cn(
+              "rounded-full px-2.5 py-0.5 font-mono text-xs uppercase transition-colors",
+              lang === l ? "bg-white/10 text-ink" : "text-faint hover:text-ink",
+            )}
+          >
+            {l}
+          </button>
+        ))}
+      </div>
+      {untranslated > 0 ? (
+        <button
+          type="button"
+          onClick={() => onChange("en")}
+          className="text-xs text-[#ffd27a] hover:underline"
+          title="Campi con testo italiano ma senza traduzione: sul sito inglese mostrano l'italiano."
+        >
+          {untranslated === 1 ? "1 campo da tradurre" : `${untranslated} campi da tradurre`}
+        </button>
+      ) : null}
+    </div>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import type { Cv } from "@/lib/schema";
 import { fullName } from "@/lib/utils";
 import { PortfolioProvider } from "./context";
@@ -15,10 +17,11 @@ import { Timeline } from "./timeline";
  * this same tree with the unsaved draft. Layout uses container queries so it
  * adapts to the preview pane as well as to the viewport.
  */
-export function PortfolioSections({ cv, preview = false }: { cv: Cv; preview?: boolean }) {
+export function PortfolioSections({ cv, lang, preview = false }: { cv: Cv; lang: Locale; preview?: boolean }) {
+  const t = getDictionary(lang);
   const updated = new Date(cv.meta.updatedAt);
   return (
-    <PortfolioProvider cv={cv} preview={preview}>
+    <PortfolioProvider cv={cv} lang={lang} preview={preview}>
       <div className="@container">
         <main className="mx-auto max-w-6xl px-5 @3xl:px-8">
           <Hero />
@@ -33,7 +36,7 @@ export function PortfolioSections({ cv, preview = false }: { cv: Cv; preview?: b
             © {updated.getUTCFullYear()} {fullName(cv)}
           </span>
           <span>
-            CV aggiornato il {updated.toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}
+            {t.footer.updated(updated.toLocaleDateString(t.meta.dateLocale, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }))}
           </span>
         </footer>
       </div>

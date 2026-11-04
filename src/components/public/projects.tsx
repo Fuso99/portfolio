@@ -10,7 +10,7 @@ import { usePortfolio } from "./context";
 import { TiltCard } from "./tilt-card";
 
 export function Projects() {
-  const { cv, selected } = usePortfolio();
+  const { cv, selected, lang, t } = usePortfolio();
   const [open, setOpen] = useState<Project | null>(null);
   const selectedSkills = cv.skills.filter((s) => selected.includes(s.id));
 
@@ -19,11 +19,11 @@ export function Projects() {
   return (
     <section id="progetti" className="py-24">
       <SectionHeading
-        title="Progetti"
-        lead="I lavori più significativi per i clienti. Apri una scheda per vedere ruolo, responsabilità e stack."
+        title={t.projects.title}
+        lead={t.projects.lead}
       >
         {selectedSkills.length ? (
-          <p className="text-sm text-muted">In evidenza i progetti con le competenze selezionate.</p>
+          <p className="text-sm text-muted">{t.projects.highlighted}</p>
         ) : null}
       </SectionHeading>
 
@@ -46,7 +46,7 @@ export function Projects() {
                   ) : null}
                   <span className="flex items-center justify-between gap-3 text-sm text-faint">
                     <span className="text-ion">{p.category}</span>
-                    <span className="tabular-nums">{formatPeriod(p.start, p.end)}</span>
+                    <span className="tabular-nums">{formatPeriod(p.start, p.end, lang)}</span>
                   </span>
                   <span
                     className={cn(
@@ -68,7 +68,7 @@ export function Projects() {
                     </span>
                     <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line text-muted transition-colors group-hover:border-ion/50 group-hover:text-ink">
                       <ArrowUpRight className="size-4" aria-hidden />
-                      <span className="sr-only">Apri i dettagli di {p.title}</span>
+                      <span className="sr-only">{t.projects.open(p.title)}</span>
                     </span>
                   </span>
                 </button>
@@ -84,6 +84,7 @@ export function Projects() {
 }
 
 function ProjectDialog({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  const { lang, t } = usePortfolio();
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -95,11 +96,11 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
 
   const meta = project
     ? [
-        ["Cliente", project.client],
-        ["Tramite", project.via],
-        ["Azienda", project.company],
-        ["Periodo", formatPeriod(project.start, project.end)],
-        ["Ruolo", project.role],
+        [t.projects.client, project.client],
+        [t.projects.via, project.via],
+        [t.projects.company, project.company],
+        [t.projects.period, formatPeriod(project.start, project.end, lang)],
+        [t.projects.role, project.role],
       ].filter(([, v]) => v)
     : [];
 
@@ -129,7 +130,7 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
                   {project.title}
                 </h3>
               </div>
-              <button type="button" onClick={onClose} className={buttonClass("quiet", "sm", "size-9 px-0")} aria-label="Chiudi">
+              <button type="button" onClick={onClose} className={buttonClass("quiet", "sm", "size-9 px-0")} aria-label={t.projects.close}>
                 <X className="size-4" />
               </button>
             </div>
@@ -147,7 +148,7 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
 
             {project.responsibilities.length ? (
               <>
-                <h4 className="mt-7 font-display text-lg font-medium">Cosa ho fatto</h4>
+                <h4 className="mt-7 font-display text-lg font-medium">{t.projects.whatIDid}</h4>
                 <ul className="mt-3 space-y-2">
                   {project.responsibilities.map((r) => (
                     <li key={r} className="flex gap-3 text-muted">
@@ -161,7 +162,7 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
 
             {project.stack.length ? (
               <>
-                <h4 className="mt-7 font-display text-lg font-medium">Stack</h4>
+                <h4 className="mt-7 font-display text-lg font-medium">{t.projects.stack}</h4>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {project.stack.map((t) => (
                     <Tag key={t}>{t}</Tag>
@@ -172,7 +173,7 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
 
             {project.url ? (
               <a href={project.url} target="_blank" rel="noreferrer" className={buttonClass("primary", "md", "mt-8")}>
-                Apri il progetto <ExternalLink className="size-4" aria-hidden />
+                {t.projects.link} <ExternalLink className="size-4" aria-hidden />
               </a>
             ) : null}
           </motion.div>

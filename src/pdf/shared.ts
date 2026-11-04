@@ -1,5 +1,7 @@
 import path from "node:path";
 import { Font } from "@react-pdf/renderer";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { SKILL_CATEGORIES, type Cv, type Skill } from "@/lib/schema";
 import { fullName } from "@/lib/utils";
 
@@ -40,11 +42,15 @@ export function registerFonts() {
     family: "Bricolage",
     fonts: [600, 700].map((w) => ({ src: f(`bricolage-grotesque-latin-${w}-normal.woff`), fontWeight: w })),
   });
-  // The default hyphenation is English and splits Italian words badly.
+  // The default hyphenation is English-only and splits Italian words badly; keep words whole in both languages.
   Font.registerHyphenationCallback((word) => [word]);
 }
 
-export type TemplateProps = { cv: Cv; selected: Skill[]; generatedAt: string };
+/** Language of the document and its interface copy. */
+export type Labels = { lang: Locale; t: Dictionary };
+
+/** `cv` is already in the document's language. */
+export type TemplateProps = { cv: Cv; selected: Skill[]; generatedAt: string } & Labels;
 
 export function contactItems(cv: Cv) {
   const p = cv.profile;
@@ -63,6 +69,6 @@ export function skillGroups(cv: Cv) {
   );
 }
 
-export function docMeta(cv: Cv) {
-  return { title: `CV ${fullName(cv)}`, author: fullName(cv), subject: cv.profile.title, language: "it" };
+export function docMeta(cv: Cv, lang: Locale) {
+  return { title: `CV ${fullName(cv)}`, author: fullName(cv), subject: cv.profile.title, language: lang };
 }

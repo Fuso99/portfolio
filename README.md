@@ -9,7 +9,7 @@ Stack: Next.js 16 (App Router, Cache Components), React 19, Tailwind CSS 4, Fram
 ```bash
 npm install
 cp .env.example .env.local   # imposta ADMIN_PASSWORD e AUTH_SECRET (openssl rand -base64 48)
-npm run dev                  # http://localhost:3000, backoffice su /admin
+npm run dev                  # http://localhost:3000 (→ /it o /en), backoffice su /admin
 ```
 
 Produzione: `npm run build && npm start`. Serve un server Node con disco scrivibile (VPS, Docker, Raspberry Pi…): i dati sono file JSON. Su piattaforme serverless con filesystem in sola lettura (es. Vercel) il backoffice non può salvare: in quel caso va sostituito `src/lib/store.ts` con un database o un blob store.
@@ -18,9 +18,10 @@ Produzione: `npm run build && npm start`. Serve un server Node con disco scrivib
 
 ```
 data/cv-data.json            Fonte unica dei dati (estratta dal CV .docx)
-data/messages.json           Messaggi dal modulo contatti (generato, ignorato da git)
 data/backups/                Ultime 20 versioni del CV, una per salvataggio (ignorato da git)
-src/proxy.ts                 Redirect ottimistico di /admin verso /admin/login
+src/proxy.ts                 Redirect alla lingua (/ → /it o /en) e controllo ottimistico di /admin
+src/i18n/                    Lingue supportate e dizionari dei testi dell'interfaccia (sito e PDF)
+src/app/[lang]/              Il portfolio pubblico, una versione per lingua
 src/lib/schema.ts            Schema Zod del CV: validazione lato client, API e import
 src/lib/store.ts             Lettura/scrittura atomica dei file JSON + backup
 src/lib/public-cv.ts         CV pubblico in cache ("use cache", tag "cv")
@@ -35,13 +36,11 @@ src/app/api/                 API route (vedi sotto)
 
 | Metodo | Rotta | Accesso | Cosa fa |
 | --- | --- | --- | --- |
-| GET | `/api/cv` | pubblico | CV senza gli elementi nascosti |
-| GET | `/api/cv/pdf?skills=java,kafka` | pubblico | PDF nel modello scelto dal backoffice, filtrato per id di competenza; `&template=modern\|classic\|trace` lo forza |
-| POST | `/api/contact` | pubblico | Salva un messaggio (validazione Zod, honeypot, rate limit) |
+| GET | `/api/cv?lang=en` | pubblico | CV senza gli elementi nascosti, in una lingua (`it` predefinita) |
+| GET | `/api/cv/pdf?lang=en&skills=java,kafka` | pubblico | PDF nel modello scelto dal backoffice, filtrato per id di competenza; `&template=modern\|classic\|trace` lo forza |
 | POST | `/api/admin/login`, `/api/admin/logout` | — | Apre/chiude la sessione |
 | GET / PUT | `/api/admin/cv` | admin | Legge (`?download=1` per scaricare) / valida, salva e invalida la cache |
-| GET / DELETE | `/api/admin/messages` | admin | Elenca / elimina (`?id=`) i messaggi |
-| POST | `/api/admin/pdf?template=` | admin | PDF generato dalla bozza non salvata (con telefono) |
+| POST | `/api/admin/pdf?template=&lang=` | admin | PDF generato dalla bozza non salvata (con telefono) |
 
 ## Come funziona
 
@@ -50,9 +49,18 @@ src/app/api/                 API route (vedi sotto)
 - **Filtri per competenza**: una competenza corrisponde a una tecnologia se il nome coincide o ne è il prefisso ("Java" → "Java 21") o tramite gli alias. Se aggiungi tecnologie agli incarichi, tieni allineati nomi e alias.
 - **Sicurezza**: il proxy fa solo un controllo ottimistico; ogni API admin e la pagina `/admin` verificano di nuovo la sessione. Cookie `SameSite=Strict`, `Secure` in produzione, login limitato a 8 tentativi ogni 15 minuti per IP.
 
+## Lingue
+
+Il sito è in italiano (`/it`) e in inglese (`/en`). Chi apre `/` va alla lingua scelta l'ultima volta con il selettore (cookie `NEXT_LOCALE`), altrimenti a quella del browser: italiano se lo preferisce, inglese in tutti gli altri casi.
+
+- **Testi dell'interfaccia** (titoli delle sezioni, pulsanti, messaggi, etichette del PDF): in `src/i18n/dictionaries.ts`. Il tipo dell'inglese è ricavato dall'italiano, quindi una chiave mancante è un errore di compilazione.
+- **Contenuti del CV**: nel JSON i campi traducibili sono `{ "it": "…", "en": "…" }`. Nel backoffice il selettore **IT / EN** in alto cambia la lingua dei campi e dell'anteprima; sotto ogni campo inglese compare il testo italiano da tradurre. Un campo inglese vuoto mostra l'italiano sul sito, e il backoffice conta i campi ancora da tradurre.
+- Restano uguali nelle due lingue i nomi propri (aziende, clienti, istituti), le tecnologie e le competenze, perché i filtri si basano su di essi.
+- I JSON esportati prima dell'i18n si importano ancora: i testi diventano la versione italiana.
+
 ## PDF
 
-Tre modelli in `src/pdf/templates/`: **Moderno** (predefinito), **Classico** e **Trace**. Si sceglie da Backoffice › Import ed export; la scelta è salvata in `settings.pdfTemplate`. Il telefono non compare mai nel PDF pubblico.
+Tre modelli in `src/pdf/templates/`: **Moderno** (predefinito), **Classico** e **Trace**. Si sceglie da Backoffice › Import ed export; la scelta è salvata in `settings.pdfTemplate`. Il PDF esce nella lingua della pagina da cui lo si scarica. Il telefono non compare mai nel PDF pubblico.
 
 ## Da rivedere nei dati
 

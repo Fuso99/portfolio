@@ -8,18 +8,16 @@ import { SKILL_CATEGORIES, type SkillCategory } from "@/lib/schema";
 import { cn, matchesAnySkill } from "@/lib/utils";
 import { usePortfolio } from "./context";
 
-const LEVELS = ["", "Base", "Discreto", "Buono", "Avanzato", "Esperto"];
-
 export function SkillMatrix() {
-  const { cv, selected, toggle } = usePortfolio();
+  const { cv, selected, toggle, t } = usePortfolio();
   const categories = useMemo(
     () =>
       SKILL_CATEGORIES.map((c) => {
         const skills = cv.skills.filter((s) => s.category === c.id);
         const avg = skills.length ? skills.reduce((a, s) => a + s.level, 0) / skills.length : 0;
-        return { ...c, skills, avg };
+        return { id: c.id, label: t.skillCategories[c.id], skills, avg };
       }).filter((c) => c.skills.length > 0),
-    [cv.skills],
+    [cv.skills, t],
   );
   const [active, setActive] = useState<SkillCategory | null>(null);
   const current = categories.find((c) => c.id === active) ?? categories[0];
@@ -38,18 +36,18 @@ export function SkillMatrix() {
   return (
     <section id="competenze" className="py-24">
       <SectionHeading
-        title="Competenze"
-        lead="Livelli autovalutati da 1 a 5. Seleziona una competenza per filtrare il CV qui sotto e il PDF scaricabile."
+        title={t.skills.title}
+        lead={t.skills.lead}
       >
         {selected.length > 0 ? (
           <a href="#cv" className="text-sm text-ion hover:text-ink">
-            {selected.length === 1 ? "1 competenza selezionata" : `${selected.length} competenze selezionate`}, vedi il CV filtrato
+            {t.skills.selected(selected.length)}
           </a>
         ) : null}
       </SectionHeading>
 
       <div className="grid gap-6 @4xl:grid-cols-[18rem_1fr]">
-        <div role="tablist" aria-label="Categorie" className="flex gap-2 overflow-x-auto pb-1 @4xl:flex-col @4xl:overflow-visible">
+        <div role="tablist" aria-label={t.skills.categories} className="flex gap-2 overflow-x-auto pb-1 @4xl:flex-col @4xl:overflow-visible">
           {categories.map((c) => {
             const on = c.id === current.id;
             return (
@@ -110,11 +108,11 @@ export function SkillMatrix() {
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium text-ink">{s.name}</span>
                         <span className="mt-0.5 block text-xs text-faint">
-                          {LEVELS[s.level]}
-                          {used ? `, in ${used} ${used === 1 ? "progetto" : "progetti"}` : ""}
+                          {t.skills.levels[s.level]}
+                          {used ? t.skills.usedIn(used) : ""}
                         </span>
                       </span>
-                      <span className="flex gap-1" role="img" aria-label={`Livello ${s.level} su 5`}>
+                      <span className="flex gap-1" role="img" aria-label={t.skills.levelAria(s.level)}>
                         {[1, 2, 3, 4, 5].map((n) => (
                           <motion.span
                             key={n}
@@ -150,7 +148,7 @@ export function SkillMatrix() {
 
       {cv.softSkills.length ? (
         <div className="mt-8 flex flex-wrap items-center gap-2">
-          <span className="mr-2 text-sm text-faint">Soft skill</span>
+          <span className="mr-2 text-sm text-faint">{t.skills.soft}</span>
           {cv.softSkills.map((s) => (
             <span key={s} className="rounded-full border border-line px-3 py-1 text-sm text-muted">
               {s}

@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // Unmatched URLs: the app has several root layouts (/[lang] and /admin).
+    globalNotFound: true,
+  },
   turbopack: {
     rules: {
       "*.css": {

@@ -25,7 +25,7 @@ function shortCompany(name: string) {
  * signature element. Each row jumps to its entry in the timeline.
  */
 export function TracePanel() {
-  const { cv, preview } = usePortfolio();
+  const { cv, preview, lang, t } = usePortfolio();
   const now = useNowMonth();
 
   const { rows, min, max, years } = useMemo(() => {
@@ -40,7 +40,7 @@ export function TracePanel() {
           depth: 1,
           last: i === engagements.length - 1,
           label: e.client,
-          sub: e.via ? `tramite ${e.via}` : "",
+          sub: e.via ? t.via(e.via) : "",
           start: e.start,
           end: e.end,
         }),
@@ -52,11 +52,11 @@ export function TracePanel() {
     const years: number[] = [];
     for (let y = Math.ceil(min / 12); y * 12 <= max; y++) years.push(y);
     return { rows, min, max, years };
-  }, [cv.experiences, now]);
+  }, [cv.experiences, now, t]);
 
   const span = Math.max(1, max - min);
   const first = cv.experiences.at(-1);
-  const total = first ? formatDuration(first.start, "", now) : "";
+  const total = first ? formatDuration(first.start, "", now, lang) : "";
 
   function jump(target: string) {
     const el = document.getElementById(target);
@@ -79,10 +79,10 @@ export function TracePanel() {
       <figcaption className="flex items-center justify-between gap-4 rounded-t-xl border-b border-line px-4 py-3 font-mono text-[12px]">
         <span className="flex items-center gap-2 text-ink">
           <span className="size-2 rounded-full bg-signal shadow-[0_0_10px_var(--color-signal)]" />
-          trace/carriera
+          {t.trace.title}
         </span>
         <span className="text-faint">
-          {rows.length} span, {total}
+          {t.trace.summary(rows.length, total)}
         </span>
       </figcaption>
 
@@ -119,7 +119,7 @@ export function TracePanel() {
                   type="button"
                   onClick={() => jump(r.target)}
                   disabled={preview}
-                  title={`${r.label}: ${formatPeriod(r.start, r.end)}`}
+                  title={`${r.label}: ${formatPeriod(r.start, r.end, lang)}`}
                   className="group grid w-full grid-cols-[42%_1fr] items-center rounded-md py-[5px] text-left transition-colors hover:bg-white/[0.04] @xl:grid-cols-[38%_1fr]"
                 >
                   <span className={cn("flex min-w-0 items-center gap-1.5 pr-3", r.depth === 0 ? "text-ink" : "text-muted")}>
@@ -148,9 +148,9 @@ export function TracePanel() {
 
         <div className="mt-3 flex items-center justify-between border-t border-line pt-3 text-[11px] text-faint">
           <span className="flex items-center gap-2">
-            <span className="h-1.5 w-4 rounded-sm bg-signal/80" /> in corso
+            <span className="h-1.5 w-4 rounded-sm bg-signal/80" /> {t.trace.ongoing}
           </span>
-          <span>clicca uno span per aprirlo</span>
+          <span>{t.trace.hint}</span>
         </div>
       </div>
     </motion.figure>

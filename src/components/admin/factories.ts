@@ -1,50 +1,52 @@
-import type { Cv, Education, Engagement, Experience, Project, Skill } from "@/lib/schema";
+import type { CvSource } from "@/lib/schema";
 import { slugId } from "@/lib/utils";
 
+type Source = CvSource;
 const thisMonth = () => new Date().toISOString().slice(0, 7);
+const blank = () => ({ it: "", en: "" });
 
-export const newExperience = (): Experience => ({
+export const newExperience = (): Source["experiences"][number] => ({
   id: slugId("exp"),
   company: "",
-  location: "",
-  role: "",
+  location: blank(),
+  role: blank(),
   start: thisMonth(),
   end: "",
   visible: true,
   engagements: [],
 });
 
-export const newEngagement = (): Engagement => ({
+export const newEngagement = (): Source["experiences"][number]["engagements"][number] => ({
   id: slugId("eng"),
   client: "",
   via: "",
   start: thisMonth(),
   end: "",
-  summary: "",
+  summary: blank(),
   highlights: [],
   tech: [],
 });
 
-export const newProject = (): Project => ({
+export const newProject = (): Source["projects"][number] => ({
   id: slugId("prj"),
-  title: "",
+  title: blank(),
   client: "",
   via: "",
   company: "",
-  category: "",
+  category: blank(),
   start: thisMonth(),
   end: "",
-  summary: "",
-  description: "",
-  role: "",
-  responsibilities: [],
+  summary: blank(),
+  description: blank(),
+  role: blank(),
+  responsibilities: { it: [], en: [] },
   stack: [],
   url: "",
   visible: false,
   featured: false,
 });
 
-export const newSkill = (category: Skill["category"] = "backend"): Skill => ({
+export const newSkill = (category: Source["skills"][number]["category"] = "backend"): Source["skills"][number] => ({
   id: slugId("skill"),
   name: "",
   category,
@@ -53,18 +55,18 @@ export const newSkill = (category: Skill["category"] = "backend"): Skill => ({
   visible: true,
 });
 
-export const newEducation = (): Education => ({
+export const newEducation = (): Source["education"][number] => ({
   id: slugId("edu"),
   institution: "",
-  title: "",
-  location: "",
+  title: blank(),
+  location: blank(),
   start: thisMonth(),
   end: "",
-  description: "",
+  description: blank(),
   visible: true,
 });
 
-export const newCertification = (): Cv["certifications"][number] => ({
+export const newCertification = (): Source["certifications"][number] => ({
   id: slugId("cert"),
   name: "",
   issuer: "",
@@ -72,4 +74,4 @@ export const newCertification = (): Cv["certifications"][number] => ({
   url: "",
 });
 
-export const newLanguage = (): Cv["languages"][number] => ({ id: slugId("lang"), name: "", level: "" });
+export const newLanguage = (): Source["languages"][number] => ({ id: slugId("lang"), name: blank(), level: blank() });

@@ -2,15 +2,34 @@
   "profile": {
     "firstName": "Gabriele",
     "lastName": "Fuso Nerini",
-    "title": "Web App Developer",
-    "roles": [
-      "Back-end developer Java",
-      "Progettista di agenti AI",
-      "Microservizi Spring"
-    ],
-    "tagline": "Sviluppo back-end Java dal 2019. Oggi progetto agenti AI autonomi che automatizzano polizze e sinistri.",
-    "summary": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi; dal 2025 progetto e osservo agenti LLM multi-livello con Spring AI, LangGraph4j e il Model Context Protocol.",
-    "location": "Cologno Monzese (MI)",
+    "title": {
+      "it": "Web App Developer",
+      "en": "Web App Developer"
+    },
+    "roles": {
+      "it": [
+        "Back-end developer Java",
+        "Progettista di agenti AI",
+        "Microservizi Spring"
+      ],
+      "en": [
+        "Java back-end developer",
+        "AI agent designer",
+        "Spring microservices"
+      ]
+    },
+    "tagline": {
+      "it": "Sviluppo back-end Java dal 2019. Oggi progetto agenti AI autonomi che automatizzano polizze e sinistri.",
+      "en": "Java back-end developer since 2019. Today I design autonomous AI agents that automate insurance policies and claims."
+    },
+    "summary": {
+      "it": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi; dal 2025 progetto e osservo agenti LLM multi-livello con Spring AI, LangGraph4j e il Model Context Protocol.",
+      "en": "Back-end developer with consulting experience on enterprise projects for insurance, telecoms, retail and public administration. I work with Java and the Spring ecosystem on microservice architectures; since 2025 I have been designing and observing multi-level LLM agents with Spring AI, LangGraph4j and the Model Context Protocol."
+    },
+    "location": {
+      "it": "Cologno Monzese (MI)",
+      "en": "Cologno Monzese (Milan)"
+    },
     "email": "gabriele.fusonerini@gmail.com",
     "phone": "",
     "linkedin": "https://it.linkedin.com/in/gabriele-fuso-nerini",
@@ -18,15 +37,24 @@
     "avatarUrl": "",
     "status": {
       "state": "employed",
-      "label": "Su progetti GenAI per Accenture"
+      "label": {
+        "it": "Su progetti GenAI per Accenture",
+        "en": "On GenAI projects for Accenture"
+      }
     }
   },
   "experiences": [
     {
       "id": "dst",
       "company": "Dst - Design Strategy Technology",
-      "location": "Milano",
-      "role": "Programmatore Back-end",
+      "location": {
+        "it": "Milano",
+        "en": "Milan"
+      },
+      "role": {
+        "it": "Programmatore Back-end",
+        "en": "Back-end Developer"
+      },
       "start": "2023-04",
       "end": "",
       "visible": true,
@@ -37,31 +65,70 @@
           "via": "Accenture",
           "start": "2025-09",
           "end": "",
-          "summary": "Sviluppo della piattaforma di Generative AI per Allianz dedicata all'automazione di polizze e sinistri.",
+          "summary": {
+            "it": "Sviluppo della piattaforma di Generative AI per Allianz dedicata all'automazione di polizze e sinistri.",
+            "en": "Development of Allianz's Generative AI platform for automating insurance policies and claims."
+          },
           "highlights": [
             {
-              "title": "AI orchestration",
-              "text": "Progettazione di agenti autonomi (L1/L2/L3) con Java 21, Spring AI e LangGraph4j."
+              "title": {
+                "it": "AI orchestration",
+                "en": "AI orchestration"
+              },
+              "text": {
+                "it": "Progettazione di agenti autonomi (L1/L2/L3) con Java 21, Spring AI e LangGraph4j.",
+                "en": "Design of autonomous agents (L1/L2/L3) with Java 21, Spring AI and LangGraph4j."
+              }
             },
             {
-              "title": "Integrazione LLM",
-              "text": "Implementazione di modelli GPT-5.4 e GPT-4.1; Claude Code per accelerare lo sviluppo software."
+              "title": {
+                "it": "Integrazione LLM",
+                "en": "LLM integration"
+              },
+              "text": {
+                "it": "Implementazione di modelli GPT-5.4 e GPT-4.1; Claude Code per accelerare lo sviluppo software.",
+                "en": "Implementation of the GPT-5.4 and GPT-4.1 models; Claude Code to speed up software development."
+              }
             },
             {
-              "title": "Tooling e protocolli",
-              "text": "Sviluppo di server MCP (Model Context Protocol) e tool personalizzati per far interagire gli LLM con i sistemi aziendali."
+              "title": {
+                "it": "Tooling e protocolli",
+                "en": "Tooling and protocols"
+              },
+              "text": {
+                "it": "Sviluppo di server MCP (Model Context Protocol) e tool personalizzati per far interagire gli LLM con i sistemi aziendali.",
+                "en": "Development of MCP (Model Context Protocol) servers and custom tools that let LLMs interact with enterprise systems."
+              }
             },
             {
-              "title": "Osservabilità",
-              "text": "Analisi dei flussi logici e debug del ragionamento dell'LLM tramite i trace di Langfuse."
+              "title": {
+                "it": "Osservabilità",
+                "en": "Observability"
+              },
+              "text": {
+                "it": "Analisi dei flussi logici e debug del ragionamento dell'LLM tramite i trace di Langfuse.",
+                "en": "Analysis of logic flows and debugging of LLM reasoning through Langfuse traces."
+              }
             },
             {
-              "title": "Architettura",
-              "text": "Microservizi con architettura esagonale; dati su MongoDB."
+              "title": {
+                "it": "Architettura",
+                "en": "Architecture"
+              },
+              "text": {
+                "it": "Microservizi con architettura esagonale; dati su MongoDB.",
+                "en": "Microservices with hexagonal architecture; data on MongoDB."
+              }
             },
             {
-              "title": "DevOps",
-              "text": "CI/CD su GitHub, container Docker e deployment orchestrato con ArgoCD."
+              "title": {
+                "it": "DevOps",
+                "en": "DevOps"
+              },
+              "text": {
+                "it": "CI/CD su GitHub, container Docker e deployment orchestrato con ArgoCD.",
+                "en": "CI/CD on GitHub, Docker containers and deployment orchestrated with ArgoCD."
+              }
             }
           ],
           "tech": [
@@ -72,8 +139,8 @@
             "OpenAI GPT",
             "Claude Code",
             "Langfuse",
-            "Architettura esagonale",
-            "Microservizi",
+            "Hexagonal architecture",
+            "Microservices",
             "MongoDB",
             "GitHub CI/CD",
             "Docker",
@@ -86,7 +153,10 @@
           "via": "",
           "start": "2023-04",
           "end": "2025-09",
-          "summary": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Evolutive e bug fixing.",
+          "summary": {
+            "it": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Evolutive e bug fixing.",
+            "en": "Development and maintenance of the xStore projects, the in-store application that simplifies daily operations and makes cashiers more productive. New features and bug fixing."
+          },
           "highlights": [],
           "tech": [
             "Java 17",
@@ -104,8 +174,14 @@
     {
       "id": "tactical-people",
       "company": "Tactical People S.r.l.",
-      "location": "Milano",
-      "role": "Programmatore Back-end",
+      "location": {
+        "it": "Milano",
+        "en": "Milan"
+      },
+      "role": {
+        "it": "Programmatore Back-end",
+        "en": "Back-end Developer"
+      },
       "start": "2022-04",
       "end": "2023-04",
       "visible": true,
@@ -116,12 +192,15 @@
           "via": "NTT Data",
           "start": "2023-01",
           "end": "2023-04",
-          "summary": "Sviluppo dell'iniziativa \"Crescere Insieme\" per Sogei S.p.A., basata su microservizi Spring Boot.",
+          "summary": {
+            "it": "Sviluppo dell'iniziativa \"Crescere Insieme\" per Sogei S.p.A., basata su microservizi Spring Boot.",
+            "en": "Development of the \"Crescere Insieme\" initiative for Sogei S.p.A., built on Spring Boot microservices."
+          },
           "highlights": [],
           "tech": [
             "Java 8",
             "Spring Boot",
-            "Microservizi",
+            "Microservices",
             "Kafka",
             "PostgreSQL",
             "Redis",
@@ -139,12 +218,15 @@
           "via": "NTT Data",
           "start": "2022-04",
           "end": "2022-12",
-          "summary": "Sviluppo e gestione di progetti a microservizi in Java 8 e Spring Boot per Poste Italiane S.p.A.",
+          "summary": {
+            "it": "Sviluppo e gestione di progetti a microservizi in Java 8 e Spring Boot per Poste Italiane S.p.A.",
+            "en": "Development and maintenance of Java 8 and Spring Boot microservice projects for Poste Italiane S.p.A."
+          },
           "highlights": [],
           "tech": [
             "Java 8",
             "Spring Boot",
-            "Microservizi",
+            "Microservices",
             "Kafka",
             "PostgreSQL",
             "Redis",
@@ -160,8 +242,14 @@
     {
       "id": "nextre",
       "company": "Nextre Engineering S.r.l.",
-      "location": "Milano",
-      "role": "Programmatore Full Stack",
+      "location": {
+        "it": "Milano",
+        "en": "Milan"
+      },
+      "role": {
+        "it": "Programmatore Full Stack",
+        "en": "Full Stack Developer"
+      },
       "start": "2019-09",
       "end": "2022-04",
       "visible": true,
@@ -172,7 +260,10 @@
           "via": "Omicron",
           "start": "2021-04",
           "end": "2022-04",
-          "summary": "Risoluzione di defect ed evolutive per AXA sulle applicazioni di apertura polizze salute e motor: front-end in Angular 8 e AngularJS, back-end in Java 8.",
+          "summary": {
+            "it": "Risoluzione di defect ed evolutive per AXA sulle applicazioni di apertura polizze salute e motor: front-end in Angular 8 e AngularJS, back-end in Java 8.",
+            "en": "Defect fixing and new features for AXA on the health and motor policy issuance applications: Angular 8 and AngularJS front end, Java 8 back end."
+          },
           "highlights": [],
           "tech": [
             "Java 8",
@@ -190,7 +281,10 @@
           "via": "",
           "start": "2020-02",
           "end": "2021-04",
-          "summary": "Sviluppo, manutenzione e bug fixing di applicativi web: ticketing, gestione utenze e clientela, firma elettronica, upload e download di documenti su server proprietario, tracciamento pacchi tramite servizi REST.",
+          "summary": {
+            "it": "Sviluppo, manutenzione e bug fixing di applicativi web: ticketing, gestione utenze e clientela, firma elettronica, upload e download di documenti su server proprietario, tracciamento pacchi tramite servizi REST.",
+            "en": "Development, maintenance and bug fixing of web applications: ticketing, user and customer management, electronic signature, document upload and download to a proprietary server, parcel tracking via REST services."
+          },
           "highlights": [],
           "tech": [
             "Java 8",
@@ -212,7 +306,10 @@
           "via": "",
           "start": "2019-11",
           "end": "2020-02",
-          "summary": "UI di un app hub aziendale in Vue.js: dopo l'accesso (credenziali o lettore RFID) i dipendenti vedono le applicazioni disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia in italiano, inglese e polacco.",
+          "summary": {
+            "it": "UI di un app hub aziendale in Vue.js: dopo l'accesso (credenziali o lettore RFID) i dipendenti vedono le applicazioni disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia in italiano, inglese e polacco.",
+            "en": "UI for a company app hub in Vue.js: after signing in (credentials or RFID reader) employees see the applications available to them, filter them by category, name and rating, rate them and launch them. Interface in Italian, English and Polish."
+          },
           "highlights": [],
           "tech": [
             "Vue.js",
@@ -227,24 +324,49 @@
   "projects": [
     {
       "id": "allianz-genai",
-      "title": "Piattaforma GenAI per polizze e sinistri",
+      "title": {
+        "it": "Piattaforma GenAI per polizze e sinistri",
+        "en": "GenAI platform for policies and claims"
+      },
       "client": "Allianz",
       "via": "Accenture",
       "company": "Dst",
-      "category": "AI e agenti",
+      "category": {
+        "it": "AI e agenti",
+        "en": "AI and agents"
+      },
       "start": "2025-09",
       "end": "",
-      "summary": "Agenti LLM su tre livelli che automatizzano la gestione di polizze e sinistri.",
-      "description": "Piattaforma di Generative AI che automatizza i processi assicurativi di polizze e sinistri. Gli agenti sono organizzati su tre livelli (L1/L2/L3) e orchestrati con LangGraph4j; i tool MCP collegano i modelli ai sistemi aziendali e ogni passo di ragionamento è tracciato su Langfuse.",
-      "role": "Back-end e AI engineer",
-      "responsibilities": [
-        "Progettazione degli agenti autonomi L1/L2/L3 con Spring AI e LangGraph4j",
-        "Integrazione dei modelli GPT-5.4 e GPT-4.1",
-        "Sviluppo di server MCP e tool personalizzati verso i sistemi aziendali",
-        "Debug del ragionamento degli LLM tramite i trace di Langfuse",
-        "Microservizi in architettura esagonale su MongoDB",
-        "Pipeline CI/CD su GitHub, container Docker, deploy con ArgoCD"
-      ],
+      "summary": {
+        "it": "Agenti LLM su tre livelli che automatizzano la gestione di polizze e sinistri.",
+        "en": "Three-tier LLM agents that automate policy and claims handling."
+      },
+      "description": {
+        "it": "Piattaforma di Generative AI che automatizza i processi assicurativi di polizze e sinistri. Gli agenti sono organizzati su tre livelli (L1/L2/L3) e orchestrati con LangGraph4j; i tool MCP collegano i modelli ai sistemi aziendali e ogni passo di ragionamento è tracciato su Langfuse.",
+        "en": "Generative AI platform that automates insurance processes for policies and claims. Agents are organised in three tiers (L1/L2/L3) and orchestrated with LangGraph4j; MCP tools connect the models to enterprise systems and every reasoning step is traced in Langfuse."
+      },
+      "role": {
+        "it": "Back-end e AI engineer",
+        "en": "Back-end and AI engineer"
+      },
+      "responsibilities": {
+        "it": [
+          "Progettazione degli agenti autonomi L1/L2/L3 con Spring AI e LangGraph4j",
+          "Integrazione dei modelli GPT-5.4 e GPT-4.1",
+          "Sviluppo di server MCP e tool personalizzati verso i sistemi aziendali",
+          "Debug del ragionamento degli LLM tramite i trace di Langfuse",
+          "Microservizi in architettura esagonale su MongoDB",
+          "Pipeline CI/CD su GitHub, container Docker, deploy con ArgoCD"
+        ],
+        "en": [
+          "Design of the autonomous L1/L2/L3 agents with Spring AI and LangGraph4j",
+          "Integration of the GPT-5.4 and GPT-4.1 models",
+          "Development of MCP servers and custom tools for enterprise systems",
+          "Debugging LLM reasoning through Langfuse traces",
+          "Hexagonal-architecture microservices on MongoDB",
+          "CI/CD pipelines on GitHub, Docker containers, deployment with ArgoCD"
+        ]
+      },
       "stack": [
         "Java 21",
         "Spring AI",
@@ -262,21 +384,43 @@
     },
     {
       "id": "xstore",
-      "title": "xStore, gestionale per i negozi fisici",
+      "title": {
+        "it": "xStore, gestionale per i negozi fisici",
+        "en": "xStore, in-store management software"
+      },
       "client": "Reply Retail",
       "via": "",
       "company": "Dst",
-      "category": "Back-end",
+      "category": {
+        "it": "Back-end",
+        "en": "Back end"
+      },
       "start": "2023-04",
       "end": "2025-09",
-      "summary": "Il software di cassa e negozio che velocizza il lavoro quotidiano dei cassieri.",
-      "description": "Applicativo dedicato agli store fisici che facilita le operazioni quotidiane e ottimizza la produttività dei cassieri. Le build vengono rilasciate sui singoli negozi tramite xAdmin.",
-      "role": "Programmatore back-end",
-      "responsibilities": [
-        "Sviluppo di nuove evolutive",
-        "Bug fixing e manutenzione",
-        "Compilazione con Jenkins e rilascio delle build sui negozi con xAdmin"
-      ],
+      "summary": {
+        "it": "Il software di cassa e negozio che velocizza il lavoro quotidiano dei cassieri.",
+        "en": "The till and store software that speeds up cashiers' daily work."
+      },
+      "description": {
+        "it": "Applicativo dedicato agli store fisici che facilita le operazioni quotidiane e ottimizza la produttività dei cassieri. Le build vengono rilasciate sui singoli negozi tramite xAdmin.",
+        "en": "Application for physical stores that eases daily operations and optimises cashier productivity. Builds are rolled out to individual stores through xAdmin."
+      },
+      "role": {
+        "it": "Programmatore back-end",
+        "en": "Back-end developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Sviluppo di nuove evolutive",
+          "Bug fixing e manutenzione",
+          "Compilazione con Jenkins e rilascio delle build sui negozi con xAdmin"
+        ],
+        "en": [
+          "New feature development",
+          "Bug fixing and maintenance",
+          "Builds with Jenkins and rollout to stores with xAdmin"
+        ]
+      },
       "stack": [
         "Java 17",
         "Java 11",
@@ -292,22 +436,45 @@
     },
     {
       "id": "sogei-crescere-insieme",
-      "title": "Crescere Insieme",
+      "title": {
+        "it": "Crescere Insieme",
+        "en": "Crescere Insieme"
+      },
       "client": "Sogei",
       "via": "NTT Data",
       "company": "Tactical People",
-      "category": "Back-end",
+      "category": {
+        "it": "Back-end",
+        "en": "Back end"
+      },
       "start": "2023-01",
       "end": "2023-04",
-      "summary": "Microservizi Spring Boot per un'iniziativa di Sogei.",
-      "description": "Applicativo a microservizi sviluppato per Sogei S.p.A. nell'ambito dell'iniziativa \"Crescere Insieme\", con code Kafka, cache Redis e job schedulati con Quartz su OpenShift.",
-      "role": "Programmatore back-end",
-      "responsibilities": [
-        "Sviluppo di microservizi Java 8 e Spring Boot",
-        "Gestione delle code con Kafka",
-        "Test con JUnit e Mockito",
-        "Pipeline GitLab e rilasci con Jenkins"
-      ],
+      "summary": {
+        "it": "Microservizi Spring Boot per un'iniziativa di Sogei.",
+        "en": "Spring Boot microservices for a Sogei initiative."
+      },
+      "description": {
+        "it": "Applicativo a microservizi sviluppato per Sogei S.p.A. nell'ambito dell'iniziativa \"Crescere Insieme\", con code Kafka, cache Redis e job schedulati con Quartz su OpenShift.",
+        "en": "Microservice application built for Sogei S.p.A. as part of the \"Crescere Insieme\" initiative, with Kafka queues, Redis caching and Quartz scheduled jobs on OpenShift."
+      },
+      "role": {
+        "it": "Programmatore back-end",
+        "en": "Back-end developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Sviluppo di microservizi Java 8 e Spring Boot",
+          "Gestione delle code con Kafka",
+          "Test con JUnit e Mockito",
+          "Pipeline GitLab e rilasci con Jenkins"
+        ],
+        "en": [
+          "Java 8 and Spring Boot microservice development",
+          "Queue handling with Kafka",
+          "Testing with JUnit and Mockito",
+          "GitLab pipelines and releases with Jenkins"
+        ]
+      },
       "stack": [
         "Java 8",
         "Spring Boot",
@@ -323,21 +490,43 @@
     },
     {
       "id": "poste-microservizi",
-      "title": "Microservizi per Poste Italiane",
+      "title": {
+        "it": "Microservizi per Poste Italiane",
+        "en": "Microservices for Poste Italiane"
+      },
       "client": "Poste Italiane",
       "via": "NTT Data",
       "company": "Tactical People",
-      "category": "Back-end",
+      "category": {
+        "it": "Back-end",
+        "en": "Back end"
+      },
       "start": "2022-04",
       "end": "2022-12",
-      "summary": "Sviluppo e gestione di iniziative a microservizi in Spring Boot.",
-      "description": "Diverse iniziative per Poste Italiane S.p.A. realizzate come microservizi Java 8 e Spring Boot, con persistenza PostgreSQL e messaggistica Kafka.",
-      "role": "Programmatore back-end",
-      "responsibilities": [
-        "Sviluppo e manutenzione dei microservizi",
-        "Integrazione con Kafka e PostgreSQL",
-        "Test unitari con JUnit e Mockito"
-      ],
+      "summary": {
+        "it": "Sviluppo e gestione di iniziative a microservizi in Spring Boot.",
+        "en": "Development and maintenance of Spring Boot microservice initiatives."
+      },
+      "description": {
+        "it": "Diverse iniziative per Poste Italiane S.p.A. realizzate come microservizi Java 8 e Spring Boot, con persistenza PostgreSQL e messaggistica Kafka.",
+        "en": "Several initiatives for Poste Italiane S.p.A. built as Java 8 and Spring Boot microservices, with PostgreSQL persistence and Kafka messaging."
+      },
+      "role": {
+        "it": "Programmatore back-end",
+        "en": "Back-end developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Sviluppo e manutenzione dei microservizi",
+          "Integrazione con Kafka e PostgreSQL",
+          "Test unitari con JUnit e Mockito"
+        ],
+        "en": [
+          "Microservice development and maintenance",
+          "Integration with Kafka and PostgreSQL",
+          "Unit testing with JUnit and Mockito"
+        ]
+      },
       "stack": [
         "Java 8",
         "Spring Boot",
@@ -351,20 +540,41 @@
     },
     {
       "id": "axa-polizze",
-      "title": "Apertura polizze salute e motor",
+      "title": {
+        "it": "Apertura polizze salute e motor",
+        "en": "Health and motor policy issuance"
+      },
       "client": "AXA",
       "via": "Omicron",
       "company": "Nextre Engineering",
-      "category": "Full stack",
+      "category": {
+        "it": "Full stack",
+        "en": "Full stack"
+      },
       "start": "2021-04",
       "end": "2022-04",
-      "summary": "Evolutive e defect sulle applicazioni di apertura polizze di AXA.",
-      "description": "Applicazioni per l'apertura di polizze salute e motor, con front-end in Angular 8 e in parte AngularJS e back-end in Java 8 su JBoss WildFly e Oracle.",
-      "role": "Programmatore full stack",
-      "responsibilities": [
-        "Risoluzione di defect",
-        "Implementazione di evolutive front-end e back-end"
-      ],
+      "summary": {
+        "it": "Evolutive e defect sulle applicazioni di apertura polizze di AXA.",
+        "en": "New features and defect fixes on AXA's policy issuance applications."
+      },
+      "description": {
+        "it": "Applicazioni per l'apertura di polizze salute e motor, con front-end in Angular 8 e in parte AngularJS e back-end in Java 8 su JBoss WildFly e Oracle.",
+        "en": "Applications for issuing health and motor insurance policies, with an Angular 8 (partly AngularJS) front end and a Java 8 back end on JBoss WildFly and Oracle."
+      },
+      "role": {
+        "it": "Programmatore full stack",
+        "en": "Full stack developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Risoluzione di defect",
+          "Implementazione di evolutive front-end e back-end"
+        ],
+        "en": [
+          "Defect fixing",
+          "Front-end and back-end feature development"
+        ]
+      },
       "stack": [
         "Java 8",
         "Angular",
@@ -378,22 +588,45 @@
     },
     {
       "id": "fastweb-webapp",
-      "title": "Applicativi web per Fastweb",
+      "title": {
+        "it": "Applicativi web per Fastweb",
+        "en": "Web applications for Fastweb"
+      },
       "client": "Fastweb",
       "via": "",
       "company": "Nextre Engineering",
-      "category": "Full stack",
+      "category": {
+        "it": "Full stack",
+        "en": "Full stack"
+      },
       "start": "2020-02",
       "end": "2021-04",
-      "summary": "Ticketing, firma elettronica, documenti e tracciamento pacchi.",
-      "description": "Sviluppo, manutenzione e bug fixing di applicativi web: gestione ticket, utenze e clientela, firma elettronica dei documenti, upload e download su server proprietario e tracciamento dei pacchi tramite servizi REST.",
-      "role": "Programmatore full stack",
-      "responsibilities": [
-        "Sviluppo back-end e front-end con JSF e Spring MVC",
-        "Persistenza con Hibernate e JDBC su MySQL",
-        "Code di messaggi con RabbitMQ",
-        "Rilasci in test e produzione con Jenkins"
-      ],
+      "summary": {
+        "it": "Ticketing, firma elettronica, documenti e tracciamento pacchi.",
+        "en": "Ticketing, electronic signature, documents and parcel tracking."
+      },
+      "description": {
+        "it": "Sviluppo, manutenzione e bug fixing di applicativi web: gestione ticket, utenze e clientela, firma elettronica dei documenti, upload e download su server proprietario e tracciamento dei pacchi tramite servizi REST.",
+        "en": "Development, maintenance and bug fixing of web applications: ticket, user and customer management, electronic document signing, upload and download to a proprietary server, and parcel tracking via REST services."
+      },
+      "role": {
+        "it": "Programmatore full stack",
+        "en": "Full stack developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Sviluppo back-end e front-end con JSF e Spring MVC",
+          "Persistenza con Hibernate e JDBC su MySQL",
+          "Code di messaggi con RabbitMQ",
+          "Rilasci in test e produzione con Jenkins"
+        ],
+        "en": [
+          "Back-end and front-end development with JSF and Spring MVC",
+          "Persistence with Hibernate and JDBC on MySQL",
+          "Message queues with RabbitMQ",
+          "Test and production releases with Jenkins"
+        ]
+      },
       "stack": [
         "Java 8",
         "JSF",
@@ -409,21 +642,43 @@
     },
     {
       "id": "capgemini-app-hub",
-      "title": "App hub per i dipendenti",
+      "title": {
+        "it": "App hub per i dipendenti",
+        "en": "Employee app hub"
+      },
       "client": "Capgemini",
       "via": "",
       "company": "Nextre Engineering",
-      "category": "Front-end",
+      "category": {
+        "it": "Front-end",
+        "en": "Front end"
+      },
       "start": "2019-11",
       "end": "2020-02",
-      "summary": "Dashboard delle applicazioni aziendali con accesso via RFID.",
-      "description": "Interfaccia di un app hub: dopo l'accesso con credenziali o lettore RFID i dipendenti vedono le applicazioni a loro disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Tradotta in italiano, inglese e polacco.",
-      "role": "Sviluppatore front-end",
-      "responsibilities": [
-        "Sviluppo della UI in Vue.js, HTML e SCSS",
-        "Filtri, rating e avvio delle applicazioni",
-        "Internazionalizzazione IT, EN, PL"
-      ],
+      "summary": {
+        "it": "Dashboard delle applicazioni aziendali con accesso via RFID.",
+        "en": "Dashboard of company applications with RFID sign-in."
+      },
+      "description": {
+        "it": "Interfaccia di un app hub: dopo l'accesso con credenziali o lettore RFID i dipendenti vedono le applicazioni a loro disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Tradotta in italiano, inglese e polacco.",
+        "en": "Interface for an app hub: after signing in with credentials or an RFID reader, employees see the applications available to them, filter them by category, name and rating, rate them and launch them. Translated into Italian, English and Polish."
+      },
+      "role": {
+        "it": "Sviluppatore front-end",
+        "en": "Front-end developer"
+      },
+      "responsibilities": {
+        "it": [
+          "Sviluppo della UI in Vue.js, HTML e SCSS",
+          "Filtri, rating e avvio delle applicazioni",
+          "Internazionalizzazione IT, EN, PL"
+        ],
+        "en": [
+          "UI development in Vue.js, HTML and SCSS",
+          "Application filters, ratings and launch",
+          "Internationalisation: IT, EN, PL"
+        ]
+      },
       "stack": [
         "Vue.js",
         "HTML",
@@ -475,18 +730,22 @@
     },
     {
       "id": "microservizi",
-      "name": "Microservizi",
+      "name": "Microservices",
       "category": "backend",
       "level": 5,
-      "aliases": [],
+      "aliases": [
+        "Microservizi"
+      ],
       "visible": true
     },
     {
       "id": "esagonale",
-      "name": "Architettura esagonale",
+      "name": "Hexagonal architecture",
       "category": "backend",
       "level": 4,
-      "aliases": [],
+      "aliases": [
+        "Architettura esagonale"
+      ],
       "visible": true
     },
     {
@@ -706,26 +965,47 @@
       "visible": true
     }
   ],
-  "softSkills": [],
+  "softSkills": {
+    "it": [],
+    "en": []
+  },
   "education": [
     {
       "id": "academy-java",
       "institution": "Nextre Engineering S.r.l.",
-      "title": "Academy Java",
-      "location": "Milano",
+      "title": {
+        "it": "Academy Java",
+        "en": "Java Academy"
+      },
+      "location": {
+        "it": "Milano",
+        "en": "Milan"
+      },
       "start": "2019-04",
       "end": "2019-09",
-      "description": "Corso su Java 8, SQL (MySQL) e Angular 7.",
+      "description": {
+        "it": "Corso su Java 8, SQL (MySQL) e Angular 7.",
+        "en": "Course on Java 8, SQL (MySQL) and Angular 7."
+      },
       "visible": true
     },
     {
       "id": "itis-molinari",
       "institution": "ITIS Ettore Molinari",
-      "title": "Diploma di perito informatico",
-      "location": "Milano",
+      "title": {
+        "it": "Diploma di perito informatico",
+        "en": "Diploma in computer science (technical high school)"
+      },
+      "location": {
+        "it": "Milano",
+        "en": "Milan"
+      },
       "start": "2013-09",
       "end": "2018-06",
-      "description": "",
+      "description": {
+        "it": "",
+        "en": ""
+      },
       "visible": true
     }
   ],
@@ -733,13 +1013,25 @@
   "languages": [
     {
       "id": "it",
-      "name": "Italiano",
-      "level": "Madrelingua"
+      "name": {
+        "it": "Italiano",
+        "en": "Italian"
+      },
+      "level": {
+        "it": "Madrelingua",
+        "en": "Native"
+      }
     },
     {
       "id": "en",
-      "name": "Inglese",
-      "level": "B2"
+      "name": {
+        "it": "Inglese",
+        "en": "English"
+      },
+      "level": {
+        "it": "B2",
+        "en": "B2"
+      }
     }
   ],
   "settings": {

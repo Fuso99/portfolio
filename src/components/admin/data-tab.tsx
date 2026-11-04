@@ -5,9 +5,10 @@ import { useRef, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { Button, buttonClass } from "@/components/ui/primitives";
-import { cvSchema, normalizeCv, PDF_TEMPLATES, type Cv, type PdfTemplate } from "@/lib/schema";
+import { cvSchema, normalizeCv, PDF_TEMPLATES, type CvSource, type PdfTemplate } from "@/lib/schema";
 import { cn } from "@/lib/utils";
 import { Panel } from "./content-tabs";
+import { useEditLang } from "./edit-lang";
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -17,7 +18,8 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 export function DataTab() {
-  const { getValues, reset, control } = useFormContext<Cv>();
+  const { getValues, reset, control } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const fileRef = useRef<HTMLInputElement>(null);
   const [pdfBusy, setPdfBusy] = useState<PdfTemplate | null>(null);
 
@@ -47,7 +49,7 @@ export function DataTab() {
 
   async function draftPdf(template: PdfTemplate) {
     setPdfBusy(template);
-    const res = await fetch(`/api/admin/pdf?template=${template}`, {
+    const res = await fetch(`/api/admin/pdf?template=${template}&lang=${lang}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(getValues()),
@@ -57,7 +59,7 @@ export function DataTab() {
       const data = await res?.json().catch(() => null);
       return toast.error("PDF non generato", { description: data?.error ?? "Correggi i campi non validi e riprova." });
     }
-    downloadBlob(await res.blob(), `cv-bozza-${template}.pdf`);
+    downloadBlob(await res.blob(), `cv-bozza-${template}-${lang}.pdf`);
   }
 
   return (
@@ -92,7 +94,7 @@ export function DataTab() {
 
       <Panel
         title="PDF del CV"
-        lead="Il modello usato per il CV che i visitatori scaricano dal sito. La scelta diventa effettiva quando salvi."
+        lead={`Il modello usato per il CV che i visitatori scaricano dal sito, in italiano o in inglese. La scelta diventa effettiva quando salvi. L'anteprima esce in ${lang === "it" ? "italiano" : "inglese"}, la lingua scelta in alto.`}
       >
         <Controller
           control={control}
@@ -145,9 +147,14 @@ export function DataTab() {
             </div>
           )}
         />
-        <a href="/api/cv/pdf" className={buttonClass("quiet")}>
-          <Download className="size-4" /> Scarica il PDF pubblicato
-        </a>
+        <div className="flex flex-wrap gap-1">
+          <a href="/api/cv/pdf?lang=it" className={buttonClass("quiet")}>
+            <Download className="size-4" /> PDF pubblicato in italiano
+          </a>
+          <a href="/api/cv/pdf?lang=en" className={buttonClass("quiet")}>
+            <Download className="size-4" /> PDF pubblicato in inglese
+          </a>
+        </div>
       </Panel>
     </div>
   );

@@ -9,31 +9,31 @@ import { filterCvBySkills, formatPeriod, fullName, techMatchesSkill } from "@/li
 import { usePortfolio } from "./context";
 
 export function CvExplorer() {
-  const { cv, selected, toggle, clear, preview } = usePortfolio();
+  const { cv, selected, toggle, clear, preview, lang, t } = usePortfolio();
   const [query, setQuery] = useState("");
 
   const { cv: filtered, selected: selectedSkills } = useMemo(() => filterCvBySkills(cv, selected), [cv, selected]);
   const q = query.trim().toLowerCase();
   const engagementCount = cv.experiences.reduce((a, x) => a + x.engagements.length, 0);
   const matchCount = filtered.experiences.reduce((a, x) => a + x.engagements.length, 0);
-  const pdfHref = `/api/cv/pdf${selected.length ? `?skills=${selected.join(",")}` : ""}`;
+  const pdfHref = `/api/cv/pdf?lang=${lang}${selected.length ? `&skills=${selected.join(",")}` : ""}`;
 
   return (
     <section id="cv" className="py-24">
       <SectionHeading
-        title="CV su misura"
-        lead="Scegli le competenze che ti interessano: restano solo le esperienze e i progetti in cui le ho usate, e il PDF segue la stessa selezione."
+        title={t.cvExplorer.title}
+        lead={t.cvExplorer.lead}
       />
 
       <div className="grid gap-6 @4xl:grid-cols-[1fr_1.15fr]">
         <div className="glass rounded-2xl p-5">
           <label className="relative block">
-            <span className="sr-only">Cerca una competenza</span>
+            <span className="sr-only">{t.cvExplorer.search}</span>
             <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-faint" aria-hidden />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cerca: Java, Kafka, MCP…"
+              placeholder={t.cvExplorer.placeholder}
               className="h-11 w-full rounded-xl border border-line bg-night/60 pr-4 pl-10 text-sm text-ink placeholder:text-faint focus:border-ion/50 focus:outline-none"
             />
           </label>
@@ -44,7 +44,7 @@ export function CvExplorer() {
               if (!skills.length) return null;
               return (
                 <div key={c.id}>
-                  <p className="mb-2 text-xs text-faint">{c.label}</p>
+                  <p className="mb-2 text-xs text-faint">{t.skillCategories[c.id]}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {skills.map((s) => (
                       <Chip key={s.id} active={selected.includes(s.id)} onClick={() => toggle(s.id)}>
@@ -60,11 +60,11 @@ export function CvExplorer() {
           <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-line pt-5">
             <a href={pdfHref} className={buttonClass("primary", "md", preview && "pointer-events-none")} download>
               <Download className="size-4" aria-hidden />
-              {selected.length ? "Scarica il PDF filtrato" : "Scarica il CV in PDF"}
+              {selected.length ? t.cvExplorer.downloadFiltered : t.cvExplorer.download}
             </a>
             {selected.length ? (
               <button type="button" onClick={clear} className={buttonClass("quiet")}>
-                <X className="size-4" aria-hidden /> Azzera selezione
+                <X className="size-4" aria-hidden /> {t.cvExplorer.clear}
               </button>
             ) : null}
           </div>
@@ -77,7 +77,7 @@ export function CvExplorer() {
               {fullName(cv)}, {cv.profile.title}
             </span>
             <span className="text-xs text-faint tabular-nums" aria-live="polite">
-              {selected.length ? `${matchCount} di ${engagementCount} incarichi` : `${engagementCount} incarichi`}
+              {selected.length ? t.cvExplorer.matchCount(matchCount, engagementCount) : t.cvExplorer.count(engagementCount)}
             </span>
           </div>
 
@@ -94,13 +94,13 @@ export function CvExplorer() {
                 >
                   <p className="font-display font-medium text-ink">{x.company}</p>
                   <p className="text-xs text-faint">
-                    {x.role}, {formatPeriod(x.start, x.end)}
+                    {x.role}, {formatPeriod(x.start, x.end, lang)}
                   </p>
                   <ul className="mt-2 space-y-2 border-l border-line pl-4">
                     {x.engagements.map((e) => (
                       <motion.li key={e.id} layout className="text-sm">
                         <span className="text-ink">{e.client}</span>
-                        <span className="ml-2 text-xs text-faint tabular-nums">{formatPeriod(e.start, e.end)}</span>
+                        <span className="ml-2 text-xs text-faint tabular-nums">{formatPeriod(e.start, e.end, lang)}</span>
                         {selectedSkills.length ? (
                           <span className="mt-1.5 flex flex-wrap gap-1">
                             {e.tech
@@ -119,12 +119,12 @@ export function CvExplorer() {
               ))}
             </AnimatePresence>
             {filtered.experiences.length === 0 ? (
-              <p className="py-10 text-center text-sm text-muted">Nessun incarico usa tutte queste competenze insieme. Togline una.</p>
+              <p className="py-10 text-center text-sm text-muted">{t.cvExplorer.empty}</p>
             ) : null}
 
             {selected.length > 0 && filtered.projects.length > 0 ? (
               <div className="mt-6 border-t border-line pt-4">
-                <p className="text-xs text-faint">Progetti pertinenti</p>
+                <p className="text-xs text-faint">{t.cvExplorer.related}</p>
                 <p className="mt-1 text-sm text-muted">{filtered.projects.map((p) => p.title).join(", ")}</p>
               </div>
             ) : null}

@@ -1,6 +1,7 @@
 import { Document, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
-import { formatPeriod, fullName } from "@/lib/utils";
-import { contactItems, docMeta, skillGroups, type TemplateProps } from "../shared";
+import { formatMonth, formatPeriod, fullName } from "@/lib/utils";
+import type { Engagement } from "@/lib/schema";
+import { contactItems, docMeta, skillGroups, type Labels, type TemplateProps } from "../shared";
 
 /**
  * Classico: one full-width column, the serif/sans pairing of the original
@@ -50,12 +51,12 @@ function H2({ children }: { children: string }) {
   );
 }
 
-function EngagementBlock({ e }: { e: TemplateProps["cv"]["experiences"][number]["engagements"][number] }) {
+function EngagementBlock({ e, lang, t }: { e: Engagement } & Labels) {
   return (
     <View style={s.eng}>
       <View style={s.line}>
-        <Text style={s.client}>{e.via ? `${e.client}, tramite ${e.via}` : e.client}</Text>
-        <Text style={s.period}>{formatPeriod(e.start, e.end)}</Text>
+        <Text style={s.client}>{e.via ? `${e.client}, ${t.via(e.via)}` : e.client}</Text>
+        <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
       </View>
       {e.summary ? <Text>{e.summary}</Text> : null}
       {e.highlights.map((h, i) => (
@@ -67,16 +68,16 @@ function EngagementBlock({ e }: { e: TemplateProps["cv"]["experiences"][number][
           </Text>
         </View>
       ))}
-      {e.tech.length ? <Text style={s.tech}>Tecnologie: {e.tech.join(", ")}</Text> : null}
+      {e.tech.length ? <Text style={s.tech}>{t.pdf.tech}: {e.tech.join(", ")}</Text> : null}
     </View>
   );
 }
 
-export function ClassicTemplate({ cv, selected, generatedAt }: TemplateProps) {
+export function ClassicTemplate({ cv, selected, generatedAt, lang, t }: TemplateProps) {
   const p = cv.profile;
   const sel = new Set(selected.map((x) => x.id));
   return (
-    <Document {...docMeta(cv)}>
+    <Document {...docMeta(cv, lang)}>
       <Page size="A4" style={s.page}>
         <Text style={s.name}>{fullName(cv)}</Text>
         <Text style={s.title}>{p.title}</Text>
@@ -94,31 +95,31 @@ export function ClassicTemplate({ cv, selected, generatedAt }: TemplateProps) {
           )}
         </View>
         <View style={s.headRule} />
-        {selected.length ? <Text style={s.note}>Versione mirata su: {selected.map((x) => x.name).join(", ")}</Text> : null}
+        {selected.length ? <Text style={s.note}>{t.pdf.targeted}: {selected.map((x) => x.name).join(", ")}</Text> : null}
 
         {p.summary ? (
           <View style={s.section}>
-            <H2>Profilo</H2>
+            <H2>{t.pdf.profile}</H2>
             <Text>{p.summary}</Text>
           </View>
         ) : null}
 
         <View style={s.section}>
-          <H2>Esperienza</H2>
+          <H2>{t.pdf.experience}</H2>
           {cv.experiences.map((x) => (
             <View key={x.id} style={s.exp}>
               {/* The header travels with the first engagement so it never sits alone at a page bottom. */}
               <View wrap={false}>
                 <View style={s.line}>
                   <Text style={s.company}>{x.company}</Text>
-                  <Text style={s.period}>{formatPeriod(x.start, x.end)}</Text>
+                  <Text style={s.period}>{formatPeriod(x.start, x.end, lang)}</Text>
                 </View>
                 <Text style={s.role}>{[x.role, x.location].filter(Boolean).join(", ")}</Text>
-                {x.engagements[0] ? <EngagementBlock e={x.engagements[0]} /> : null}
+                {x.engagements[0] ? <EngagementBlock e={x.engagements[0]} lang={lang} t={t} /> : null}
               </View>
               {x.engagements.slice(1).map((e) => (
                 <View key={e.id} wrap={false}>
-                  <EngagementBlock e={e} />
+                  <EngagementBlock e={e} lang={lang} t={t} />
                 </View>
               ))}
             </View>
@@ -126,10 +127,10 @@ export function ClassicTemplate({ cv, selected, generatedAt }: TemplateProps) {
         </View>
 
         <View style={s.section} wrap={false}>
-          <H2>Competenze</H2>
+          <H2>{t.pdf.skills}</H2>
           {skillGroups(cv).map((g) => (
             <View key={g.id} style={s.skillRow}>
-              <Text style={s.skillCat}>{g.label}</Text>
+              <Text style={s.skillCat}>{t.skillCategories[g.id]}</Text>
               <Text style={s.flex}>
                 {g.skills.map((k, i) => (
                   <Text key={k.id} style={sel.has(k.id) ? s.selected : undefined}>
@@ -142,19 +143,19 @@ export function ClassicTemplate({ cv, selected, generatedAt }: TemplateProps) {
           ))}
           {cv.softSkills.length ? (
             <View style={s.skillRow}>
-              <Text style={s.skillCat}>Trasversali</Text>
+              <Text style={s.skillCat}>{t.pdf.soft}</Text>
               <Text style={s.flex}>{cv.softSkills.join(", ")}</Text>
             </View>
           ) : null}
         </View>
 
         <View style={s.section} wrap={false}>
-          <H2>Formazione</H2>
+          <H2>{t.pdf.education}</H2>
           {cv.education.map((e) => (
             <View key={e.id} style={{ marginBottom: 6 }}>
               <View style={s.line}>
                 <Text style={s.client}>{e.title}</Text>
-                <Text style={s.period}>{formatPeriod(e.start, e.end)}</Text>
+                <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
               </View>
               <Text>{[e.institution, e.location].filter(Boolean).join(", ")}</Text>
               {e.description ? <Text style={{ color: MUTED }}>{e.description}</Text> : null}
@@ -163,14 +164,14 @@ export function ClassicTemplate({ cv, selected, generatedAt }: TemplateProps) {
           {cv.certifications.map((c) => (
             <View key={c.id} style={[s.line, { marginBottom: 4 }]}>
               <Text style={s.client}>{c.issuer ? `${c.name}, ${c.issuer}` : c.name}</Text>
-              {c.date ? <Text style={s.period}>{formatPeriod(c.date, c.date).split(" – ")[0]}</Text> : null}
+              {c.date ? <Text style={s.period}>{formatMonth(c.date, lang)}</Text> : null}
             </View>
           ))}
         </View>
 
         {cv.languages.length ? (
           <View style={s.section} wrap={false}>
-            <H2>Lingue</H2>
+            <H2>{t.pdf.languages}</H2>
             {cv.languages.map((l) => (
               <View key={l.id} style={s.skillRow}>
                 <Text style={s.skillCat}>{l.name}</Text>

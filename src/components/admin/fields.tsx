@@ -2,14 +2,31 @@
 
 import { ChevronDown, X } from "lucide-react";
 import { useId, useState } from "react";
-import { Controller, useFormContext, type FieldPath } from "react-hook-form";
-import type { Cv } from "@/lib/schema";
+import { Controller, useFormContext, useWatch, type FieldPath } from "react-hook-form";
+import type { CvSource } from "@/lib/schema";
 import { cn } from "@/lib/utils";
+import { useEditLang } from "./edit-lang";
 
 export const inputClass =
   "h-10 w-full rounded-lg border border-line bg-night/70 px-3 text-sm text-ink placeholder:text-faint transition-colors focus:border-ion/60 focus:outline-none aria-[invalid=true]:border-danger/70";
 
-type Name = FieldPath<Cv>;
+type Name = FieldPath<CvSource>;
+
+/**
+ * For a translatable field (`{ it, en }`), the path of the language being
+ * edited, plus the Italian text to show as a hint while translating.
+ */
+function useLocalizedName(name: Name, localized?: boolean) {
+  const lang = useEditLang();
+  const { control } = useFormContext<CvSource>();
+  const source = useWatch({ control, name: `${name}.it` as Name, disabled: !localized || lang === "it" });
+  if (!localized) return { path: name, lang: null, source: undefined };
+  return { path: `${name}.${lang}` as Name, lang, source: lang === "it" ? undefined : source };
+}
+
+function sourceText(v: unknown) {
+  return Array.isArray(v) ? v.join(", ") : typeof v === "string" ? v : "";
+}
 
 function getError(errors: unknown, name: string): string | undefined {
   let cur: unknown = errors;
@@ -24,7 +41,7 @@ function getError(errors: unknown, name: string): string | undefined {
 export function useFieldError(name: string) {
   const {
     formState: { errors },
-  } = useFormContext<Cv>();
+  } = useFormContext<CvSource>();
   return getError(errors, name);
 }
 
@@ -34,6 +51,7 @@ export function Field({
   error,
   className,
   htmlFor,
+  lang,
   children,
 }: {
   label: string;
@@ -41,16 +59,41 @@ export function Field({
   error?: string;
   className?: string;
   htmlFor?: string;
+  /** Set on translatable fields: shows which language is being edited. */
+  lang?: string | null;
   children: React.ReactNode;
 }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] text-muted">
+      <label htmlFor={htmlFor} className="mb-1.5 flex items-center gap-2 text-[13px] text-muted">
         {label}
+        {lang ? <LangBadge lang={lang} /> : null}
       </label>
       {children}
       {error ? <p className="mt-1 text-xs text-danger">{error}</p> : hint ? <p className="mt-1 text-xs text-faint">{hint}</p> : null}
     </div>
+  );
+}
+
+export function LangBadge({ lang }: { lang: string }) {
+  return (
+    <span
+      className={cn(
+        "rounded px-1 font-mono text-[10px] leading-4 uppercase",
+        lang === "it" ? "bg-white/[0.06] text-faint" : "bg-signal/15 text-signal",
+      )}
+    >
+      {lang}
+    </span>
+  );
+}
+
+/** Under an English field: the Italian text it translates. */
+function SourceHint({ text }: { text: string }) {
+  return (
+    <p className="mt-1 line-clamp-2 text-xs text-faint">
+      <span className="text-muted">IT:</span> {text || "vuoto"}
+    </p>
   );
 }
 
@@ -59,14 +102,18 @@ export function TextField({
   label,
   hint,
   className,
+  localized,
   ...props
-}: { name: Name; label: string; hint?: string; className?: string } & Omit<React.ComponentProps<"input">, "name">) {
-  const { register } = useFormContext<Cv>();
-  const error = useFieldError(name);
+}: { name: Name; label: string; hint?: string; className?: string; localized?: boolean } & Omit<React.ComponentProps<"input">, "name">) {
+  const { register } = useFormContext<CvSource>();
+  const { path, lang, source } = useLocalizedName(name, localized);
+  const error = useFieldError(path);
   const id = useId();
   return (
-    <Field label={label} hint={hint} error={error} className={className} htmlFor={id}>
-      <input id={id} {...register(name)} aria-invalid={!!error} className={inputClass} {...props} />
+    <Field label={label} hint={source === undefined ? hint : undefined} error={error} className={className} htmlFor={id} lang={lang}>
+      {/* key: uncontrolled inputs keep their DOM text when the name changes; remount per language. */}
+      <input key={path} id={id} {...register(path)} aria-invalid={!!error} className={inputClass} {...props} />
+      {source !== undefined ? <SourceHint text={sourceText(source)} /> : null}
     </Field>
   );
 }
@@ -77,19 +124,23 @@ export function TextArea({
   hint,
   rows = 3,
   className,
+  localized,
 }: {
   name: Name;
   label: string;
   hint?: string;
   rows?: number;
   className?: string;
+  localized?: boolean;
 }) {
-  const { register } = useFormContext<Cv>();
-  const error = useFieldError(name);
+  const { register } = useFormContext<CvSource>();
+  const { path, lang, source } = useLocalizedName(name, localized);
+  const error = useFieldError(path);
   const id = useId();
   return (
-    <Field label={label} hint={hint} error={error} className={className} htmlFor={id}>
-      <textarea id={id} rows={rows} {...register(name)} aria-invalid={!!error} className={cn(inputClass, "h-auto resize-y py-2 leading-relaxed")} />
+    <Field label={label} hint={source === undefined ? hint : undefined} error={error} className={className} htmlFor={id} lang={lang}>
+      <textarea key={path} id={id} rows={rows} {...register(path)} aria-invalid={!!error} className={cn(inputClass, "h-auto resize-y py-2 leading-relaxed")} />
+      {source !== undefined ? <SourceHint text={sourceText(source)} /> : null}
     </Field>
   );
 }
@@ -105,7 +156,7 @@ export function SelectField({
   options: readonly { id: string; label: string }[];
   className?: string;
 }) {
-  const { register } = useFormContext<Cv>();
+  const { register } = useFormContext<CvSource>();
   const id = useId();
   return (
     <Field label={label} className={className} htmlFor={id}>
@@ -125,7 +176,7 @@ export function SelectField({
 
 /** Start + end month, with an "in corso" toggle that stores end as "". */
 export function PeriodFields({ start, end, className }: { start: Name; end: Name; className?: string }) {
-  const { register, control } = useFormContext<Cv>();
+  const { register, control } = useFormContext<CvSource>();
   const startError = useFieldError(start);
   const endError = useFieldError(end);
   const ids = [useId(), useId()];
@@ -180,14 +231,29 @@ export function PeriodFields({ start, end, className }: { start: Name; end: Name
 }
 
 /** string[] editor: type and press Enter (or comma) to add a tag. */
-export function TagField({ name, label, hint, placeholder, className }: { name: Name; label: string; hint?: string; placeholder?: string; className?: string }) {
-  const { control } = useFormContext<Cv>();
+export function TagField({
+  name,
+  label,
+  hint,
+  placeholder,
+  className,
+  localized,
+}: {
+  name: Name;
+  label: string;
+  hint?: string;
+  placeholder?: string;
+  className?: string;
+  localized?: boolean;
+}) {
+  const { control } = useFormContext<CvSource>();
+  const { path, lang, source } = useLocalizedName(name, localized);
   const [draft, setDraft] = useState("");
   const id = useId();
   return (
     <Controller
       control={control}
-      name={name}
+      name={path}
       render={({ field }) => {
         const tags = (field.value as string[] | undefined) ?? [];
         const add = (raw: string) => {
@@ -196,7 +262,13 @@ export function TagField({ name, label, hint, placeholder, className }: { name: 
           setDraft("");
         };
         return (
-          <Field label={label} hint={hint ?? "Invio o virgola per aggiungere"} className={className} htmlFor={id}>
+          <Field
+            label={label}
+            hint={source !== undefined ? `IT: ${sourceText(source) || "vuoto"}` : (hint ?? "Invio o virgola per aggiungere")}
+            className={className}
+            htmlFor={id}
+            lang={lang}
+          >
             <div className="flex min-h-10 flex-wrap items-center gap-1.5 rounded-lg border border-line bg-night/70 px-2 py-1.5 focus-within:border-ion/60">
               {tags.map((t, i) => (
                 <span key={`${t}-${i}`} className="inline-flex items-center gap-1 rounded-md bg-ion/15 py-0.5 pr-1 pl-2 text-xs text-ink">
@@ -239,16 +311,32 @@ export function TagField({ name, label, hint, placeholder, className }: { name: 
 }
 
 /** string[] edited as one item per line. */
-export function LinesField({ name, label, hint, rows = 4, className }: { name: Name; label: string; hint?: string; rows?: number; className?: string }) {
-  const { control } = useFormContext<Cv>();
+export function LinesField({
+  name,
+  label,
+  hint,
+  rows = 4,
+  className,
+  localized,
+}: {
+  name: Name;
+  label: string;
+  hint?: string;
+  rows?: number;
+  className?: string;
+  localized?: boolean;
+}) {
+  const { control } = useFormContext<CvSource>();
+  const { path, lang, source } = useLocalizedName(name, localized);
   const id = useId();
   return (
     <Controller
       control={control}
-      name={name}
+      name={path}
       render={({ field }) => (
-        <Field label={label} hint={hint ?? "Una voce per riga"} className={className} htmlFor={id}>
-          <LinesInput id={id} value={(field.value as string[]) ?? []} onChange={field.onChange} rows={rows} />
+        <Field label={label} hint={source === undefined ? (hint ?? "Una voce per riga") : undefined} className={className} htmlFor={id} lang={lang}>
+          <LinesInput key={path} id={id} value={(field.value as string[]) ?? []} onChange={field.onChange} rows={rows} />
+          {source !== undefined ? <SourceHint text={(source as string[] | undefined)?.join("; ") ?? ""} /> : null}
         </Field>
       )}
     />
@@ -276,7 +364,7 @@ function LinesInput({ id, value, onChange, rows }: { id: string; value: string[]
 }
 
 export function SwitchField({ name, label }: { name: Name; label: string }) {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
   return (
     <Controller
       control={control}
@@ -305,7 +393,7 @@ export function Switch({ checked, onChange, label, hideLabel }: { checked: boole
 }
 
 export function LevelField({ name }: { name: Name }) {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
   return (
     <Controller
       control={control}

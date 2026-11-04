@@ -2,9 +2,10 @@
 
 import { Eye, EyeOff, Star } from "lucide-react";
 import { Controller, useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import type { Cv } from "@/lib/schema";
+import { pickLocalized, type CvSource } from "@/lib/schema";
 import { cn, formatPeriod } from "@/lib/utils";
 import { Panel, StatusFields } from "./content-tabs";
+import { useEditLang } from "./edit-lang";
 import { SortableList } from "./sortable";
 
 function ToggleIcon({
@@ -20,7 +21,7 @@ function ToggleIcon({
   label: [string, string];
   activeClass: string;
 }) {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
   return (
     <Controller
       control={control}
@@ -42,7 +43,8 @@ function ToggleIcon({
 }
 
 export function ManagerTab() {
-  const { control } = useFormContext<Cv>();
+  const { control } = useFormContext<CvSource>();
+  const lang = useEditLang();
   const exps = useFieldArray({ control, name: "experiences", keyName: "_key" });
   const projects = useFieldArray({ control, name: "projects", keyName: "_key" });
   const expValues = useWatch({ control, name: "experiences" });
@@ -66,7 +68,7 @@ export function ManagerTab() {
                 <span className={cn("min-w-0 flex-1", !v?.visible && "opacity-50")}>
                   <span className="block truncate text-sm text-ink">{v?.company || "Senza nome"}</span>
                   <span className="block truncate text-xs text-faint">
-                    {v?.role}, {v ? formatPeriod(v.start, v.end) : ""}, {v?.engagements.length ?? 0} incarichi
+                    {pickLocalized(v?.role, lang)}, {v ? formatPeriod(v.start, v.end) : ""}, {v?.engagements.length ?? 0} incarichi
                   </span>
                 </span>
                 <ToggleIcon
@@ -92,9 +94,9 @@ export function ManagerTab() {
             return (
               <>
                 <span className={cn("min-w-0 flex-1", !v?.visible && "opacity-50")}>
-                  <span className="block truncate text-sm text-ink">{v?.title || "Senza titolo"}</span>
+                  <span className="block truncate text-sm text-ink">{pickLocalized(v?.title, lang) || "Senza titolo"}</span>
                   <span className="block truncate text-xs text-faint">
-                    {[v?.client, v?.category].filter(Boolean).join(", ")}
+                    {[v?.client, pickLocalized(v?.category, lang)].filter(Boolean).join(", ")}
                   </span>
                 </span>
                 <ToggleIcon

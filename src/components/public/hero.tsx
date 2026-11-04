@@ -11,7 +11,7 @@ import { TracePanel } from "./trace-panel";
 import { Typewriter } from "./typewriter";
 
 export function Hero() {
-  const { cv } = usePortfolio();
+  const { cv, t } = usePortfolio();
   const p = cv.profile;
   const initials = `${p.firstName[0] ?? ""}${p.lastName[0] ?? ""}`;
 
@@ -26,7 +26,7 @@ export function Hero() {
             className="flex items-center gap-4"
           >
             <Avatar initials={initials} src={p.avatarUrl} name={`${p.firstName} ${p.lastName}`} />
-            <StatusBadge status={p.status} />
+            <StatusBadge status={p.status} fallback={t.status[p.status.state]} />
           </motion.div>
 
           <motion.h1
@@ -59,11 +59,11 @@ export function Hero() {
             className="mt-9 flex flex-wrap items-center gap-3"
           >
             <a href="#progetti" className={buttonClass("primary")}>
-              Guarda i progetti
+              {t.hero.seeProjects}
               <ArrowDownRight className="size-4" aria-hidden />
             </a>
             <a href="#contatti" className={buttonClass("ghost")}>
-              Scrivimi
+              {t.hero.writeMe}
             </a>
             <div className="ml-1 flex items-center gap-1">
               {p.linkedin ? (

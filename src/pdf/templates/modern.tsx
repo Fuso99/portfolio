@@ -59,14 +59,14 @@ function Dots({ level, on }: { level: number; on: boolean }) {
   );
 }
 
-export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
+export function ModernTemplate({ cv, selected, generatedAt, lang, t }: TemplateProps) {
   const p = cv.profile;
   const sel = new Set(selected.map((x) => x.id));
   const selNames = selected.map((x) => x.name.toLowerCase());
   const initials = `${p.firstName[0] ?? ""}${p.lastName[0] ?? ""}`;
 
   return (
-    <Document {...docMeta(cv)}>
+    <Document {...docMeta(cv, lang)}>
       <Page size="A4" style={s.page}>
         <View style={s.sideBg} fixed />
 
@@ -75,7 +75,7 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
             <Text style={s.monoText}>{initials}</Text>
           </View>
 
-          <Text style={s.sideH}>Contatti</Text>
+          <Text style={s.sideH}>{t.pdf.contacts}</Text>
           {contactItems(cv).map((c) =>
             c.href ? (
               <Link key={c.label} src={c.href} style={[s.sideItem, s.sideLink]}>
@@ -88,10 +88,10 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
             ),
           )}
 
-          <Text style={s.sideH}>Competenze</Text>
+          <Text style={s.sideH}>{t.pdf.skills}</Text>
           {skillGroups(cv).map((g) => (
             <View key={g.id} wrap={false}>
-              <Text style={s.skillCat}>{g.label}</Text>
+              <Text style={s.skillCat}>{t.skillCategories[g.id]}</Text>
               {g.skills.map((k) => (
                 <View key={k.id} style={s.skill}>
                   <Text style={sel.has(k.id) ? { fontWeight: 600 } : undefined}>{k.name}</Text>
@@ -103,7 +103,7 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
 
           {cv.languages.length ? (
             <>
-              <Text style={s.sideH}>Lingue</Text>
+              <Text style={s.sideH}>{t.pdf.languages}</Text>
               {cv.languages.map((l) => (
                 <View key={l.id} style={s.skill}>
                   <Text>{l.name}</Text>
@@ -113,12 +113,12 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
             </>
           ) : null}
 
-          <Text style={s.sideH}>Formazione</Text>
+          <Text style={s.sideH}>{t.pdf.education}</Text>
           {cv.education.map((e) => (
             <View key={e.id} style={{ marginBottom: 7 }} wrap={false}>
               <Text style={{ fontWeight: 600 }}>{e.title}</Text>
               <Text style={{ fontSize: 8.2 }}>{e.institution}</Text>
-              <Text style={{ fontSize: 7.8, color: MUTED }}>{formatPeriod(e.start, e.end)}</Text>
+              <Text style={{ fontSize: 7.8, color: MUTED }}>{formatPeriod(e.start, e.end, lang)}</Text>
             </View>
           ))}
           {cv.certifications.map((c) => (
@@ -132,16 +132,16 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
         <View style={s.main}>
           <Text style={s.name}>{fullName(cv)}</Text>
           <Text style={s.title}>{p.title}</Text>
-          {selected.length ? <Text style={s.note}>Versione mirata su: {selected.map((x) => x.name).join(", ")}</Text> : null}
+          {selected.length ? <Text style={s.note}>{t.pdf.targeted}: {selected.map((x) => x.name).join(", ")}</Text> : null}
 
           {p.summary ? (
             <>
-              <Text style={s.h2}>Profilo</Text>
+              <Text style={s.h2}>{t.pdf.profile}</Text>
               <Text>{p.summary}</Text>
             </>
           ) : null}
 
-          <Text style={s.h2}>Esperienza</Text>
+          <Text style={s.h2}>{t.pdf.experience}</Text>
           {cv.experiences.map((x, xi) => (
             <View key={x.id} style={s.exp}>
               <View style={s.rail}>
@@ -151,7 +151,7 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
               <View style={s.expBody}>
                 <View style={s.expHead} minPresenceAhead={50}>
                   <Text style={s.company}>{x.company}</Text>
-                  <Text style={s.period}>{formatPeriod(x.start, x.end)}</Text>
+                  <Text style={s.period}>{formatPeriod(x.start, x.end, lang)}</Text>
                 </View>
                 <Text style={s.role}>
                   {x.role}
@@ -162,9 +162,9 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
                     <View style={s.expHead}>
                       <Text>
                         <Text style={s.client}>{e.client}</Text>
-                        {e.via ? <Text style={{ color: MUTED }}> tramite {e.via}</Text> : null}
+                        {e.via ? <Text style={{ color: MUTED }}> {t.via(e.via)}</Text> : null}
                       </Text>
-                      <Text style={s.period}>{formatPeriod(e.start, e.end)}</Text>
+                      <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
                     </View>
                     {e.summary ? <Text style={{ marginTop: 1 }}>{e.summary}</Text> : null}
                     {e.highlights.map((h, i) => (
@@ -178,9 +178,9 @@ export function ModernTemplate({ cv, selected, generatedAt }: TemplateProps) {
                     ))}
                     {e.tech.length ? (
                       <View style={s.chips}>
-                        {e.tech.map((t) => (
-                          <Text key={t} style={[s.chip, selNames.some((n) => t.toLowerCase().startsWith(n)) ? s.chipOn : {}]}>
-                            {t}
+                        {e.tech.map((tech) => (
+                          <Text key={tech} style={[s.chip, selNames.some((n) => tech.toLowerCase().startsWith(n)) ? s.chipOn : {}]}>
+                            {tech}
                           </Text>
                         ))}
                       </View>
