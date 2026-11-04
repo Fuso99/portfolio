@@ -742,7 +742,10 @@
       "level": "B2"
     }
   ],
+  "settings": {
+    "pdfTemplate": "modern"
+  },
   "meta": {
-    "updatedAt": "2026-11-04T10:21:17.934Z"
+    "updatedAt": "2026-11-04T11:34:30.927Z"
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Copy, LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Copy, LoaderCircle, Mail, MapPin, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { LinkedinIcon } from "@/components/ui/brand-icons";
@@ -70,14 +70,6 @@ export function Contact() {
               <button type="button" onClick={copyEmail} aria-label="Copia l'email" className="rounded-lg p-2 text-muted hover:bg-white/5 hover:text-ink">
                 <Copy className="size-4" />
               </button>
-            </li>
-          ) : null}
-          {p.phone ? (
-            <li className="glass flex items-center gap-4 rounded-xl p-4">
-              <Phone className="size-5 text-ion" aria-hidden />
-              <a href={`tel:${p.phone.replace(/\s+/g, "")}`} className="text-ink hover:text-ion">
-                {p.phone}
-              </a>
             </li>
           ) : null}
           {p.linkedin ? (

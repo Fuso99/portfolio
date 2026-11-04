@@ -2,7 +2,7 @@ import "server-only";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { cvSchema, type ContactMessage, type Cv } from "./schema";
+import { cvSchema, normalizeCv, type ContactMessage, type Cv } from "./schema";
 
 const DATA_DIR = process.env.DATA_DIR ?? path.join(process.cwd(), "data");
 const CV_FILE = path.join(DATA_DIR, "cv-data.json");
@@ -18,12 +18,12 @@ async function writeAtomic(file: string, content: string) {
 
 export async function readCv(): Promise<Cv> {
   const raw = await fs.readFile(CV_FILE, "utf8");
-  return cvSchema.parse(JSON.parse(raw));
+  return cvSchema.parse(normalizeCv(JSON.parse(raw)));
 }
 
 /** Validates, keeps a timestamped backup of the previous version, then saves. */
 export async function writeCv(input: unknown): Promise<Cv> {
-  const cv = cvSchema.parse(input);
+  const cv = cvSchema.parse(normalizeCv(input));
   cv.meta.updatedAt = new Date().toISOString();
 
   await fs.mkdir(BACKUP_DIR, { recursive: true });

@@ -123,6 +123,15 @@ export const languageSchema = z.object({
   level: z.string().trim(),
 });
 
+export const PDF_TEMPLATES = [
+  { id: "modern", label: "Moderno", description: "Barra laterale con contatti e competenze a pallini, esperienze su binario." },
+  { id: "classic", label: "Classico", description: "Una colonna in serif con i periodi a destra. Il più leggibile per gli ATS." },
+  { id: "trace", label: "Trace", description: "Colori e caratteri del sito, ruolo attuale in evidenza nell'intestazione." },
+] as const;
+export const pdfTemplate = z.enum(["modern", "classic", "trace"]);
+export type PdfTemplate = z.infer<typeof pdfTemplate>;
+export const DEFAULT_PDF_TEMPLATE: PdfTemplate = "modern";
+
 export const cvSchema = z.object({
   profile: profileSchema,
   experiences: z.array(experienceSchema),
@@ -132,10 +141,19 @@ export const cvSchema = z.object({
   education: z.array(educationSchema),
   certifications: z.array(certificationSchema),
   languages: z.array(languageSchema),
+  settings: z.object({ pdfTemplate: pdfTemplate }),
   meta: z.object({ updatedAt: z.string() }),
 });
 
 export type Cv = z.infer<typeof cvSchema>;
+
+/** Fills in fields added after a JSON file was written, so old exports still load. */
+export function normalizeCv(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const cv = raw as Record<string, unknown>;
+  const settings = (cv.settings ?? {}) as Record<string, unknown>;
+  return { ...cv, settings: { pdfTemplate: DEFAULT_PDF_TEMPLATE, ...settings } };
+}
 export type Profile = Cv["profile"];
 export type Experience = Cv["experiences"][number];
 export type Engagement = Experience["engagements"][number];

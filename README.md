@@ -36,12 +36,12 @@ src/app/api/                 API route (vedi sotto)
 | Metodo | Rotta | Accesso | Cosa fa |
 | --- | --- | --- | --- |
 | GET | `/api/cv` | pubblico | CV senza gli elementi nascosti |
-| GET | `/api/cv/pdf?skills=java,kafka` | pubblico | PDF, filtrato per id di competenza |
+| GET | `/api/cv/pdf?skills=java,kafka` | pubblico | PDF nel modello scelto dal backoffice, filtrato per id di competenza; `&template=modern\|classic\|trace` lo forza |
 | POST | `/api/contact` | pubblico | Salva un messaggio (validazione Zod, honeypot, rate limit) |
 | POST | `/api/admin/login`, `/api/admin/logout` | — | Apre/chiude la sessione |
 | GET / PUT | `/api/admin/cv` | admin | Legge (`?download=1` per scaricare) / valida, salva e invalida la cache |
 | GET / DELETE | `/api/admin/messages` | admin | Elenca / elimina (`?id=`) i messaggi |
-| POST | `/api/admin/pdf` | admin | PDF generato dalla bozza non salvata |
+| POST | `/api/admin/pdf?template=` | admin | PDF generato dalla bozza non salvata (con telefono) |
 
 ## Come funziona
 
@@ -49,6 +49,10 @@ src/app/api/                 API route (vedi sotto)
 - **Anteprima live**: l'editor renderizza gli stessi componenti del sito con i dati della bozza. Le sezioni usano container query, quindi si adattano al riquadro (modalità desktop a 1280px ridotta, oppure mobile a 390px).
 - **Filtri per competenza**: una competenza corrisponde a una tecnologia se il nome coincide o ne è il prefisso ("Java" → "Java 21") o tramite gli alias. Se aggiungi tecnologie agli incarichi, tieni allineati nomi e alias.
 - **Sicurezza**: il proxy fa solo un controllo ottimistico; ogni API admin e la pagina `/admin` verificano di nuovo la sessione. Cookie `SameSite=Strict`, `Secure` in produzione, login limitato a 8 tentativi ogni 15 minuti per IP.
+
+## PDF
+
+Tre modelli in `src/pdf/templates/`: **Moderno** (predefinito), **Classico** e **Trace**. Si sceglie da Backoffice › Import ed export; la scelta è salvata in `settings.pdfTemplate`. Il telefono non compare mai nel PDF pubblico.
 
 ## Da rivedere nei dati
 

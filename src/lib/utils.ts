@@ -68,10 +68,14 @@ export function projectMatches(p: Project, skills: Skill[]) {
   return matchesAnySkill(p.stack, skills);
 }
 
-/** Strips everything the owner has hidden, for public rendering. */
+/**
+ * Strips everything the owner has hidden, for public rendering. The phone
+ * number is private: it never reaches the site, /api/cv or the public PDF.
+ */
 export function toPublicCv(cv: Cv): Cv {
   return {
     ...cv,
+    profile: { ...cv.profile, phone: "" },
     experiences: cv.experiences.filter((e) => e.visible),
     projects: cv.projects.filter((p) => p.visible),
     skills: cv.skills.filter((s) => s.visible),

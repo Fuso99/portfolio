@@ -1,11 +1,12 @@
 "use client";
 
-import { Download, FileBraces, FileText, LoaderCircle, Upload } from "lucide-react";
+import { Check, Download, Eye, FileBraces, LoaderCircle, Upload } from "lucide-react";
 import { useRef, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { Button, buttonClass } from "@/components/ui/primitives";
-import { cvSchema, type Cv } from "@/lib/schema";
+import { cvSchema, normalizeCv, PDF_TEMPLATES, type Cv, type PdfTemplate } from "@/lib/schema";
+import { cn } from "@/lib/utils";
 import { Panel } from "./content-tabs";
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -16,9 +17,9 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 export function DataTab() {
-  const { getValues, reset } = useFormContext<Cv>();
+  const { getValues, reset, control } = useFormContext<Cv>();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfBusy, setPdfBusy] = useState<PdfTemplate | null>(null);
 
   function exportDraft() {
     const blob = new Blob([JSON.stringify(getValues(), null, 2)], { type: "application/json" });
@@ -32,7 +33,7 @@ export function DataTab() {
     } catch {
       return toast.error("File non importato", { description: `${file.name} non contiene JSON valido.` });
     }
-    const parsed = cvSchema.safeParse(json);
+    const parsed = cvSchema.safeParse(normalizeCv(json));
     if (!parsed.success) {
       const first = parsed.error.issues[0];
       return toast.error("File non importato", {
@@ -44,19 +45,19 @@ export function DataTab() {
     toast.success("File importato", { description: "Controlla l'anteprima, poi salva per pubblicarlo." });
   }
 
-  async function draftPdf() {
-    setPdfBusy(true);
-    const res = await fetch("/api/admin/pdf", {
+  async function draftPdf(template: PdfTemplate) {
+    setPdfBusy(template);
+    const res = await fetch(`/api/admin/pdf?template=${template}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(getValues()),
     }).catch(() => null);
-    setPdfBusy(false);
+    setPdfBusy(null);
     if (!res?.ok) {
       const data = await res?.json().catch(() => null);
       return toast.error("PDF non generato", { description: data?.error ?? "Correggi i campi non validi e riprova." });
     }
-    downloadBlob(await res.blob(), "cv-bozza.pdf");
+    downloadBlob(await res.blob(), `cv-bozza-${template}.pdf`);
   }
 
   return (
@@ -89,16 +90,64 @@ export function DataTab() {
         </Button>
       </Panel>
 
-      <Panel title="PDF del CV" lead="Rigenera il PDF dalla bozza per controllarlo prima di salvare, o scarica quello che vedono i visitatori.">
-        <div className="flex flex-wrap gap-3">
-          <Button onClick={draftPdf} disabled={pdfBusy}>
-            {pdfBusy ? <LoaderCircle className="size-4 animate-spin" /> : <FileText className="size-4" />}
-            Genera PDF dalla bozza
-          </Button>
-          <a href="/api/cv/pdf" className={buttonClass("quiet")}>
-            <Download className="size-4" /> PDF pubblicato
-          </a>
-        </div>
+      <Panel
+        title="PDF del CV"
+        lead="Il modello usato per il CV che i visitatori scaricano dal sito. La scelta diventa effettiva quando salvi."
+      >
+        <Controller
+          control={control}
+          name="settings.pdfTemplate"
+          render={({ field }) => (
+            <div role="radiogroup" aria-label="Modello del PDF" className="grid gap-3 sm:grid-cols-3">
+              {PDF_TEMPLATES.map((t) => {
+                const on = field.value === t.id;
+                return (
+                  <div
+                    key={t.id}
+                    className={cn(
+                      "flex flex-col rounded-xl border p-4 transition-colors",
+                      on ? "border-ion/60 bg-ion/10" : "border-line bg-white/[0.02] hover:border-line-strong",
+                    )}
+                  >
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={on}
+                      onClick={() => field.onChange(t.id)}
+                      className="flex flex-1 flex-col text-left"
+                    >
+                      <span className="flex items-center justify-between gap-2">
+                        <span className="font-medium text-ink">{t.label}</span>
+                        <span
+                          className={cn(
+                            "grid size-5 place-items-center rounded-full border",
+                            on ? "border-ion bg-ion text-night" : "border-line-strong",
+                          )}
+                          aria-hidden
+                        >
+                          {on ? <Check className="size-3" /> : null}
+                        </span>
+                      </span>
+                      <span className="mt-2 text-[13px] leading-relaxed text-muted">{t.description}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => draftPdf(t.id)}
+                      disabled={pdfBusy !== null}
+                      className={buttonClass("quiet", "sm", "mt-4 self-start px-2")}
+                    >
+                      {pdfBusy === t.id ? <LoaderCircle className="size-3.5 animate-spin" /> : <Eye className="size-3.5" />}
+                      Anteprima
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        />
+        <a href="/api/cv/pdf" className={buttonClass("quiet")}>
+          <Download className="size-4" /> Scarica il PDF pubblicato
+        </a>
       </Panel>
     </div>
   );

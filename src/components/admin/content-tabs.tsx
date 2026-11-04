@@ -79,7 +79,7 @@ export function ProfileTab() {
         <TextArea name="profile.tagline" label="Frase di presentazione" rows={2} className="sm:col-span-2" />
         <TextArea name="profile.summary" label="Profilo (PDF)" rows={4} className="sm:col-span-2" />
         <TextField name="profile.email" label="Email" type="email" />
-        <TextField name="profile.phone" label="Telefono" />
+        <TextField name="profile.phone" label="Telefono" hint="Privato: solo nel PDF generato dal backoffice" />
         <TextField name="profile.linkedin" label="LinkedIn" placeholder="https://…" />
         <TextField name="profile.github" label="GitHub" placeholder="https://github.com/…" />
         <TextField name="profile.avatarUrl" label="Foto profilo" placeholder="/avatar.jpg o https://…" hint="Vuoto: mostra le iniziali. I file locali vanno in /public." className="sm:col-span-2" />
