@@ -13,7 +13,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <MeshBackground />
-      <Navbar initials={initials} lang={lang} />
+      <Navbar cv={cv} initials={initials} lang={lang} />
       <PortfolioSections cv={cv} lang={lang} />
     </>
   );

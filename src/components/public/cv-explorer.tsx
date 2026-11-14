@@ -1,12 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Download, FileText, Search, X } from "lucide-react";
+import { FileText, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { buttonClass, Chip, SectionHeading, Tag } from "@/components/ui/primitives";
 import { SKILL_CATEGORIES } from "@/lib/schema";
 import { filterCvBySkills, formatPeriod, fullName, techMatchesSkill } from "@/lib/utils";
 import { usePortfolio } from "./context";
+import { PdfDownloadButton } from "./pdf-download";
 
 export function CvExplorer() {
   const { cv, selected, toggle, clear, preview, lang, t } = usePortfolio();
@@ -16,7 +17,6 @@ export function CvExplorer() {
   const q = query.trim().toLowerCase();
   const engagementCount = cv.experiences.reduce((a, x) => a + x.engagements.length, 0);
   const matchCount = filtered.experiences.reduce((a, x) => a + x.engagements.length, 0);
-  const pdfHref = `/api/cv/pdf?lang=${lang}${selected.length ? `&skills=${selected.join(",")}` : ""}`;
 
   return (
     <section id="cv" className="py-24">
@@ -58,10 +58,9 @@ export function CvExplorer() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-line pt-5">
-            <a href={pdfHref} className={buttonClass("primary", "md", preview && "pointer-events-none")} download>
-              <Download className="size-4" aria-hidden />
+            <PdfDownloadButton cv={cv} lang={lang} skills={selected} disabled={preview} className={buttonClass("primary", "md")}>
               {selected.length ? t.cvExplorer.downloadFiltered : t.cvExplorer.download}
-            </a>
+            </PdfDownloadButton>
             {selected.length ? (
               <button type="button" onClick={clear} className={buttonClass("quiet")}>
                 <X className="size-4" aria-hidden /> {t.cvExplorer.clear}

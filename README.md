@@ -12,14 +12,19 @@ cp .env.example .env.local   # imposta ADMIN_PASSWORD e AUTH_SECRET (openssl ran
 npm run dev                  # http://localhost:3000 (→ /it o /en), backoffice su /admin
 ```
 
-Produzione: `npm run build && npm start`. Serve un server Node con disco scrivibile (VPS, Docker, Raspberry Pi…): i dati sono file JSON. Su piattaforme serverless con filesystem in sola lettura (es. Vercel) il backoffice non può salvare: in quel caso va sostituito `src/lib/store.ts` con un database o un blob store.
+Due build dallo stesso codice:
+
+- **Sito statico (GitHub Pages)**: `npm run export` crea in `out/` solo il portfolio pubblico, senza backoffice né API. Il workflow `.github/workflows/pages.yml` lo pubblica a ogni push su `main`. Va attivato una sola volta da Settings › Pages › Source: **GitHub Actions**. Il flusso: modifichi il CV in locale da `/admin` (`npm run dev`), poi fai commit e push di `data/cv-data.json`. Attenzione: il repository è pubblico, quindi tutto ciò che salvi in `cv-data.json`, compresi telefono ed elementi nascosti, è leggibile su GitHub.
+- **Server Node**: `npm run build && npm start`, con backoffice e API. Serve un disco scrivibile (VPS, Docker, Raspberry Pi…): i dati sono file JSON. Su piattaforme serverless con filesystem in sola lettura (es. Vercel) il backoffice non può salvare: in quel caso va sostituito `src/lib/store.ts` con un database o un blob store.
+
+I file `*.server.ts(x)` (backoffice, API, `proxy.server.ts`) fanno parte solo della build con server: `next.config.ts` aggiunge `server.tsx`/`server.ts` alle `pageExtensions` solo fuori dall'export. Nell'export cambiano anche altre cose: `/` sceglie la lingua nel browser (`scripts/export-root.mjs`), `src/lib/public-cv.ts` è sostituito da `public-cv.static.ts` (`"use cache"` richiede Cache Components, che l'export non supporta) e i link `<a href>` passano da `withBase()` per il sottopercorso `/portfolio`.
 
 ## Struttura
 
 ```
 data/cv-data.json            Fonte unica dei dati (estratta dal CV .docx)
 data/backups/                Ultime 20 versioni del CV, una per salvataggio (ignorato da git)
-src/proxy.ts                 Redirect alla lingua (/ → /it o /en) e controllo ottimistico di /admin
+src/proxy.server.ts          Redirect alla lingua (/ → /it o /en) e controllo ottimistico di /admin
 src/i18n/                    Lingue supportate e dizionari dei testi dell'interfaccia (sito e PDF)
 src/app/[lang]/              Il portfolio pubblico, una versione per lingua
 src/lib/schema.ts            Schema Zod del CV: validazione lato client, API e import
@@ -28,7 +33,9 @@ src/lib/public-cv.ts         CV pubblico in cache ("use cache", tag "cv")
 src/lib/auth.ts              Sessione: JWT HS256 in cookie httpOnly (jose)
 src/components/public/       Sezioni del portfolio (usate anche dall'anteprima live)
 src/components/admin/        Editor, tab, drag & drop, anteprima, import/export
-src/pdf/                     Documento PDF del CV e rendering lato server
+src/pdf/                     Modelli PDF; render.ts genera sul server, client.ts nel browser
+public/pdf-fonts/            Font dei PDF, letti dal disco sul server e via URL nel browser
+scripts/export-root.mjs      Pagina "/" del sito statico (scelta della lingua)
 src/app/api/                 API route (vedi sotto)
 ```
 
@@ -36,8 +43,8 @@ src/app/api/                 API route (vedi sotto)
 
 | Metodo | Rotta | Accesso | Cosa fa |
 | --- | --- | --- | --- |
-| GET | `/api/cv?lang=en` | pubblico | CV senza gli elementi nascosti, in una lingua (`it` predefinita) |
-| GET | `/api/cv/pdf?lang=en&skills=java,kafka` | pubblico | PDF nel modello scelto dal backoffice, filtrato per id di competenza; `&template=modern\|classic\|trace` lo forza |
+| GET | `/api/cv?lang=en` | pubblico (solo server) | CV senza gli elementi nascosti, in una lingua (`it` predefinita) |
+| GET | `/api/cv/pdf?lang=en&skills=java,kafka` | pubblico (solo server) | PDF nel modello scelto dal backoffice, filtrato per id di competenza; `&template=modern\|classic\|trace` lo forza |
 | POST | `/api/admin/login`, `/api/admin/logout` | — | Apre/chiude la sessione |
 | GET / PUT | `/api/admin/cv` | admin | Legge (`?download=1` per scaricare) / valida, salva e invalida la cache |
 | POST | `/api/admin/pdf?template=&lang=` | admin | PDF generato dalla bozza non salvata (con telefono) |
@@ -60,7 +67,7 @@ Il sito è in italiano (`/it`) e in inglese (`/en`). Chi apre `/` va alla lingua
 
 ## PDF
 
-Tre modelli in `src/pdf/templates/`: **Moderno** (predefinito), **Classico** e **Trace**. Si sceglie da Backoffice › Import ed export; la scelta è salvata in `settings.pdfTemplate`. Il PDF esce nella lingua della pagina da cui lo si scarica. Il telefono non compare mai nel PDF pubblico.
+Tre modelli in `src/pdf/templates/`: **Moderno** (predefinito), **Classico** e **Trace**. Si sceglie da Backoffice › Import ed export; la scelta è salvata in `settings.pdfTemplate`. Il PDF esce nella lingua della pagina da cui lo si scarica. Il telefono non compare mai nel PDF pubblico. I pulsanti del sito generano il PDF nel browser (`src/pdf/client.ts`, caricato al primo clic), così funziona anche sul sito statico; l'API `/api/cv/pdf` resta disponibile solo con il server.
 
 ## Da rivedere nei dati
 

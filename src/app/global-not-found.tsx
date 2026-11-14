@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buttonClass } from "@/components/ui/primitives";
+import { withBase } from "@/lib/utils";
 import { fontVariables } from "./fonts";
 import "./globals.css";
 
@@ -17,10 +18,10 @@ export default function GlobalNotFound() {
             Page not found
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            <a href="/it" className={buttonClass("primary")}>
+            <a href={withBase("/it")} className={buttonClass("primary")}>
               Vai al sito
             </a>
-            <a href="/en" lang="en" className={buttonClass("ghost")}>
+            <a href={withBase("/en")} lang="en" className={buttonClass("ghost")}>
               Go to the site
             </a>
           </div>

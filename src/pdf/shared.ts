@@ -1,16 +1,16 @@
-import path from "node:path";
 import { Font } from "@react-pdf/renderer";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { SKILL_CATEGORIES, type Cv, type Skill } from "@/lib/schema";
 import { fullName } from "@/lib/utils";
 
-/** Every font is SIL Open Font License (Merriweather, Open Sans, Geist, Bricolage Grotesque). */
-const dir = path.join(process.cwd(), "src/pdf/fonts");
-const f = (file: string) => path.join(dir, file);
-
+/**
+ * Every font is SIL Open Font License (Merriweather, Open Sans, Geist, Bricolage Grotesque).
+ * The files live in public/pdf-fonts: `f` maps a file name to a disk path on the
+ * server or to a URL in the browser.
+ */
 let registered = false;
-export function registerFonts() {
+export function registerFonts(f: (file: string) => string) {
   if (registered) return;
   registered = true;
   Font.register({

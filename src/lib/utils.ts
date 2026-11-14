@@ -8,6 +8,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Prefixes the subpath the site is served from (e.g. "/portfolio" on GitHub
+ * Pages; empty on the Node server). Needed for plain <a href> and asset URLs:
+ * Next adds it on its own only to next/link and its own assets.
+ */
+export function withBase(path: string) {
+  return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+}
+
 export function formatMonth(value: string, lang: Locale = DEFAULT_LOCALE) {
   const d = dictionaries[lang].date;
   if (!value) return d.present;

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#06070d" };
 
-export default function AdminLayout({ children }: LayoutProps<"/admin">) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="it" className={`${fontVariables} h-full`}>
       <body className="min-h-full">

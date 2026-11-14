@@ -1,12 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Download, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { buttonClass } from "@/components/ui/primitives";
 import { LOCALE_COOKIE, LOCALES, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { cn } from "@/lib/utils";
+import type { Cv } from "@/lib/schema";
+import { cn, withBase } from "@/lib/utils";
+import { PdfDownloadButton } from "./pdf-download";
 
 /** Section anchors are the same in both languages, so a switch keeps the reader's place. */
 const SECTIONS = [
@@ -17,7 +19,7 @@ const SECTIONS = [
   { href: "#contatti", key: "contact" },
 ] as const;
 
-export function Navbar({ initials, lang }: { initials: string; lang: Locale }) {
+export function Navbar({ cv, initials, lang }: { cv: Cv; initials: string; lang: Locale }) {
   const t = getDictionary(lang);
   const other = LOCALES.find((l) => l !== lang) ?? lang;
   const LINKS = SECTIONS.map((s) => ({ href: s.href, label: t.nav[s.key] }));
@@ -72,7 +74,7 @@ export function Navbar({ initials, lang }: { initials: string; lang: Locale }) {
           ))}
         </ul>
         <a
-          href={`/${other}`}
+          href={withBase(`/${other}`)}
           hrefLang={other}
           lang={other}
           aria-label={t.meta.switchLabel}
@@ -80,15 +82,15 @@ export function Navbar({ initials, lang }: { initials: string; lang: Locale }) {
           onClick={(e) => {
             // Remember the choice for "/", and keep the current section.
             document.cookie = `${LOCALE_COOKIE}=${other}; path=/; max-age=31536000; samesite=lax`;
-            e.currentTarget.href = `/${other}${window.location.hash}`;
+            e.currentTarget.href = withBase(`/${other}${window.location.hash}`);
           }}
           className={buttonClass("quiet", "sm", "ml-auto px-3 font-mono text-xs md:ml-0")}
         >
           {t.meta.switchTo}
         </a>
-        <a href={`/api/cv/pdf?lang=${lang}`} download className={buttonClass("ghost", "sm")}>
-          <Download className="size-3.5" aria-hidden /> CV
-        </a>
+        <PdfDownloadButton cv={cv} lang={lang} className={buttonClass("ghost", "sm")} iconClassName="size-3.5">
+          CV
+        </PdfDownloadButton>
         <button
           type="button"
           className={buttonClass("quiet", "sm", "size-9 px-0 md:hidden")}
