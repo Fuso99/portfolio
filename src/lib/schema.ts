@@ -49,6 +49,8 @@ export const profileSchema = z.object({
   phone: z.string().trim(),
   linkedin: z.union([z.url("URL non valido"), z.literal("")]),
   github: z.union([z.url("URL non valido"), z.literal("")]),
+  /** Address of the online portfolio, shown among the contacts in the PDF. */
+  website: z.union([z.url("URL non valido"), z.literal("")]),
   avatarUrl: z.string().trim(),
   status: z.object({
     state: z.enum(["open", "employed", "unavailable"]),
@@ -259,7 +261,7 @@ export function normalizeCv(raw: unknown): unknown {
   profile.status = upgrade(asObj(profile.status), LEGACY_TEXT.status);
   return {
     ...cv,
-    profile,
+    profile: { website: "", ...profile },
     experiences: asList(cv.experiences).map((x) => ({
       ...upgrade(x, LEGACY_TEXT.experience),
       engagements: asList(x.engagements).map((e) => ({

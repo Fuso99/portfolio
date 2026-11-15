@@ -60,6 +60,7 @@ export function contactItems(cv: Cv) {
     p.phone && { label: p.phone, href: `tel:${p.phone.replace(/\s+/g, "")}` },
     p.linkedin && { label: p.linkedin.replace(/^https?:\/\/(www\.|it\.)?/, ""), href: p.linkedin },
     p.github && { label: p.github.replace(/^https?:\/\/(www\.)?/, ""), href: p.github },
+    p.website && { label: p.website.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, ""), href: p.website },
   ].filter(Boolean) as { label: string; href?: string }[];
 }
 

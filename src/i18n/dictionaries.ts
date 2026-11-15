@@ -11,6 +11,8 @@ const it = {
     dateLocale: "it-IT",
     switchTo: "EN",
     switchLabel: "Read in English",
+    /** <title> of the page: name first, for searches on it, then role and city. */
+    pageTitle: (name: string) => `${name} – Backend Engineer Java & AI | Milano`,
   },
   date: {
     monthNames: ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"],
@@ -127,6 +129,7 @@ const en: Dictionary = {
     dateLocale: "en-GB",
     switchTo: "IT",
     switchLabel: "Leggi in italiano",
+    pageTitle: (name: string) => `${name} – Backend Engineer Java & AI | Milan`,
   },
   date: {
     monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],

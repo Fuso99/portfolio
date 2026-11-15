@@ -5,6 +5,10 @@
 import { writeFileSync } from "node:fs";
 
 const base = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
+const site = (process.env.SITE_URL ?? "").replace(/\/$/, "");
+// Keep in step with LOCALES and DEFAULT_LOCALE in src/i18n/config.ts.
+const locales = ["it", "en"];
+const defaultLocale = "it";
 
 const html = `<!doctype html>
 <html lang="it">
@@ -15,6 +19,7 @@ const html = `<!doctype html>
 <title>Portfolio</title>
 <link rel="alternate" hreflang="it" href="${base}/it">
 <link rel="alternate" hreflang="en" href="${base}/en">
+<link rel="alternate" hreflang="x-default" href="${base}/${defaultLocale}">
 <script>
 (function () {
   var m = document.cookie.match(/(?:^|; )NEXT_LOCALE=(it|en)(?:;|$)/);
@@ -39,6 +44,26 @@ const html = `<!doctype html>
 `;
 
 writeFileSync("out/index.html", html);
+
+// out/sitemap.xml: the two language versions, each listing the others as
+// alternates. Not at the domain root on GitHub Pages, so robots.txt cannot
+// point to it: it is submitted in Search Console. Written here and not with
+// app/sitemap.ts, which a static export requires to be "force-static", a
+// setting the server build (Cache Components) rejects.
+if (site) {
+  const url = (lang) => `${site}${base}/${lang}`;
+  const alternates = [...locales.map((l) => [l, url(l)]), ["x-default", url(defaultLocale)]]
+    .map(([l, href]) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${href}"/>`)
+    .join("\n");
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${locales.map((l) => `  <url>\n    <loc>${url(l)}</loc>\n${alternates}\n  </url>`).join("\n")}
+</urlset>
+`;
+  writeFileSync("out/sitemap.xml", sitemap);
+} else {
+  console.warn("SITE_URL not set: out/sitemap.xml skipped (it needs absolute URLs)");
+}
 // GitHub Pages: serve files as they are (no Jekyll, which would drop _next/).
 writeFileSync("out/.nojekyll", "");
 console.log(`out/index.html written (base path: "${base || "/"}")`);

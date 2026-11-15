@@ -17,6 +17,14 @@ export function withBase(path: string) {
   return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 }
 
+/**
+ * Full URL of a page, for the sitemap and structured data, which need
+ * absolute addresses. SITE_URL is the origin (set by the Pages workflow).
+ */
+export function absoluteUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${withBase(path)}`;
+}
+
 export function formatMonth(value: string, lang: Locale = DEFAULT_LOCALE) {
   const d = dictionaries[lang].date;
   if (!value) return d.present;

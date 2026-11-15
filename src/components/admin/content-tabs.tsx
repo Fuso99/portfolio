@@ -84,6 +84,7 @@ export function ProfileTab() {
         <TextField name="profile.phone" label="Telefono" hint="Privato: solo nel PDF generato dal backoffice" />
         <TextField name="profile.linkedin" label="LinkedIn" placeholder="https://…" />
         <TextField name="profile.github" label="GitHub" placeholder="https://github.com/…" />
+        <TextField name="profile.website" label="Sito / portfolio" placeholder="https://…" hint="Compare tra i contatti del PDF" />
         <TextField name="profile.avatarUrl" label="Foto profilo" placeholder="/avatar.jpg o https://…" hint="Vuoto: mostra le iniziali. I file locali vanno in /public." className="sm:col-span-2" />
       </div>
       <StatusFields />

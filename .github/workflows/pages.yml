@@ -33,6 +33,9 @@ jobs:
           # "/portfolio" on <user>.github.io/portfolio, empty with a custom domain.
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           SITE_URL: ${{ steps.pages.outputs.origin }}
+          # Search Console meta tag: the content="…" value, saved as a repository
+          # variable (Settings › Secrets and variables › Actions › Variables).
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
