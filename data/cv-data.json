@@ -23,8 +23,8 @@
       "en": "Java back-end developer since 2019. Today I build LLM agents for the insurance industry with Spring AI and MCP."
     },
     "summary": {
-      "it": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi ed esagonali. Dal 2025 sviluppo la logica centrale di una piattaforma di agenti LLM per la gestione dei sinistri, in architettura esagonale: un core comune che ogni paese del gruppo può adottare così com'è, ridurre tramite configurazione o personalizzare. Mi occupo di integrazione multi-LLM con Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), tool MCP verso i servizi core con controlli di accesso, test end-to-end automatici con utenti simulati. Preferisco verdetti deterministici calcolati in codice, con l'LLM che li spiega, e decisioni documentate e misurate.",
-      "en": "Back-end developer with consulting experience on enterprise projects for insurance, telecoms, retail and public administration. I work with Java and the Spring ecosystem on microservice and hexagonal architectures. Since 2025 I have been building the central logic of an LLM agent platform for claims handling, with a hexagonal architecture: a shared core that each country in the group can adopt as it is, trim down through configuration or customise. I work on multi-LLM integration with Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), MCP tools towards core services with access controls, automated end-to-end tests with simulated users. I prefer deterministic verdicts computed in code, with the LLM explaining them, and decisions that are documented and measured."
+      "it": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi ed esagonali. Dal 2025 sviluppo la logica centrale di una piattaforma di agenti LLM per la gestione dei sinistri, in architettura esagonale: un core comune che ogni paese del gruppo può adottare così com'è, ridurre tramite configurazione o personalizzare. Mi occupo di integrazione multi-LLM con Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), tool MCP verso i servizi core con controlli di accesso, test end-to-end automatici con utenti simulati.",
+      "en": "Back-end developer with consulting experience on enterprise projects for insurance, telecoms, retail and public administration. I work with Java and the Spring ecosystem on microservice and hexagonal architectures. Since 2025 I have been building the central logic of an LLM agent platform for claims handling, with a hexagonal architecture: a shared core that each country in the group can adopt as it is, trim down through configuration or customise. I work on multi-LLM integration with Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), MCP tools towards core services with access controls, automated end-to-end tests with simulated users."
     },
     "location": {
       "it": "Cologno Monzese (MI)",
@@ -61,13 +61,13 @@
       "engagements": [
         {
           "id": "dst-accenture",
-          "client": "Global insurance group",
+          "client": "Allianz",
           "via": "Accenture",
           "start": "2025-09",
           "end": "",
           "summary": {
-            "it": "Sviluppo back-end di una piattaforma di Generative AI per la gestione dei sinistri di un gruppo assicurativo internazionale: un agente conversazionale che raccoglie la denuncia via chat e voce, un assistente AI per i liquidatori e un agente che classifica i documenti e ne estrae i dati. Il team costruisce un core comune che ogni paese del gruppo adotta in autonomia: può usarlo così com'è, disattivare alcune funzionalità tramite configurazione o aggiungere personalizzazioni proprie. Mi occupo dell'integrazione con i modelli linguistici, degli strumenti che collegano gli agenti ai sistemi aziendali, della sicurezza e dei test automatici che ne misurano l'affidabilità.",
-            "en": "Back-end development on a Generative AI platform for claims management at a global insurance group: a conversational agent that takes first notice of loss over chat and voice, an AI assistant for claims handlers, and an agent that classifies documents and extracts their data. The team builds a shared core that each country in the group adopts on its own terms: as it is, with some features switched off through configuration, or with its own customisations. I focus on the integration with language models, the tools that connect the agents to business systems, security, and the automated tests that measure how reliable the agents are."
+            "it": "Sviluppo back-end di una piattaforma di Generative AI per la gestione dei sinistri: un agente conversazionale che raccoglie la denuncia via chat e voce, un assistente AI per i liquidatori e un agente che classifica i documenti e ne estrae i dati. La piattaforma è un core comune che ogni paese del gruppo adotta e personalizza. Mi occupo dell'integrazione con i modelli linguistici (LLM), dei tool che collegano gli agenti ai sistemi aziendali, della sicurezza e dei test automatici che ne misurano l'affidabilità.",
+            "en": "Back-end development of a Generative AI platform for claims management: a conversational agent that takes first notice of loss over chat and voice, an AI assistant for claims handlers, and an agent that classifies documents and extracts their data. The platform is a shared core that each country in the group adopts and customises. I work on the integration with large language models (LLMs), the tools that connect the agents to business systems, security, and the automated tests that measure how reliable the agents are."
           },
           "highlights": [
             {
@@ -76,63 +76,54 @@
                 "en": "Multi-LLM integration"
               },
               "text": {
-                "it": "Reso il passaggio tra Azure OpenAI, Amazon Bedrock e Anthropic Claude una semplice modifica di configurazione; aggiornato Spring AI, introdotti il prompt caching per contenere i costi e il tracing su Langfuse. Gestita l'autenticazione verso Bedrock, con la regione obbligatoria: se manca, l'applicazione si ferma già all'avvio.",
-                "en": "Made switching between Azure OpenAI, Amazon Bedrock and Anthropic Claude a configuration change; upgraded Spring AI, added prompt caching to cut costs and tracing on Langfuse. Wired up Bedrock authentication with a mandatory region that fails fast at startup when missing."
+                "it": "Passaggio tra Azure OpenAI, Amazon Bedrock e Anthropic Claude con una semplice modifica di configurazione, aggiornamento di Spring AI da 1.0 a 1.1 e tracing delle chiamate su Langfuse. Introdotto il prompt caching, che nei benchmark ha ridotto il costo per conversazione tra il 60 e il 68%.",
+                "en": "Made switching between Azure OpenAI, Amazon Bedrock and Anthropic Claude a configuration change, upgraded Spring AI from 1.0 to 1.1 and added call tracing on Langfuse. Introduced prompt caching, which cut the cost per conversation by 60–68% in benchmarks."
               }
             },
             {
               "title": {
-                "it": "Tool MCP per gli agenti",
-                "en": "MCP tools for agents"
+                "it": "Tool MCP e sicurezza",
+                "en": "MCP tools and security"
               },
               "text": {
-                "it": "Sviluppati i tool MCP che collegano gli agenti ai servizi centrali delegando alla stessa interfaccia OpenAPI delle API REST, con le stesse validazioni, lo stesso audit e la stessa gestione degli errori. Aggiunti tool di dominio di più alto livello su una libreria client tipizzata e una ricerca polizze in sola lettura, limitata all'identità del cliente.",
-                "en": "Built the MCP tools that connect the agents to core services by delegating to the same OpenAPI interface as the REST API, so every call gets the same validation, auditing and error handling. Added higher-level domain tools on a typed client library, plus a read-only policy search scoped to the customer's identity."
+                "it": "Sviluppo dei tool MCP (Model Context Protocol) che collegano gli agenti ai servizi assicurativi con le stesse validazioni, lo stesso audit e la stessa sicurezza delle API REST. Endpoint autenticati, identità del cliente propagata a ogni chiamata, controlli di accesso sulle scritture e dati sanitari e di pagamento esclusi o mascherati.",
+                "en": "Built the MCP (Model Context Protocol) tools that connect the agents to the insurance services with the same validation, auditing and security as the REST APIs. Authenticated endpoints, the customer's identity propagated on every call, access checks on writes, and health and payment data excluded or masked."
               }
             },
             {
               "title": {
-                "it": "Sicurezza by design",
-                "en": "Security by design"
+                "it": "Test e valutazione degli agenti",
+                "en": "Agent testing and evaluation"
               },
               "text": {
-                "it": "Protetti gli endpoint MCP con un'autenticazione service-to-service fail-closed e propagata l'identità del cliente nel trasporto MCP. Introdotti controlli di ownership sulle scritture; dati sanitari e di pagamento esclusi o mascherati.",
-                "en": "Locked down the MCP endpoints with fail-closed service-to-service authentication and propagated the customer's identity through the MCP transport. Enforced ownership checks on writes and kept health and payment data excluded or masked."
+                "it": "Suite di test end-to-end in cui utenti simulati conversano in parallelo con gli agenti e un giudice basato su LLM valuta ogni conversazione, con campagne fino a 200 conversazioni su tutti gli ambienti. La ricalibrazione del giudice ha dimezzato i falsi fallimenti.",
+                "en": "End-to-end test suite where simulated users talk to the agents in parallel and an LLM judge scores every conversation, with campaigns of up to 200 conversations across all environments. Recalibrating the judge halved its false failures."
               }
             },
             {
               "title": {
-                "it": "Test end-to-end con giudice LLM",
-                "en": "End-to-end tests with an LLM judge"
+                "it": "AI spiegabile",
+                "en": "Explainable AI"
               },
               "text": {
-                "it": "Costruita una suite di test end-to-end in cui utenti simulati conversano in parallelo con gli agenti e un giudice basato su LLM valuta ogni conversazione, eseguibile su tutti gli ambienti per misurare l'affidabilità e intercettare le regressioni. Affiancata una console di debug che mostra turno per turno cosa fa il modello.",
-                "en": "Built an end-to-end test suite where simulated users talk to the agents in parallel and an LLM judge scores every conversation, runnable against any environment to measure reliability and catch regressions. Added a debug console that shows, turn by turn, what the model is doing."
+                "it": "Riepiloghi AI per i liquidatori che citano documento, pagina e sezione di ogni informazione, mentre l'esito di copertura della polizza è calcolato in codice e l'LLM si limita a spiegarlo. Controlli di coerenza tra lesioni dichiarate e documentazione medica tramite codifica ICD-10.",
+                "en": "AI summaries for claims handlers that cite the document, page and section behind every statement, while the policy coverage outcome is computed in code and the LLM only explains it. Consistency checks between reported injuries and medical records using ICD-10 coding."
               }
             },
             {
               "title": {
-                "it": "AI spiegabile per i liquidatori",
-                "en": "Explainable AI for claims handlers"
+                "it": "Architettura e DevOps",
+                "en": "Architecture and DevOps"
               },
               "text": {
-                "it": "Resi verificabili i riepiloghi AI: citano la fonte (documento, pagina, sezione) senza chiamate LLM aggiuntive. Spostati in codice i verdetti di copertura della polizza, che l'LLM si limita a spiegare, aggiunti controlli di coerenza tra lesioni dichiarate e documentazione medica tramite codifica ICD-10 e documentate le scelte in ADR.",
-                "en": "Made AI summaries verifiable by citing their source (document, page, section) with no extra LLM calls. Moved policy coverage verdicts into code, leaving the LLM to explain them, added consistency checks between reported injuries and medical records using ICD-10 coding, and recorded the decisions in ADRs."
-              }
-            },
-            {
-              "title": {
-                "it": "Regole di business e pulizia",
-                "en": "Business rules and cleanup"
-              },
-              "text": {
-                "it": "Derivati i questionari degli agenti dalle tabelle decisionali di business, allineati in automatico da una pipeline CI che apre una pull request da revisionare, con review AI. Rimosso un grande motore legacy inutilizzato senza cambiare il comportamento e semplificati i prompt eliminando le istruzioni contraddittorie.",
-                "en": "Derived the agents' questionnaires from the business decision tables, kept in sync by a CI pipeline that opens a pull request for review, with AI review on top. Removed a large unused legacy engine without changing behaviour and simplified the prompts by stripping out contradictory instructions."
+                "it": "Agenti sviluppati con Java 21, Spring AI e LangGraph4j su microservizi ad architettura esagonale, con dati su MongoDB. CI/CD su GitHub, container Docker e deploy con ArgoCD.",
+                "en": "Agents built with Java 21, Spring AI and LangGraph4j on microservices with a hexagonal architecture, with data on MongoDB. CI/CD on GitHub, Docker containers and deployment with ArgoCD."
               }
             }
           ],
           "tech": [
             "Java 21",
+            "Spring Boot",
             "Spring AI",
             "MCP",
             "Azure OpenAI",
@@ -157,8 +148,8 @@
           "start": "2023-04",
           "end": "2025-09",
           "summary": {
-            "it": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Evolutive e bug fixing.",
-            "en": "Development and maintenance of the xStore projects, the in-store application that simplifies daily operations and makes cashiers more productive. New features and bug fixing."
+            "it": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Mi sono occupato di nuove evolutive e bug fixing.",
+            "en": "Development and maintenance of the xStore projects, the in-store application that simplifies daily operations and makes cashiers more productive. I worked on new features and bug fixing."
           },
           "highlights": [],
           "tech": [
@@ -190,40 +181,14 @@
       "visible": true,
       "engagements": [
         {
-          "id": "tp-sogei",
-          "client": "Sogei",
-          "via": "NTT Data",
-          "start": "2023-01",
-          "end": "2023-04",
-          "summary": {
-            "it": "Sviluppo dell'iniziativa \"Crescere Insieme\" per Sogei S.p.A., basata su microservizi Spring Boot.",
-            "en": "Development of the \"Crescere Insieme\" initiative for Sogei S.p.A., built on Spring Boot microservices."
-          },
-          "highlights": [],
-          "tech": [
-            "Java 8",
-            "Spring Boot",
-            "Microservices",
-            "Kafka",
-            "PostgreSQL",
-            "Redis",
-            "Quartz",
-            "GitLab",
-            "Jenkins",
-            "OpenShift",
-            "JUnit",
-            "Mockito"
-          ]
-        },
-        {
           "id": "tp-poste",
           "client": "Poste Italiane",
           "via": "NTT Data",
           "start": "2022-04",
           "end": "2022-12",
           "summary": {
-            "it": "Sviluppo e gestione di progetti a microservizi in Java 8 e Spring Boot per Poste Italiane S.p.A.",
-            "en": "Development and maintenance of Java 8 and Spring Boot microservice projects for Poste Italiane S.p.A."
+            "it": "Sviluppo e manutenzione dei microservizi Java 8 e Spring Boot per la gestione delle fatture di Poste Italiane: recupero e download delle fatture, pagamento tramite i servizi esterni di Nexi e invio delle notifiche. I servizi comunicano tramite code Kafka, salvano i dati su PostgreSQL e girano su OpenShift; il codice passa dalle pipeline GitLab e viene rilasciato sui vari ambienti con Jenkins.",
+            "en": "Development and maintenance of Java 8 and Spring Boot microservices for Poste Italiane's invoice management: invoice retrieval and download, payment through Nexi's external services, and notifications. The services communicate over Kafka queues, store data in PostgreSQL and run on OpenShift; code goes through GitLab pipelines and is released to each environment with Jenkins."
           },
           "highlights": [],
           "tech": [
@@ -264,8 +229,8 @@
           "start": "2021-04",
           "end": "2022-04",
           "summary": {
-            "it": "Risoluzione di defect ed evolutive per AXA sulle applicazioni di apertura polizze salute e motor: front-end in Angular 8 e AngularJS, back-end in Java 8.",
-            "en": "Defect fixing and new features for AXA on the health and motor policy issuance applications: Angular 8 and AngularJS front end, Java 8 back end."
+            "it": "Ho risolto defect e sviluppato evolutive sulle applicazioni AXA per l'apertura delle polizze salute e motor. Ho lavorato sia sul front-end in Angular 8, con parti ancora in AngularJS, sia sul back-end in Java 8.",
+            "en": "Fixed defects and developed new features on AXA's applications for issuing health and motor insurance policies, working both on the Angular 8 front end, with some parts still in AngularJS, and on the Java 8 back end."
           },
           "highlights": [],
           "tech": [
@@ -285,8 +250,8 @@
           "start": "2020-02",
           "end": "2021-04",
           "summary": {
-            "it": "Sviluppo, manutenzione e bug fixing di applicativi web: ticketing, gestione utenze e clientela, firma elettronica, upload e download di documenti su server proprietario, tracciamento pacchi tramite servizi REST.",
-            "en": "Development, maintenance and bug fixing of web applications: ticketing, user and customer management, electronic signature, document upload and download to a proprietary server, parcel tracking via REST services."
+            "it": "Ho sviluppato nuove funzionalità, curato la manutenzione e corretto bug su diversi applicativi web, sia sul back-end in Java 8 sia sul front-end in JSF: gestione di ticket, utenze e clientela, firma elettronica dei documenti, upload e download di documenti su server proprietario, tracciamento dei pacchi tramite servizi REST e code di messaggi con RabbitMQ.",
+            "en": "Developed new features, handled maintenance and fixed bugs on several web applications, on both the Java 8 back end and the JSF front end: ticket, user and customer management, electronic document signing, document upload and download to a proprietary server, parcel tracking via REST services and message queues with RabbitMQ."
           },
           "highlights": [],
           "tech": [
@@ -310,8 +275,8 @@
           "start": "2019-11",
           "end": "2020-02",
           "summary": {
-            "it": "UI di un app hub aziendale in Vue.js: dopo l'accesso (credenziali o lettore RFID) i dipendenti vedono le applicazioni disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia in italiano, inglese e polacco.",
-            "en": "UI for a company app hub in Vue.js: after signing in (credentials or RFID reader) employees see the applications available to them, filter them by category, name and rating, rate them and launch them. Interface in Italian, English and Polish."
+            "it": "Ho realizzato la UI di un app hub aziendale in Vue.js, HTML e SCSS. Dopo l'accesso, con credenziali o lettore RFID, i dipendenti vedono in una dashboard le applicazioni a loro disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia tradotta in italiano, inglese e polacco.",
+            "en": "Built the UI of a company app hub in Vue.js, HTML and SCSS. After signing in with credentials or an RFID reader, employees see the applications available to them in a dashboard, filter them by category, name and rating, rate them and launch them. Interface translated into Italian, English and Polish."
           },
           "highlights": [],
           "tech": [
@@ -331,7 +296,7 @@
         "it": "Tool MCP tra agenti AI e servizi core",
         "en": "MCP tools between AI agents and core services"
       },
-      "client": "Global insurance group",
+      "client": "Allianz",
       "via": "Accenture",
       "company": "Dst",
       "category": {
@@ -384,7 +349,7 @@
         "it": "Test end-to-end di un agente conversazionale",
         "en": "End-to-end testing of a conversational agent"
       },
-      "client": "Global insurance group",
+      "client": "Allianz",
       "via": "Accenture",
       "company": "Dst",
       "category": {
@@ -439,7 +404,7 @@
         "it": "Integrazione multi-LLM",
         "en": "Multi-LLM integration"
       },
-      "client": "Global insurance group",
+      "client": "Allianz",
       "via": "Accenture",
       "company": "Dst",
       "category": {
@@ -494,7 +459,7 @@
         "it": "AI spiegabile per i liquidatori",
         "en": "Explainable AI for claims adjusters"
       },
-      "client": "Global insurance group",
+      "client": "Allianz",
       "via": "Accenture",
       "company": "Dst",
       "category": {
@@ -646,14 +611,14 @@
         "OpenShift"
       ],
       "url": "",
-      "visible": true,
+      "visible": false,
       "featured": false
     },
     {
       "id": "poste-microservizi",
       "title": {
-        "it": "Microservizi per Poste Italiane",
-        "en": "Microservices for Poste Italiane"
+        "it": "Gestione fatture per Poste Italiane",
+        "en": "Invoice management for Poste Italiane"
       },
       "client": "Poste Italiane",
       "via": "NTT Data",
@@ -665,12 +630,12 @@
       "start": "2022-04",
       "end": "2022-12",
       "summary": {
-        "it": "Sviluppo e gestione di iniziative a microservizi in Spring Boot.",
-        "en": "Development and maintenance of Spring Boot microservice initiatives."
+        "it": "Microservizi Spring Boot per le fatture: recupero, download, pagamento e notifiche.",
+        "en": "Spring Boot microservices for invoices: retrieval, download, payment and notifications."
       },
       "description": {
-        "it": "Diverse iniziative per Poste Italiane S.p.A. realizzate come microservizi Java 8 e Spring Boot, con persistenza PostgreSQL e messaggistica Kafka.",
-        "en": "Several initiatives for Poste Italiane S.p.A. built as Java 8 and Spring Boot microservices, with PostgreSQL persistence and Kafka messaging."
+        "it": "Microservizi Java 8 e Spring Boot per la gestione delle fatture di Poste Italiane S.p.A.: recupero e download delle fatture, pagamento tramite i servizi esterni di Nexi e invio delle notifiche, con persistenza PostgreSQL e messaggistica Kafka su OpenShift.",
+        "en": "Java 8 and Spring Boot microservices for Poste Italiane S.p.A.'s invoice management: invoice retrieval and download, payment through Nexi's external services and notifications, with PostgreSQL persistence and Kafka messaging on OpenShift."
       },
       "role": {
         "it": "Programmatore back-end",
@@ -678,13 +643,15 @@
       },
       "responsibilities": {
         "it": [
-          "Sviluppo e manutenzione dei microservizi",
-          "Integrazione con Kafka e PostgreSQL",
+          "Sviluppo e manutenzione dei microservizi per le fatture",
+          "Integrazione con i servizi di pagamento di Nexi",
+          "Messaggistica con Kafka e persistenza su PostgreSQL",
           "Test unitari con JUnit e Mockito"
         ],
         "en": [
-          "Microservice development and maintenance",
-          "Integration with Kafka and PostgreSQL",
+          "Development and maintenance of the invoice microservices",
+          "Integration with Nexi's payment services",
+          "Messaging with Kafka and persistence on PostgreSQL",
           "Unit testing with JUnit and Mockito"
         ]
       },
@@ -1062,7 +1029,7 @@
     },
     {
       "id": "app-server",
-      "name": "WildFly e Tomcat",
+      "name": "WildFly & Tomcat",
       "category": "cloud",
       "level": 3,
       "aliases": [
@@ -1161,7 +1128,7 @@
     },
     {
       "id": "html-scss",
-      "name": "HTML e SCSS",
+      "name": "HTML & SCSS",
       "category": "frontend",
       "level": 3,
       "aliases": [
@@ -1254,6 +1221,6 @@
     "pdfTemplate": "modern"
   },
   "meta": {
-    "updatedAt": "2026-11-14T21:21:11.465Z"
+    "updatedAt": "2026-11-15T15:02:33.000Z"
   }
 }

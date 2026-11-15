@@ -1,5 +1,6 @@
 import { Document, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { formatPeriod, fullName } from "@/lib/utils";
+import type { Engagement } from "@/lib/schema";
 import { contactItems, docMeta, skillGroups, type TemplateProps } from "../shared";
 
 /**
@@ -32,8 +33,9 @@ const s = StyleSheet.create({
   h2: { fontWeight: 700, fontSize: 12, marginTop: 20, marginBottom: 10, letterSpacing: -0.2 },
   exp: { flexDirection: "row" },
   rail: { width: 14, alignItems: "center" },
-  railDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: ACCENT, marginTop: 3.5 },
-  railLine: { width: 1, flex: 1, backgroundColor: "#d8d6f3", marginTop: 3 },
+  // The dot sits in the header block (so it moves with it to a new page), pulled back over the rail.
+  railDot: { position: "absolute", left: -19, top: 3.5, width: 8, height: 8, borderRadius: 4, backgroundColor: ACCENT },
+  railLine: { width: 1, flex: 1, backgroundColor: "#d8d6f3", marginTop: 14.5 },
   expBody: { flex: 1, paddingLeft: 8, paddingBottom: 12 },
   expHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
   company: { fontWeight: 700, fontSize: 10.5 },
@@ -41,8 +43,6 @@ const s = StyleSheet.create({
   role: { color: MUTED, marginBottom: 6 },
   eng: { marginBottom: 8, paddingLeft: 9, borderLeftWidth: 2, borderLeftColor: "#e6e4f8" },
   client: { fontWeight: 600 },
-  bullet: { flexDirection: "row", marginTop: 1.5 },
-  bulletDot: { width: 8, color: ACCENT },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 3, marginTop: 4 },
   chip: { fontSize: 7.3, paddingVertical: 1.5, paddingHorizontal: 5, borderRadius: 3, backgroundColor: "#f1f0fb", color: "#3d3a8f" },
   chipOn: { backgroundColor: ACCENT, color: "#fff" },
@@ -64,6 +64,28 @@ export function ModernTemplate({ cv, selected, generatedAt, lang, t }: TemplateP
   const sel = new Set(selected.map((x) => x.id));
   const selNames = selected.map((x) => x.name.toLowerCase());
   const initials = `${p.firstName[0] ?? ""}${p.lastName[0] ?? ""}`;
+
+  const engagement = (e: Engagement) => (
+    <View style={s.eng}>
+      <View style={s.expHead}>
+        <Text>
+          <Text style={s.client}>{e.client}</Text>
+          {e.via ? <Text style={{ color: MUTED }}> {t.via(e.via)}</Text> : null}
+        </Text>
+        <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
+      </View>
+      {e.summary ? <Text style={{ marginTop: 1 }}>{e.summary}</Text> : null}
+      {e.tech.length ? (
+        <View style={s.chips}>
+          {e.tech.map((tech) => (
+            <Text key={tech} style={[s.chip, selNames.some((n) => tech.toLowerCase().startsWith(n)) ? s.chipOn : {}]}>
+              {tech}
+            </Text>
+          ))}
+        </View>
+      ) : null}
+    </View>
+  );
 
   return (
     <Document {...docMeta(cv, lang)}>
@@ -144,47 +166,24 @@ export function ModernTemplate({ cv, selected, generatedAt, lang, t }: TemplateP
           <Text style={s.h2}>{t.pdf.experience}</Text>
           {cv.experiences.map((x, xi) => (
             <View key={x.id} style={s.exp}>
-              <View style={s.rail}>
-                <View style={[s.railDot, !x.end ? { backgroundColor: "#0fae8e" } : {}]} />
-                {xi < cv.experiences.length - 1 ? <View style={s.railLine} /> : null}
-              </View>
+              <View style={s.rail}>{xi < cv.experiences.length - 1 ? <View style={s.railLine} /> : null}</View>
               <View style={s.expBody}>
-                <View style={s.expHead} minPresenceAhead={50}>
-                  <Text style={s.company}>{x.company}</Text>
-                  <Text style={s.period}>{formatPeriod(x.start, x.end, lang)}</Text>
+                {/* The header travels with the first engagement so it never sits alone at a page bottom. */}
+                <View wrap={false}>
+                  <View style={[s.railDot, !x.end ? { backgroundColor: "#0fae8e" } : {}]} />
+                  <View style={s.expHead}>
+                    <Text style={s.company}>{x.company}</Text>
+                    <Text style={s.period}>{formatPeriod(x.start, x.end, lang)}</Text>
+                  </View>
+                  <Text style={s.role}>
+                    {x.role}
+                    {x.location ? `, ${x.location}` : ""}
+                  </Text>
+                  {x.engagements[0] ? engagement(x.engagements[0]) : null}
                 </View>
-                <Text style={s.role}>
-                  {x.role}
-                  {x.location ? `, ${x.location}` : ""}
-                </Text>
-                {x.engagements.map((e) => (
-                  <View key={e.id} style={s.eng} wrap={false}>
-                    <View style={s.expHead}>
-                      <Text>
-                        <Text style={s.client}>{e.client}</Text>
-                        {e.via ? <Text style={{ color: MUTED }}> {t.via(e.via)}</Text> : null}
-                      </Text>
-                      <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
-                    </View>
-                    {e.summary ? <Text style={{ marginTop: 1 }}>{e.summary}</Text> : null}
-                    {e.highlights.map((h, i) => (
-                      <View key={i} style={s.bullet}>
-                        <Text style={s.bulletDot}>•</Text>
-                        <Text style={{ flex: 1 }}>
-                          {h.title ? <Text style={{ fontWeight: 600 }}>{h.title}: </Text> : null}
-                          {h.text}
-                        </Text>
-                      </View>
-                    ))}
-                    {e.tech.length ? (
-                      <View style={s.chips}>
-                        {e.tech.map((tech) => (
-                          <Text key={tech} style={[s.chip, selNames.some((n) => tech.toLowerCase().startsWith(n)) ? s.chipOn : {}]}>
-                            {tech}
-                          </Text>
-                        ))}
-                      </View>
-                    ) : null}
+                {x.engagements.slice(1).map((e) => (
+                  <View key={e.id} wrap={false}>
+                    {engagement(e)}
                   </View>
                 ))}
               </View>

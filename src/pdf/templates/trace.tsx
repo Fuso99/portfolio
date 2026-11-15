@@ -32,8 +32,6 @@ const s = StyleSheet.create({
   role: { color: MUTED, marginBottom: 6 },
   eng: { marginBottom: 7 },
   client: { fontWeight: 600 },
-  bullet: { flexDirection: "row", marginTop: 1.5 },
-  bulletMark: { width: 10, color: ION, fontFamily: "Geist Mono" },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 3, marginTop: 4 },
   chip: { fontSize: 7.1, paddingVertical: 1.2, paddingHorizontal: 4.5, borderRadius: 3, borderWidth: 0.6, borderColor: "#cfd1e2", color: "#3c4060" },
   chipOn: { borderColor: SIGNAL, color: SIGNAL, fontWeight: 600 },
@@ -55,15 +53,6 @@ function EngagementBlock({ e, isOn, lang, t }: { e: Engagement; isOn: (tech: str
           {e.via ? <Text style={{ color: MUTED }}> {t.via(e.via)}</Text> : null}
         </Text>
         {e.summary ? <Text>{e.summary}</Text> : null}
-        {e.highlights.map((h, i) => (
-          <View key={i} style={s.bullet}>
-            <Text style={s.bulletMark}>›</Text>
-            <Text style={{ flex: 1 }}>
-              {h.title ? <Text style={{ fontWeight: 600 }}>{h.title}: </Text> : null}
-              {h.text}
-            </Text>
-          </View>
-        ))}
         {e.tech.length ? (
           <View style={s.chips}>
             {e.tech.map((tech) => (

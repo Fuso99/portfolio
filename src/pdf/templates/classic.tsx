@@ -33,8 +33,6 @@ const s = StyleSheet.create({
   role: { fontStyle: "italic", color: MUTED, marginBottom: 5 },
   eng: { marginLeft: 10, marginBottom: 8 },
   client: { fontWeight: 700, flexShrink: 1 },
-  bullet: { flexDirection: "row", marginTop: 2 },
-  dash: { width: 10, color: ACCENT },
   tech: { marginTop: 3, fontSize: 8.2, color: MUTED },
   skillRow: { flexDirection: "row", marginBottom: 3 },
   skillCat: { width: 112, fontWeight: 700 },
@@ -59,15 +57,6 @@ function EngagementBlock({ e, lang, t }: { e: Engagement } & Labels) {
         <Text style={s.period}>{formatPeriod(e.start, e.end, lang)}</Text>
       </View>
       {e.summary ? <Text>{e.summary}</Text> : null}
-      {e.highlights.map((h, i) => (
-        <View key={i} style={s.bullet}>
-          <Text style={s.dash}>–</Text>
-          <Text style={s.flex}>
-            {h.title ? <Text style={{ fontWeight: 700 }}>{h.title}. </Text> : null}
-            {h.text}
-          </Text>
-        </View>
-      ))}
       {e.tech.length ? <Text style={s.tech}>{t.pdf.tech}: {e.tech.join(", ")}</Text> : null}
     </View>
   );
