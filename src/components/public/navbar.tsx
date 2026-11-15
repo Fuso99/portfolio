@@ -8,14 +8,13 @@ import { LOCALE_COOKIE, LOCALES, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import type { Cv } from "@/lib/schema";
 import { cn, withBase } from "@/lib/utils";
-import { PdfDownloadButton } from "./pdf-download";
+import { CvPreviewButton } from "./pdf-preview";
 
 /** Section anchors are the same in both languages, so a switch keeps the reader's place. */
 const SECTIONS = [
   { href: "#esperienza", key: "experience" },
   { href: "#competenze", key: "skills" },
   { href: "#progetti", key: "projects" },
-  { href: "#cv", key: "cv" },
   { href: "#contatti", key: "contact" },
 ] as const;
 
@@ -88,9 +87,9 @@ export function Navbar({ cv, initials, lang }: { cv: Cv; initials: string; lang:
         >
           {t.meta.switchTo}
         </a>
-        <PdfDownloadButton cv={cv} lang={lang} className={buttonClass("ghost", "sm")} iconClassName="size-3.5">
+        <CvPreviewButton cv={cv} lang={lang} className={buttonClass("ghost", "sm")} iconClassName="size-3.5">
           CV
-        </PdfDownloadButton>
+        </CvPreviewButton>
         <button
           type="button"
           className={buttonClass("quiet", "sm", "size-9 px-0 md:hidden")}

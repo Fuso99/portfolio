@@ -8,7 +8,7 @@ import { cn, matchesAnySkill } from "@/lib/utils";
 import { usePortfolio } from "./context";
 
 export function SkillMatrix() {
-  const { cv, selected, t } = usePortfolio();
+  const { cv, t } = usePortfolio();
   const categories = useMemo(
     () =>
       SKILL_CATEGORIES.map((c) => {
@@ -34,16 +34,7 @@ export function SkillMatrix() {
 
   return (
     <section id="competenze" className="py-24">
-      <SectionHeading
-        title={t.skills.title}
-        lead={t.skills.lead}
-      >
-        {selected.length > 0 ? (
-          <a href="#cv" className="text-sm text-ion hover:text-ink">
-            {t.skills.selected(selected.length)}
-          </a>
-        ) : null}
-      </SectionHeading>
+      <SectionHeading title={t.skills.title} lead={t.skills.lead} />
 
       <div className="grid gap-6 @4xl:grid-cols-[18rem_1fr]">
         <div role="tablist" aria-label={t.skills.categories} className="flex gap-2 overflow-x-auto pb-1 @4xl:flex-col @4xl:overflow-visible">
@@ -91,16 +82,9 @@ export function SkillMatrix() {
               className="grid gap-1 @3xl:grid-cols-2"
             >
               {current.skills.map((s, i) => {
-                const on = selected.includes(s.id);
                 const used = usage.get(s.id) ?? 0;
                 return (
-                  <li
-                    key={s.id}
-                    className={cn(
-                      "flex items-center gap-4 rounded-xl border px-4 py-3.5",
-                      on ? "border-signal/40 bg-signal/[0.07]" : "border-transparent",
-                    )}
-                  >
+                  <li key={s.id} className="flex items-center gap-4 rounded-xl px-4 py-3.5">
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-medium text-ink">{s.name}</span>
                       <span className="mt-0.5 block text-xs text-faint">
@@ -117,9 +101,8 @@ export function SkillMatrix() {
                           transition={{ delay: i * 0.03 + n * 0.04, duration: 0.25 }}
                           className={cn(
                             "h-4 w-1.5 origin-bottom rounded-full",
-                            n <= s.level ? (on ? "bg-signal" : "bg-ion") : "bg-white/10",
-                            n <= s.level && n === s.level && "shadow-[0_0_10px_-1px_currentColor]",
-                            n <= s.level && (on ? "text-signal" : "text-ion"),
+                            n <= s.level ? "bg-ion text-ion" : "bg-white/10",
+                            n === s.level && "shadow-[0_0_10px_-1px_currentColor]",
                           )}
                         />
                       ))}
