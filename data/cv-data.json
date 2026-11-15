@@ -148,10 +148,61 @@
           "start": "2023-04",
           "end": "2025-09",
           "summary": {
-            "it": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane e migliora la produttività dei cassieri. Mi sono occupato di nuove evolutive e bug fixing.",
-            "en": "Development and maintenance of the xStore projects, the in-store application that simplifies daily operations and makes cashiers more productive. I worked on new features and bug fixing."
+            "it": "Sviluppo e gestione dei progetti xStore, l'applicativo per i negozi fisici che semplifica le operazioni quotidiane dei cassieri. Ho sviluppato evolutive e personalizzazioni per clienti e paesi diversi, integrazioni con servizi esterni e con le periferiche di cassa (stampanti fiscali, POS, scanner), oltre al bug fixing.",
+            "en": "Development and maintenance of the xStore projects, the in-store application that simplifies cashiers' daily operations. I built new features and customisations for different clients and countries, integrations with external services and with till peripherals (fiscal printers, payment terminals, scanners), and handled bug fixing."
           },
-          "highlights": [],
+          "highlights": [
+            {
+              "title": {
+                "it": "Personalizzazioni per cliente e paese",
+                "en": "Customisations by client and country"
+              },
+              "text": {
+                "it": "Le funzionalità cambiavano molto in base al cliente finale e al paese: alcune richieste si risolvevano configurando l'applicativo, altre richiedevano sviluppi dedicati.",
+                "en": "Features varied widely by end client and country: some requests were solved by configuring the application, others needed dedicated development."
+              }
+            },
+            {
+              "title": {
+                "it": "Integrazioni con servizi esterni",
+                "en": "Integrations with external services"
+              },
+              "text": {
+                "it": "Integrazioni con servizi di terze parti, ad esempio i portali degli aeroporti su cui ogni negozio dello scalo deve caricare i movimenti di cassa.",
+                "en": "Integrations with third-party services, such as airport portals where every shop in the terminal has to upload its till transactions."
+              }
+            },
+            {
+              "title": {
+                "it": "Periferiche di cassa",
+                "en": "Till peripherals"
+              },
+              "text": {
+                "it": "Configurazione di stampanti fiscali, POS di pagamento e scanner di codici a barre, in parte preconfigurati e in parte da integrare caso per caso: per un negozio in aeroporto che non leggeva i codici delle carte d'imbarco abbiamo fatto sostituire lo scanner e configurato il nuovo modello.",
+                "en": "Setup of fiscal printers, payment terminals and barcode scanners, some preconfigured and others integrated case by case: for an airport shop that could not read boarding pass barcodes, we had the scanner replaced and configured the new model."
+              }
+            },
+            {
+              "title": {
+                "it": "POS Ingenico via UDP",
+                "en": "Ingenico terminal over UDP"
+              },
+              "text": {
+                "it": "Per un negozio in Polonia, integrazione completamente personalizzata di un POS Ingenico che comunicava via UDP: la cassa invia al POS l'importo da pagare e attende la conferma del pagamento per chiudere la vendita.",
+                "en": "For a shop in Poland, a fully custom integration of an Ingenico payment terminal that communicated over UDP: the till sends the amount due to the terminal and waits for the payment confirmation to close the sale."
+              }
+            },
+            {
+              "title": {
+                "it": "Build e rilasci",
+                "en": "Builds and releases"
+              },
+              "text": {
+                "it": "Compilazione con Jenkins e rilascio delle build sui singoli negozi tramite xAdmin.",
+                "en": "Builds with Jenkins and rollout to individual stores through xAdmin."
+              }
+            }
+          ],
           "tech": [
             "Java 17",
             "Java 11",
@@ -190,7 +241,58 @@
             "it": "Sviluppo e manutenzione dei microservizi Java 8 e Spring Boot per la gestione delle fatture di Poste Italiane: recupero e download delle fatture, pagamento tramite i servizi esterni di Nexi e invio delle notifiche. I servizi comunicano tramite code Kafka, salvano i dati su PostgreSQL e girano su OpenShift; il codice passa dalle pipeline GitLab e viene rilasciato sui vari ambienti con Jenkins.",
             "en": "Development and maintenance of Java 8 and Spring Boot microservices for Poste Italiane's invoice management: invoice retrieval and download, payment through Nexi's external services, and notifications. The services communicate over Kafka queues, store data in PostgreSQL and run on OpenShift; code goes through GitLab pipelines and is released to each environment with Jenkins."
           },
-          "highlights": [],
+          "highlights": [
+            {
+              "title": {
+                "it": "Fatture",
+                "en": "Invoices"
+              },
+              "text": {
+                "it": "Microservizi per il recupero e il download delle fatture.",
+                "en": "Microservices for retrieving and downloading invoices."
+              }
+            },
+            {
+              "title": {
+                "it": "Pagamenti",
+                "en": "Payments"
+              },
+              "text": {
+                "it": "Integrazione con i servizi esterni di Nexi per il pagamento delle fatture.",
+                "en": "Integration with Nexi's external services for invoice payments."
+              }
+            },
+            {
+              "title": {
+                "it": "Notifiche",
+                "en": "Notifications"
+              },
+              "text": {
+                "it": "Notifiche periodiche di nuova fattura e, se non pagata entro la scadenza, di fattura in scadenza, sui canali scelti dall'utente: email, SMS o notifica push nell'app.",
+                "en": "Periodic new-invoice notifications and, for invoices still unpaid as the due date approaches, due-date reminders, on the channels the user chose: email, SMS or in-app push notification."
+              }
+            },
+            {
+              "title": {
+                "it": "Messaggistica e dati",
+                "en": "Messaging and data"
+              },
+              "text": {
+                "it": "Comunicazione tra servizi con code Kafka, persistenza su PostgreSQL e cache Redis.",
+                "en": "Service-to-service communication over Kafka queues, persistence on PostgreSQL and caching with Redis."
+              }
+            },
+            {
+              "title": {
+                "it": "Qualità e rilasci",
+                "en": "Quality and releases"
+              },
+              "text": {
+                "it": "Test unitari con JUnit e Mockito, pipeline GitLab e rilasci con Jenkins su OpenShift.",
+                "en": "Unit tests with JUnit and Mockito, GitLab pipelines and releases with Jenkins on OpenShift."
+              }
+            }
+          ],
           "tech": [
             "Java 8",
             "Spring Boot",
@@ -232,7 +334,48 @@
             "it": "Ho risolto defect e sviluppato evolutive sulle applicazioni AXA per l'apertura delle polizze salute e motor. Ho lavorato sia sul front-end in Angular 8, con parti ancora in AngularJS, sia sul back-end in Java 8.",
             "en": "Fixed defects and developed new features on AXA's applications for issuing health and motor insurance policies, working both on the Angular 8 front end, with some parts still in AngularJS, and on the Java 8 back end."
           },
-          "highlights": [],
+          "highlights": [
+            {
+              "title": {
+                "it": "Defect",
+                "en": "Defects"
+              },
+              "text": {
+                "it": "Analisi e risoluzione dei defect sulle applicazioni di apertura polizze salute e motor.",
+                "en": "Analysis and resolution of defects on the health and motor policy issuance applications."
+              }
+            },
+            {
+              "title": {
+                "it": "Front-end",
+                "en": "Front end"
+              },
+              "text": {
+                "it": "Evolutive in Angular 8 e manutenzione delle parti ancora in AngularJS.",
+                "en": "New features in Angular 8 and maintenance of the parts still in AngularJS."
+              }
+            },
+            {
+              "title": {
+                "it": "Back-end",
+                "en": "Back end"
+              },
+              "text": {
+                "it": "Evolutive in Java 8 su JBoss WildFly, con database Oracle.",
+                "en": "New features in Java 8 on JBoss WildFly, with an Oracle database."
+              }
+            },
+            {
+              "title": {
+                "it": "Rilasci",
+                "en": "Releases"
+              },
+              "text": {
+                "it": "Pipeline GitLab e rilasci sui vari ambienti con Jenkins.",
+                "en": "GitLab pipelines and releases to each environment with Jenkins."
+              }
+            }
+          ],
           "tech": [
             "Java 8",
             "Angular",
@@ -253,7 +396,48 @@
             "it": "Ho sviluppato nuove funzionalità, curato la manutenzione e corretto bug su diversi applicativi web, sia sul back-end in Java 8 sia sul front-end in JSF: gestione di ticket, utenze e clientela, firma elettronica dei documenti, upload e download di documenti su server proprietario, tracciamento dei pacchi tramite servizi REST e code di messaggi con RabbitMQ.",
             "en": "Developed new features, handled maintenance and fixed bugs on several web applications, on both the Java 8 back end and the JSF front end: ticket, user and customer management, electronic document signing, document upload and download to a proprietary server, parcel tracking via REST services and message queues with RabbitMQ."
           },
-          "highlights": [],
+          "highlights": [
+            {
+              "title": {
+                "it": "Ticket e clienti",
+                "en": "Tickets and customers"
+              },
+              "text": {
+                "it": "Funzionalità di ticketing e di gestione di utenze e clientela.",
+                "en": "Ticketing plus user and customer management features."
+              }
+            },
+            {
+              "title": {
+                "it": "Documenti",
+                "en": "Documents"
+              },
+              "text": {
+                "it": "Firma elettronica dei documenti e upload e download su server proprietario.",
+                "en": "Electronic document signing and document upload and download to a proprietary server."
+              }
+            },
+            {
+              "title": {
+                "it": "Integrazioni",
+                "en": "Integrations"
+              },
+              "text": {
+                "it": "Tracciamento dei pacchi tramite servizi REST e code di messaggi con RabbitMQ.",
+                "en": "Parcel tracking via REST services and message queues with RabbitMQ."
+              }
+            },
+            {
+              "title": {
+                "it": "Stack e rilasci",
+                "en": "Stack and releases"
+              },
+              "text": {
+                "it": "Web app in JSF e Spring MVC, accesso ai dati con Hibernate e JDBC su MySQL, deploy su Tomcat e WildFly e rilasci con Jenkins in test e produzione.",
+                "en": "Web apps in JSF and Spring MVC, data access with Hibernate and JDBC on MySQL, deployment on Tomcat and WildFly, and releases to test and production with Jenkins."
+              }
+            }
+          ],
           "tech": [
             "Java 8",
             "JSF",
@@ -278,7 +462,38 @@
             "it": "Ho realizzato la UI di un app hub aziendale in Vue.js, HTML e SCSS. Dopo l'accesso, con credenziali o lettore RFID, i dipendenti vedono in una dashboard le applicazioni a loro disponibili, le filtrano per categoria, nome e rating, le votano e le avviano. Interfaccia tradotta in italiano, inglese e polacco.",
             "en": "Built the UI of a company app hub in Vue.js, HTML and SCSS. After signing in with credentials or an RFID reader, employees see the applications available to them in a dashboard, filter them by category, name and rating, rate them and launch them. Interface translated into Italian, English and Polish."
           },
-          "highlights": [],
+          "highlights": [
+            {
+              "title": {
+                "it": "Dashboard",
+                "en": "Dashboard"
+              },
+              "text": {
+                "it": "Elenco delle applicazioni disponibili per ogni dipendente, con filtri per categoria, nome e rating, voto e avvio.",
+                "en": "List of the applications available to each employee, with filters by category, name and rating, plus rating and launching."
+              }
+            },
+            {
+              "title": {
+                "it": "Accesso",
+                "en": "Sign-in"
+              },
+              "text": {
+                "it": "Schermata di accesso con credenziali o tramite lettore RFID.",
+                "en": "Sign-in screen with credentials or an RFID reader."
+              }
+            },
+            {
+              "title": {
+                "it": "Multilingua",
+                "en": "Multilingual"
+              },
+              "text": {
+                "it": "Interfaccia tradotta in italiano, inglese e polacco con i18n.",
+                "en": "Interface translated into Italian, English and Polish with i18n."
+              }
+            }
+          ],
           "tech": [
             "Vue.js",
             "HTML",
@@ -528,8 +743,8 @@
         "en": "The till and store software that speeds up cashiers' daily work."
       },
       "description": {
-        "it": "Applicativo dedicato agli store fisici che facilita le operazioni quotidiane e ottimizza la produttività dei cassieri. Le build vengono rilasciate sui singoli negozi tramite xAdmin.",
-        "en": "Application for physical stores that eases daily operations and optimises cashier productivity. Builds are rolled out to individual stores through xAdmin."
+        "it": "Applicativo dedicato agli store fisici che facilita le operazioni quotidiane dei cassieri, personalizzato per clienti e paesi diversi e integrato con servizi esterni e periferiche di cassa. Le build vengono rilasciate sui singoli negozi tramite xAdmin.",
+        "en": "Application for physical stores that eases cashiers' daily operations, customised for different clients and countries and integrated with external services and till peripherals. Builds are rolled out to individual stores through xAdmin."
       },
       "role": {
         "it": "Programmatore back-end",
@@ -537,12 +752,16 @@
       },
       "responsibilities": {
         "it": [
-          "Sviluppo di nuove evolutive",
+          "Evolutive e personalizzazioni per cliente e paese",
+          "Integrazioni con servizi esterni, ad esempio i portali degli aeroporti",
+          "Stampanti fiscali, POS e scanner; integrazione su misura di un POS Ingenico via UDP",
           "Bug fixing e manutenzione",
           "Compilazione con Jenkins e rilascio delle build sui negozi con xAdmin"
         ],
         "en": [
-          "New feature development",
+          "New features and customisations by client and country",
+          "Integrations with external services, such as airport portals",
+          "Fiscal printers, payment terminals and scanners; custom Ingenico terminal integration over UDP",
           "Bug fixing and maintenance",
           "Builds with Jenkins and rollout to stores with xAdmin"
         ]
@@ -645,12 +864,14 @@
         "it": [
           "Sviluppo e manutenzione dei microservizi per le fatture",
           "Integrazione con i servizi di pagamento di Nexi",
+          "Notifiche di nuova fattura e di fattura in scadenza via email, SMS e push",
           "Messaggistica con Kafka e persistenza su PostgreSQL",
           "Test unitari con JUnit e Mockito"
         ],
         "en": [
           "Development and maintenance of the invoice microservices",
           "Integration with Nexi's payment services",
+          "New-invoice and due-date notifications by email, SMS and push",
           "Messaging with Kafka and persistence on PostgreSQL",
           "Unit testing with JUnit and Mockito"
         ]
@@ -1221,6 +1442,6 @@
     "pdfTemplate": "modern"
   },
   "meta": {
-    "updatedAt": "2026-11-15T15:02:33.000Z"
+    "updatedAt": "2026-11-15T15:50:46.000Z"
   }
 }
