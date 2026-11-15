@@ -8,6 +8,7 @@ import { SKILL_CATEGORIES } from "@/lib/schema";
 import { filterCvBySkills, formatPeriod, fullName, techMatchesSkill } from "@/lib/utils";
 import { usePortfolio } from "./context";
 import { PdfDownloadButton } from "./pdf-download";
+import { PdfPreviewButton } from "./pdf-preview";
 
 export function CvExplorer() {
   const { cv, selected, toggle, clear, preview, lang, t } = usePortfolio();
@@ -61,6 +62,7 @@ export function CvExplorer() {
             <PdfDownloadButton cv={cv} lang={lang} skills={selected} disabled={preview} className={buttonClass("primary", "md")}>
               {selected.length ? t.cvExplorer.downloadFiltered : t.cvExplorer.download}
             </PdfDownloadButton>
+            <PdfPreviewButton cv={cv} lang={lang} skills={selected} disabled={preview} className={buttonClass("ghost", "md")} />
             {selected.length ? (
               <button type="button" onClick={clear} className={buttonClass("quiet")}>
                 <X className="size-4" aria-hidden /> {t.cvExplorer.clear}

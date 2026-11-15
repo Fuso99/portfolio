@@ -23,8 +23,8 @@
       "en": "Java back-end developer since 2019. Today I build LLM agents for the insurance industry with Spring AI and MCP."
     },
     "summary": {
-      "it": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi ed esagonali. Dal 2025 sviluppo il core globale di agenti LLM per la gestione dei sinistri, in architettura esagonale, che le compagnie del gruppo estendono con adapter e configurazione per il proprio mercato: integrazione multi-provider con Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), tool MCP verso i servizi core con autenticazione e controllo di ownership, valutazione end-to-end con clienti simulati e LLM-as-judge. Preferisco verdetti deterministici calcolati in codice, con l'LLM che li spiega, e decisioni documentate e misurate.",
-      "en": "Back-end developer with consulting experience on enterprise projects for insurance, telecoms, retail and public administration. I work with Java and the Spring ecosystem on microservice and hexagonal architectures. Since 2025 I have been building the global core of LLM agents for claims handling, with a hexagonal architecture that each group company extends with its own adapters and configuration: multi-provider integration with Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), MCP tools towards core services with authentication and ownership checks, end-to-end evaluation with simulated customers and LLM-as-judge. I prefer deterministic verdicts computed in code, with the LLM explaining them, and decisions that are documented and measured."
+      "it": "Sviluppatore back-end con esperienza di consulenza su progetti enterprise per assicurazioni, telecomunicazioni, retail e pubblica amministrazione. Lavoro con Java e l'ecosistema Spring su architetture a microservizi ed esagonali. Dal 2025 sviluppo la logica centrale di una piattaforma di agenti LLM per la gestione dei sinistri, in architettura esagonale: un core comune che ogni paese del gruppo può adottare così com'è, ridurre tramite configurazione o personalizzare. Mi occupo di integrazione multi-LLM con Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), tool MCP verso i servizi core con controlli di accesso, test end-to-end automatici con utenti simulati. Preferisco verdetti deterministici calcolati in codice, con l'LLM che li spiega, e decisioni documentate e misurate.",
+      "en": "Back-end developer with consulting experience on enterprise projects for insurance, telecoms, retail and public administration. I work with Java and the Spring ecosystem on microservice and hexagonal architectures. Since 2025 I have been building the central logic of an LLM agent platform for claims handling, with a hexagonal architecture: a shared core that each country in the group can adopt as it is, trim down through configuration or customise. I work on multi-LLM integration with Spring AI (Azure OpenAI, Amazon Bedrock, Anthropic), MCP tools towards core services with access controls, automated end-to-end tests with simulated users. I prefer deterministic verdicts computed in code, with the LLM explaining them, and decisions that are documented and measured."
     },
     "location": {
       "it": "Cologno Monzese (MI)",
@@ -33,7 +33,7 @@
     "email": "gabriele.fusonerini@gmail.com",
     "phone": "",
     "linkedin": "https://it.linkedin.com/in/gabriele-fuso-nerini",
-    "github": "",
+    "github": "https://github.com/Fuso99",
     "avatarUrl": "",
     "status": {
       "state": "employed",
@@ -66,78 +66,68 @@
           "start": "2025-09",
           "end": "",
           "summary": {
-            "it": "Core globale di una piattaforma di Generative AI per la gestione dei sinistri, in architettura esagonale, che le compagnie del gruppo estendono per il proprio mercato: agente conversazionale per la denuncia (FNOL), assistente AI per i liquidatori e agente documentale, collegati ai servizi core tramite MCP.",
-            "en": "Global core of a Generative AI platform for claims handling, with a hexagonal architecture that each group company extends for its own market: a conversational first-notice-of-loss (FNOL) agent, an AI assistant for claims adjusters and a document agent, connected to core services through MCP."
+            "it": "Sviluppo back-end di una piattaforma di Generative AI per la gestione dei sinistri di un gruppo assicurativo internazionale: un agente conversazionale che raccoglie la denuncia via chat e voce, un assistente AI per i liquidatori e un agente che classifica i documenti e ne estrae i dati. Il team costruisce un core comune che ogni paese del gruppo adotta in autonomia: può usarlo così com'è, disattivare alcune funzionalità tramite configurazione o aggiungere personalizzazioni proprie. Mi occupo dell'integrazione con i modelli linguistici, degli strumenti che collegano gli agenti ai sistemi aziendali, della sicurezza e dei test automatici che ne misurano l'affidabilità.",
+            "en": "Back-end development on a Generative AI platform for claims management at a global insurance group: a conversational agent that takes first notice of loss over chat and voice, an AI assistant for claims handlers, and an agent that classifies documents and extracts their data. The team builds a shared core that each country in the group adopts on its own terms: as it is, with some features switched off through configuration, or with its own customisations. I focus on the integration with language models, the tools that connect the agents to business systems, security, and the automated tests that measure how reliable the agents are."
           },
           "highlights": [
             {
               "title": {
-                "it": "LLM multi-provider",
-                "en": "Multi-provider LLM"
+                "it": "Integrazione multi-LLM",
+                "en": "Multi-LLM integration"
               },
               "text": {
-                "it": "Cambio di provider tra Azure OpenAI, Amazon Bedrock e Anthropic ridotto a una modifica di configurazione; upgrade di Spring AI 1.0 → 1.1, prompt caching (−60/68% del costo per conversazione in benchmark), span su Langfuse, autenticazione SigV4 o API key e regione obbligatoria con fail-fast all'avvio.",
-                "en": "Switching between Azure OpenAI, Amazon Bedrock and Anthropic reduced to a configuration change; Spring AI 1.0 → 1.1 upgrade, prompt caching (−60/68% cost per conversation in benchmarks), Langfuse spans, SigV4 or API-key authentication and a mandatory region with fail-fast at startup."
+                "it": "Reso il passaggio tra Azure OpenAI, Amazon Bedrock e Anthropic Claude una semplice modifica di configurazione; aggiornato Spring AI, introdotti il prompt caching per contenere i costi e il tracing su Langfuse. Gestita l'autenticazione verso Bedrock, con la regione obbligatoria: se manca, l'applicazione si ferma già all'avvio.",
+                "en": "Made switching between Azure OpenAI, Amazon Bedrock and Anthropic Claude a configuration change; upgraded Spring AI, added prompt caching to cut costs and tracing on Langfuse. Wired up Bedrock authentication with a mandatory region that fails fast at startup when missing."
               }
             },
             {
               "title": {
-                "it": "MCP verso i servizi core",
-                "en": "MCP towards core services"
+                "it": "Tool MCP per gli agenti",
+                "en": "MCP tools for agents"
               },
               "text": {
-                "it": "23 tool MCP che delegano all'interfaccia OpenAPI del REST, con parità verificata 33/33 e 0 errori di trasporto su oltre 1.000 chiamate; 8 tool di dominio con libreria client tipizzata; identità del chiamante propagata dal trasporto MCP e controllo di ownership.",
-                "en": "23 MCP tools that delegate to the REST OpenAPI interface, with 33/33 verified parity and 0 transport errors across 1,000+ calls; 8 domain tools with a typed client library; caller identity propagated from the MCP transport and ownership checks."
+                "it": "Sviluppati i tool MCP che collegano gli agenti ai servizi centrali delegando alla stessa interfaccia OpenAPI delle API REST, con le stesse validazioni, lo stesso audit e la stessa gestione degli errori. Aggiunti tool di dominio di più alto livello su una libreria client tipizzata e una ricerca polizze in sola lettura, limitata all'identità del cliente.",
+                "en": "Built the MCP tools that connect the agents to core services by delegating to the same OpenAPI interface as the REST API, so every call gets the same validation, auditing and error handling. Added higher-level domain tools on a typed client library, plus a read-only policy search scoped to the customer's identity."
               }
             },
             {
               "title": {
-                "it": "Sicurezza degli endpoint AI",
-                "en": "Securing AI endpoints"
+                "it": "Sicurezza by design",
+                "en": "Security by design"
               },
               "text": {
-                "it": "Autenticazione service-to-service fail-closed sugli endpoint MCP (confronto a tempo costante, nessuna credenziale nei log); ricerca polizze limitata all'identità del cliente; dati di pagamento e sanitari esclusi dalle risposte e mascherati nei log.",
-                "en": "Fail-closed service-to-service authentication on MCP endpoints (constant-time comparison, no credentials in logs); policy search scoped to the customer's identity; payment and health data stripped from responses and masked in logs."
+                "it": "Protetti gli endpoint MCP con un'autenticazione service-to-service fail-closed e propagata l'identità del cliente nel trasporto MCP. Introdotti controlli di ownership sulle scritture; dati sanitari e di pagamento esclusi o mascherati.",
+                "en": "Locked down the MCP endpoints with fail-closed service-to-service authentication and propagated the customer's identity through the MCP transport. Enforced ownership checks on writes and kept health and payment data excluded or masked."
               }
             },
             {
               "title": {
-                "it": "Valutazione end-to-end",
-                "en": "End-to-end evaluation"
+                "it": "Test end-to-end con giudice LLM",
+                "en": "End-to-end tests with an LLM judge"
               },
               "text": {
-                "it": "Harness con clienti simulati in parallelo e LLM-as-judge (PASS/FAIL/INCONCLUSIVE) su tutti gli ambienti, con regola di regressione sul p90; run da 200 conversazioni; falsi FAIL del giudice dimezzati; console di debug con trace per turno e fino a 6 chat simulate.",
-                "en": "Harness with parallel simulated customers and an LLM-as-judge (PASS/FAIL/INCONCLUSIVE) across all environments, with a p90 regression rule; 200-conversation runs; judge false FAILs halved; debug console with per-turn traces and up to 6 simulated chats."
-              }
-            },
-            {
-              "title": {
-                "it": "Regole di business → agente",
-                "en": "Business rules → agent"
-              },
-              "text": {
-                "it": "Pipeline CI \"diff-and-patch\" che riallinea i questionari dell'agente alle tabelle decisionali DMN (360 regole) e apre una PR del bot con review AI in CI, tramite credenziali di una GitHub App.",
-                "en": "\"Diff-and-patch\" CI pipeline that keeps the agent's questionnaires in sync with DMN decision tables (360 rules) and opens a bot PR with AI review in CI, using GitHub App credentials."
+                "it": "Costruita una suite di test end-to-end in cui utenti simulati conversano in parallelo con gli agenti e un giudice basato su LLM valuta ogni conversazione, eseguibile su tutti gli ambienti per misurare l'affidabilità e intercettare le regressioni. Affiancata una console di debug che mostra turno per turno cosa fa il modello.",
+                "en": "Built an end-to-end test suite where simulated users talk to the agents in parallel and an LLM judge scores every conversation, runnable against any environment to measure reliability and catch regressions. Added a debug console that shows, turn by turn, what the model is doing."
               }
             },
             {
               "title": {
                 "it": "AI spiegabile per i liquidatori",
-                "en": "Explainable AI for adjusters"
+                "en": "Explainable AI for claims handlers"
               },
               "text": {
-                "it": "Citazioni a documento e pagina nei riepiloghi AI senza chiamate LLM aggiuntive; verdetti di copertura deterministici che l'LLM si limita a raccontare; controlli di coerenza delle lesioni con codifica ICD-10; decisioni documentate in ADR.",
-                "en": "Document and page citations in AI summaries with no extra LLM calls; deterministic coverage verdicts that the LLM only narrates; injury consistency checks with ICD-10 coding; decisions recorded in ADRs."
+                "it": "Resi verificabili i riepiloghi AI: citano la fonte (documento, pagina, sezione) senza chiamate LLM aggiuntive. Spostati in codice i verdetti di copertura della polizza, che l'LLM si limita a spiegare, aggiunti controlli di coerenza tra lesioni dichiarate e documentazione medica tramite codifica ICD-10 e documentate le scelte in ADR.",
+                "en": "Made AI summaries verifiable by citing their source (document, page, section) with no extra LLM calls. Moved policy coverage verdicts into code, leaving the LLM to explain them, added consistency checks between reported injuries and medical records using ICD-10 coding, and recorded the decisions in ADRs."
               }
             },
             {
               "title": {
-                "it": "Prompt e codice legacy",
-                "en": "Prompts and legacy code"
+                "it": "Regole di business e pulizia",
+                "en": "Business rules and cleanup"
               },
               "text": {
-                "it": "Rimosse circa 17.000 righe di un motore a grafo inutilizzato, a comportamento invariato; eliminate istruzioni contraddittorie nel prompt: un round del modello in meno e circa 3,6 s risparmiati sui primi turni.",
-                "en": "Removed about 17,000 lines of an unused graph engine with unchanged behaviour; removed contradictory prompt instructions: one fewer model round and about 3.6 s saved on the first turns."
+                "it": "Derivati i questionari degli agenti dalle tabelle decisionali di business, allineati in automatico da una pipeline CI che apre una pull request da revisionare, con review AI. Rimosso un grande motore legacy inutilizzato senza cambiare il comportamento e semplificati i prompt eliminando le istruzioni contraddittorie.",
+                "en": "Derived the agents' questionnaires from the business decision tables, kept in sync by a CI pipeline that opens a pull request for review, with AI review on top. Removed a large unused legacy engine without changing behaviour and simplified the prompts by stripping out contradictory instructions."
               }
             }
           ],
@@ -151,7 +141,6 @@
             "LangGraph4j",
             "Langfuse",
             "Claude Code",
-            "Camunda DMN",
             "OpenAPI",
             "Hexagonal architecture",
             "Microservices",
@@ -365,17 +354,15 @@
       },
       "responsibilities": {
         "it": [
-          "23 tool MCP sulle operazioni REST del journey, con parità verificata 33/33",
-          "0 errori di trasporto su oltre 1.000 chiamate in campagna end-to-end",
-          "8 tool di dominio e libreria client tipizzata per l'LLM",
-          "Autenticazione service-to-service fail-closed sugli endpoint MCP",
-          "Ricerca polizze come tool MCP read-only, limitata all'identità del chiamante"
+          "Tool MCP sulle operazioni REST del journey, con lo stesso comportamento delle API REST",
+          "Tool di dominio e libreria client tipizzata per l'LLM",
+          "Endpoint MCP autenticati, identità del cliente propagata e controllo di accesso sulle scritture",
+          "Ricerca polizze come tool MCP in sola lettura, limitata all'identità del chiamante"
         ],
         "en": [
-          "23 MCP tools over the journey's REST operations, with 33/33 verified parity",
-          "0 transport errors across 1,000+ calls in an end-to-end campaign",
-          "8 domain tools and a typed client library for the LLM",
-          "Fail-closed service-to-service authentication on MCP endpoints",
+          "MCP tools over the journey's REST operations, behaving exactly like the REST APIs",
+          "Domain tools and a typed client library for the LLM",
+          "Authenticated MCP endpoints, propagated customer identity and access checks on writes",
           "Policy search as a read-only MCP tool, scoped to the caller's identity"
         ]
       },
@@ -394,8 +381,8 @@
     {
       "id": "genai-e2e-eval",
       "title": {
-        "it": "Valutazione end-to-end di un agente conversazionale",
-        "en": "End-to-end evaluation of a conversational agent"
+        "it": "Test end-to-end di un agente conversazionale",
+        "en": "End-to-end testing of a conversational agent"
       },
       "client": "Global insurance group",
       "via": "Accenture",
@@ -407,12 +394,12 @@
       "start": "2026-10",
       "end": "",
       "summary": {
-        "it": "Clienti simulati e un giudice LLM che misurano l'agente di denuncia sinistri su ogni ambiente.",
-        "en": "Simulated customers and an LLM judge that measure the claims-filing agent in every environment."
+        "it": "Utenti simulati e un giudice basato su LLM che misurano l'affidabilità dell'agente di denuncia sinistri.",
+        "en": "Simulated users and an LLM-based judge that measure the reliability of the claims-filing agent."
       },
       "description": {
-        "it": "Test end-to-end di riferimento per l'agente FNOL: più clienti simulati conversano in parallelo con il bot, un giudice LLM assegna PASS, FAIL o INCONCLUSIVE e una regola sul p90 segnala le regressioni di latenza. I verdetti sono stati ricalibrati perché misurino il bot e non l'harness. Una console di debug mostra trace, round e token per turno.",
-        "en": "Reference end-to-end test for the FNOL agent: several simulated customers chat with the bot in parallel, an LLM judge returns PASS, FAIL or INCONCLUSIVE and a p90 rule flags latency regressions. Verdicts were recalibrated so they measure the bot, not the harness. A debug console shows traces, rounds and tokens per turn."
+        "it": "Test end-to-end di riferimento per l'agente di denuncia sinistri: più utenti simulati conversano in parallelo con l'agente, un giudice basato su LLM assegna un esito (riuscito, fallito, non conclusivo) e le regressioni di qualità e di tempi di risposta vengono segnalate. Gli esiti sono stati ricalibrati perché misurino l'agente e non lo strumento di test. Una console di debug mostra, turno per turno, cosa ha fatto il modello.",
+        "en": "Reference end-to-end test for the claims-filing agent: several simulated users chat with the agent in parallel, an LLM-based judge assigns an outcome (passed, failed, inconclusive) and quality and response-time regressions are flagged. Outcomes were recalibrated so they measure the agent, not the test tool. A debug console shows, turn by turn, what the model did."
       },
       "role": {
         "it": "Autore dello strumento",
@@ -420,18 +407,18 @@
       },
       "responsibilities": {
         "it": [
-          "Clienti simulati e LLM-as-judge a temperatura 0",
-          "Esecuzione su locale, dev, test e preprod; run da 200 conversazioni",
-          "Falsi FAIL del giudice dimezzati dopo la ricalibrazione",
-          "Rilevatore dei messaggi interni del modello mostrati al cliente",
-          "Console con trace per turno e fino a 6 chat simulate, anche in voce"
+          "Utenti simulati e giudice basato su LLM",
+          "Esecuzione su tutti gli ambienti, campagne fino a 200 conversazioni",
+          "Falsi fallimenti del giudice dimezzati dopo la ricalibrazione",
+          "Rilevamento dei messaggi interni del modello mostrati per errore all'utente",
+          "Console di debug con fino a 6 chat simulate, anche in voce"
         ],
         "en": [
-          "Simulated customers and an LLM-as-judge at temperature 0",
-          "Runs on local, dev, test and pre-prod; 200-conversation runs",
-          "Judge false FAILs halved after recalibration",
-          "Detector for internal model notes leaking to the customer",
-          "Console with per-turn traces and up to 6 simulated chats, voice included"
+          "Simulated users and an LLM-based judge",
+          "Runs in every environment, campaigns of up to 200 conversations",
+          "Judge false failures halved after recalibration",
+          "Detection of internal model notes shown to the user by mistake",
+          "Debug console with up to 6 simulated chats, voice included"
         ]
       },
       "stack": [
@@ -449,8 +436,8 @@
     {
       "id": "genai-llm-providers",
       "title": {
-        "it": "Layer LLM multi-provider",
-        "en": "Multi-provider LLM layer"
+        "it": "Integrazione multi-LLM",
+        "en": "Multi-LLM integration"
       },
       "client": "Global insurance group",
       "via": "Accenture",
@@ -959,16 +946,6 @@
       "visible": true
     },
     {
-      "id": "camunda-dmn",
-      "name": "Camunda DMN",
-      "category": "backend",
-      "level": 3,
-      "aliases": [
-        "DMN"
-      ],
-      "visible": true
-    },
-    {
       "id": "genai",
       "name": "Generative AI",
       "category": "ai",
@@ -1277,6 +1254,6 @@
     "pdfTemplate": "modern"
   },
   "meta": {
-    "updatedAt": "2026-11-04T11:34:30.927Z"
+    "updatedAt": "2026-11-14T21:21:11.465Z"
   }
 }

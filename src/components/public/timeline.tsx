@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Building2, X } from "lucide-react";
+import { Building2, ChevronDown, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Chip, SectionHeading, Tag } from "@/components/ui/primitives";
 import { cn, formatDuration, formatPeriod } from "@/lib/utils";
@@ -157,14 +157,20 @@ export function Timeline() {
                         </div>
                         {e.summary ? <p className="mt-3 max-w-3xl leading-relaxed text-muted">{e.summary}</p> : null}
                         {e.highlights.length ? (
-                          <dl className="mt-4 grid gap-x-8 gap-y-3 @3xl:grid-cols-2">
-                            {e.highlights.map((h, i) => (
-                              <div key={i} className="border-l border-ion/30 pl-3">
-                                {h.title ? <dt className="text-sm font-medium text-ink">{h.title}</dt> : null}
-                                <dd className="text-sm leading-relaxed text-muted">{h.text}</dd>
-                              </div>
-                            ))}
-                          </dl>
+                          <details className="group mt-4 rounded-lg border border-line">
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-ion hover:text-ink focus-visible:outline-2 focus-visible:outline-ion [&::-webkit-details-marker]:hidden">
+                              {t.timeline.details}
+                              <ChevronDown className="size-4 transition-transform group-open:rotate-180" aria-hidden />
+                            </summary>
+                            <dl className="grid gap-x-8 gap-y-3 px-4 pt-1 pb-4 @3xl:grid-cols-2">
+                              {e.highlights.map((h, i) => (
+                                <div key={i} className="border-l border-ion/30 pl-3">
+                                  {h.title ? <dt className="text-sm font-medium text-ink">{h.title}</dt> : null}
+                                  <dd className="text-sm leading-relaxed text-muted">{h.text}</dd>
+                                </div>
+                              ))}
+                            </dl>
+                          </details>
                         ) : null}
                         {e.tech.length ? (
                           <div className="mt-5 flex flex-wrap gap-1.5">

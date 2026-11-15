@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { SectionHeading } from "@/components/ui/primitives";
 import { SKILL_CATEGORIES, type SkillCategory } from "@/lib/schema";
@@ -9,7 +8,7 @@ import { cn, matchesAnySkill } from "@/lib/utils";
 import { usePortfolio } from "./context";
 
 export function SkillMatrix() {
-  const { cv, selected, toggle, t } = usePortfolio();
+  const { cv, selected, t } = usePortfolio();
   const categories = useMemo(
     () =>
       SKILL_CATEGORIES.map((c) => {
@@ -95,49 +94,36 @@ export function SkillMatrix() {
                 const on = selected.includes(s.id);
                 const used = usage.get(s.id) ?? 0;
                 return (
-                  <li key={s.id}>
-                    <button
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => toggle(s.id)}
-                      className={cn(
-                        "group flex w-full items-center gap-4 rounded-xl border px-4 py-3.5 text-left transition-colors",
-                        on ? "border-signal/40 bg-signal/[0.07]" : "border-transparent hover:bg-white/[0.04]",
-                      )}
-                    >
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate font-medium text-ink">{s.name}</span>
-                        <span className="mt-0.5 block text-xs text-faint">
-                          {t.skills.levels[s.level]}
-                          {used ? t.skills.usedIn(used) : ""}
-                        </span>
+                  <li
+                    key={s.id}
+                    className={cn(
+                      "flex items-center gap-4 rounded-xl border px-4 py-3.5",
+                      on ? "border-signal/40 bg-signal/[0.07]" : "border-transparent",
+                    )}
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-medium text-ink">{s.name}</span>
+                      <span className="mt-0.5 block text-xs text-faint">
+                        {t.skills.levels[s.level]}
+                        {used ? t.skills.usedIn(used) : ""}
                       </span>
-                      <span className="flex gap-1" role="img" aria-label={t.skills.levelAria(s.level)}>
-                        {[1, 2, 3, 4, 5].map((n) => (
-                          <motion.span
-                            key={n}
-                            initial={{ scaleY: 0.2, opacity: 0.3 }}
-                            animate={{ scaleY: 1, opacity: 1 }}
-                            transition={{ delay: i * 0.03 + n * 0.04, duration: 0.25 }}
-                            className={cn(
-                              "h-4 w-1.5 origin-bottom rounded-full",
-                              n <= s.level ? (on ? "bg-signal" : "bg-ion") : "bg-white/10",
-                              n <= s.level && n === s.level && "shadow-[0_0_10px_-1px_currentColor]",
-                              n <= s.level && (on ? "text-signal" : "text-ion"),
-                            )}
-                          />
-                        ))}
-                      </span>
-                      <span
-                        className={cn(
-                          "grid size-6 place-items-center rounded-full border transition-colors",
-                          on ? "border-signal bg-signal text-night" : "border-line text-faint group-hover:border-line-strong group-hover:text-ink",
-                        )}
-                        aria-hidden
-                      >
-                        {on ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}
-                      </span>
-                    </button>
+                    </span>
+                    <span className="flex gap-1" role="img" aria-label={t.skills.levelAria(s.level)}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <motion.span
+                          key={n}
+                          initial={{ scaleY: 0.2, opacity: 0.3 }}
+                          animate={{ scaleY: 1, opacity: 1 }}
+                          transition={{ delay: i * 0.03 + n * 0.04, duration: 0.25 }}
+                          className={cn(
+                            "h-4 w-1.5 origin-bottom rounded-full",
+                            n <= s.level ? (on ? "bg-signal" : "bg-ion") : "bg-white/10",
+                            n <= s.level && n === s.level && "shadow-[0_0_10px_-1px_currentColor]",
+                            n <= s.level && (on ? "text-signal" : "text-ion"),
+                          )}
+                        />
+                      ))}
+                    </span>
                   </li>
                 );
               })}
