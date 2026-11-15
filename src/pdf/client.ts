@@ -15,13 +15,3 @@ export async function renderCvPdf(cv: Cv, skillIds: string[], lang: Locale) {
   const { element, filename } = buildCvDocument(cv, skillIds, cv.settings.pdfTemplate, lang);
   return { blob: await pdf(element).toBlob(), filename };
 }
-
-export async function downloadCvPdf(cv: Cv, skillIds: string[], lang: Locale) {
-  const { blob, filename } = await renderCvPdf(cv, skillIds, lang);
-  const url = URL.createObjectURL(blob);
-  const a = Object.assign(document.createElement("a"), { href: url, download: filename });
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
-}

@@ -5,33 +5,24 @@ import { ArrowUpRight, ExternalLink, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { buttonClass, SectionHeading, Tag } from "@/components/ui/primitives";
 import type { Project } from "@/lib/schema";
-import { cn, formatPeriod, projectMatches, techMatchesSkill } from "@/lib/utils";
+import { cn, formatPeriod } from "@/lib/utils";
 import { usePortfolio } from "./context";
 import { TiltCard } from "./tilt-card";
 
 export function Projects() {
-  const { cv, selected, lang, t } = usePortfolio();
+  const { cv, lang, t } = usePortfolio();
   const [open, setOpen] = useState<Project | null>(null);
-  const selectedSkills = cv.skills.filter((s) => selected.includes(s.id));
 
   if (cv.projects.length === 0) return null;
 
   return (
     <section id="progetti" className="py-24">
-      <SectionHeading
-        title={t.projects.title}
-        lead={t.projects.lead}
-      >
-        {selectedSkills.length ? (
-          <p className="text-sm text-muted">{t.projects.highlighted}</p>
-        ) : null}
-      </SectionHeading>
+      <SectionHeading title={t.projects.title} lead={t.projects.lead} />
 
       <ul className="grid grid-flow-row-dense auto-rows-fr gap-4 @2xl:grid-cols-2 @5xl:grid-cols-3">
         {cv.projects.map((p) => {
-          const dim = selectedSkills.length > 0 && !projectMatches(p, selectedSkills);
           return (
-            <li key={p.id} className={cn("transition-opacity duration-300", p.featured && "@5xl:col-span-2", dim && "opacity-35")}>
+            <li key={p.id} className={cn(p.featured && "@5xl:col-span-2")}>
               <TiltCard className="rounded-2xl" max={p.featured ? 4 : 7}>
                 <button
                   type="button"
@@ -60,9 +51,7 @@ export function Projects() {
                   <span className="mt-auto flex items-end justify-between gap-4 pt-6">
                     <span className="flex flex-wrap gap-1.5">
                       {p.stack.slice(0, p.featured ? 7 : 4).map((t) => (
-                        <Tag key={t} highlight={selectedSkills.some((s) => techMatchesSkill(t, s))}>
-                          {t}
-                        </Tag>
+                        <Tag key={t}>{t}</Tag>
                       ))}
                       {p.stack.length > (p.featured ? 7 : 4) ? <Tag>+{p.stack.length - (p.featured ? 7 : 4)}</Tag> : null}
                     </span>

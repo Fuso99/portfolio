@@ -6,7 +6,6 @@ import type { Cv } from "@/lib/schema";
 import { fullName } from "@/lib/utils";
 import { PortfolioProvider } from "./context";
 import { Contact } from "./contact";
-import { CvExplorer } from "./cv-explorer";
 import { Hero } from "./hero";
 import { Projects } from "./projects";
 import { SkillMatrix } from "./skill-matrix";
@@ -28,7 +27,6 @@ export function PortfolioSections({ cv, lang, preview = false }: { cv: Cv; lang:
           <Timeline />
           <SkillMatrix />
           <Projects />
-          <CvExplorer />
           <Contact />
         </main>
         <footer className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-line px-5 py-10 text-sm text-faint @3xl:flex-row @3xl:justify-between @3xl:px-8">
