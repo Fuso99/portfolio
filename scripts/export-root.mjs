@@ -17,6 +17,7 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Portfolio</title>
+<link rel="icon" href="${base}/favicon.ico">
 <link rel="alternate" hreflang="it" href="${base}/it">
 <link rel="alternate" hreflang="en" href="${base}/en">
 <link rel="alternate" hreflang="x-default" href="${base}/${defaultLocale}">

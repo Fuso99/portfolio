@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     openGraph: {
       title: name,
       description: cv.profile.tagline,
+      siteName: name,
       type: "profile",
       firstName: cv.profile.firstName,
       lastName: cv.profile.lastName,
