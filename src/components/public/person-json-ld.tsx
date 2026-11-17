@@ -15,6 +15,9 @@ export function PersonJsonLd({ cv, lang }: { cv: Cv; lang: Locale }) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: fullName(cv),
+    // "Fuso Nerini" is one compound surname, not a middle name plus a surname.
+    givenName: p.firstName,
+    familyName: p.lastName,
     jobTitle: p.title,
     description: p.tagline,
     url: absoluteUrl(`/${lang}`),
